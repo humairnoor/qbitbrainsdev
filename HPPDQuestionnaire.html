@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPPD Questionnaire -  Version 1.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .matrix-row:nth-child(even) { background-color: #f8fafc; }
+        input[type="radio"], input[type="checkbox"] { cursor: pointer; scale: 1.2; }
+        select, input[type="text"], input[type="number"], textarea {
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 0.8rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.2s;
+        }
+        select:focus, input:focus { border-color: #2563eb; /*ring: 3px; ring-color: #bfdbfe; */ }
+        .section-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased pb-48">
+
+<div x-data="surveyApp()" x-cloak class="min-h-screen">
+    
+    <!-- HEADER -->
+    <header class="bg-white border-b sticky top-0 z-50 py-4 shadow-sm">
+        <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-[10px] font-black text-slate-400 uppercase tracking-widest"><a href="https://www.drstevenlocke.com" >Steven Locke, MD </a></h1>
+                <p class="text-[9px] text-slate-500">Prepared in coordination with Johns Hopkins Medicine Center for Psychedelic & Consciousness Research</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <!--span   class="text-xs font-bold text-blue-600" x-text="`Page ${step} / 20`"></span-->
+                <div class="w-24 bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div class="bg-blue-600 h-full transition-all duration-700" :style="`width: ${(step/44)*100}%`"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-10">
+        
+        <!-- PAGE 1: LANDING -->
+        <!--div x-show="step === 1" class="text-center space-y-6">
+            <p class="italic text-slate-500">We thank you for your time spent taking this survey. Your response has been recorded.</p>
+            <div class="aspect-video bg-white border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center text-slate-300 italic">
+                [Image: Consent_1 - Bokeh Lights]
+            </div>
+        </div-->
+
+        <!-- PAGE 2: INTRODUCTION -->
+        <!--div x-show="step === 1" class="section-card space-y-4 text-sm leading-relaxed">
+            <h2 class="font-bold text-lg">Consent_2.</h2>
+            <p>Have you ever been diagnosed with or experienced symptoms of hallucinogen persisting perceptual disorder (HPPD)?</p>
+            <p>We are researchers at the Johns Hopkins Center for Psychedelic and Consciousness Research conducting a survey study of people with HPPD to help understand potential risk factors, symptom progression, and treatment. HPPD is a condition that causes perceptual changes or hallucinations that are similar to those experienced during psychedelic drug use, even after the effects of the drug have worn off.</p>
+            <p>Your participation is <strong>anonymous</strong>.</p>
+            <p class="pt-4 border-t text-xs text-slate-400 italic">Principal investigator: Sandeep Nayak, M.D. Protocol IRB00384491. contact: jhpsychsurvey@jh.edu</p>
+        </div-->
+
+        <!-- PAGE 3-4: KEY INFORMATION & DISCLOSURES -->
+        <div x-show="step === 1" class="section-card space-y-6 text-sm">
+            <h2 class="font-black text-xl text-orange-600 uppercase tracking-tighter">HPPD Questionnaire</h2>
+            <div class="space-y-4">
+                <p class="font-bold border-b pb-1">Eligibility Criteria</p>
+                <ul class="list-decimal pl-5 space-y-1">
+                    <!--li>You are at least 18 years old.</li-->
+                    <li>You read, write, and speak English fluently.</li>
+                    <li>Have a self-reported history of HPPD, or a history of any other lasting perceptual changes.</li>
+                </ul>
+                <p class="font-bold mb-4">To begin the survey, please confirm eligibility:</p>
+                <form id="Consent_Sign">
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" x-model="formData.Consent_Sign" value="yes" class="text-blue-600">
+                            <span class="ml-4 text-sm font-semibold">YES, I meet all the above criteria and wish to begin</span>
+                        </label>
+                        <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-red-50 transition">
+                            <input type="radio" x-model="formData.Consent_Sign" value="no" class="text-blue-600">
+                            <span class="ml-4 text-sm font-semibold text-red-600">NO, I do not meet criteria</span>
+                        </label>
+                    </div>
+                </form>
+                <div x-show="formData.Consent_Sign === 'yes'" class="section-card" :class="errorMsg && (!formData.Demo_Age || formData.Demo_Age < 18) ? 'border-red-500 ring-2 ring-red-100' : ''">
+                    <label class="block font-bold text-slate-700 mb-2">How old are you?</label>
+                    <input type="number" x-model.number="formData.Demo_Age" placeholder="Enter age" class="md:w-1/3">
+                     <label class="block font-bold text-slate-700 mb-2">Year you were born?</label>
+                    <input type="number" x-model.number="formData.Demo_Year" placeholder="Enter year you were born" class="md:w-1/3">
+                </div>
+                
+            </div>
+        </div>
+
+        
+
+        <!-- PAGE 6: FULL DEMOGRAPHICS (Gender, Sex, Relationship, Race) -->
+        <div x-show="step === 2" class="space-y-8">
+            <h3 class="text-xl font-black uppercase tracking-tight text-slate-400">Section: Demographics</h3>
+            
+            <div class="section-card">
+                <p class="font-bold mb-4">What is your gender identity?</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <template x-for="g in ['Man','Woman','Nonbinary/gender nonconforming','Transgender man','Transgender woman','Other']">
+                        <label class="flex items-center p-3 border rounded-xl hover:bg-slate-50 cursor-pointer">
+                            <input type="radio" x-model="formData.Demo_Gender" :value="g" class="text-blue-600">
+                            <span class="ml-3 text-sm" x-text="g"></span>
+                        </label>
+                    </template>
+                </div>
+                <input x-show="formData.Demo_Gender === 'Other'" type="text" x-model="formData.Demo_Gender_Other" placeholder="Please specify gender" class="mt-3 bg-blue-50">
+            </div>
+
+            <!-- BIOLOGICAL SEX -->
+            <div class="section-card">
+                <p class="font-bold mb-4">What is your biological sex?</p>
+                <div class="flex gap-4">
+                    <template x-for="s in ['Male','Female','Other']">
+                        <label class="flex items-center p-4 border rounded-xl flex-1 justify-center cursor-pointer hover:bg-slate-50">
+                            <input type="radio" x-model="formData.Demo_Sex" :value="s">
+                            <span class="ml-3 text-sm font-bold" x-text="s"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+
+            <!-- MARITAL STATUS -->
+            <div class="section-card">
+                <p class="font-bold mb-4">What is your marital status?</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <template x-for="r in ['Never married','Married','Divorced or separated','Widowed']">
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                            <input type="radio" x-model="formData.Demo_Relationship" :value="r">
+                            <span class="ml-3 text-sm" x-text="r"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+
+            <div class="section-card">
+            <form id="Demo_Race">
+                <p class="font-bold mb-4">What is your race? (Check all that apply)</p>
+                <div class="space-y-2">
+                    <template x-for="r in ['American Indian or Alaska Native','Asian','Black or African American','Native Hawaiian','White or Caucasian','Other']">
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer">
+                            <input type="checkbox" :value="r" x-model="formData.Demo_Race" class="text-blue-600 rounded">
+                            <span class="ml-3 text-sm" x-text="r"></span>
+                        </label>
+                    </template>
+                </div>
+                <input x-show="formData.Demo_Race.includes('Other')" type="text" x-model="formData.Demo_Race_Other" placeholder="Please specify race" class="mt-3 bg-blue-50">
+            
+            </form>
+            </div>
+        </div>
+
+        <!-- PAGE 7: LOCATION & EDUCATION -->
+        <div x-show="step === 3" class="space-y-8">
+            <div class="section-card">
+                <form id="Demo_Hispanic">
+                    <p class="font-bold mb-4">Are you of Hispanic, Latino, or Spanish origin?</p>
+                    <div class="flex gap-8">
+                        <label class="flex items-center"><input type="radio" x-model="formData.Demo_Hispanic" value="Yes" class="mr-2"> Yes</label>
+                        <label class="flex items-center"><input type="radio" x-model="formData.Demo_Hispanic" value="No" class="mr-2"> No</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="section-card">
+                <label class="block font-bold mb-4">In which country do you reside?</label>
+                <select x-model="formData.Demo_Country" class="mb-4">
+                    <option value="United States of America">United States of America</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input x-show="formData.Demo_Country === 'Other'" type="text" x-model="formData.Demo_Country_Other" placeholder="Specify country" class="bg-blue-50 mb-4">
+
+                <div x-show="formData.Demo_Country === 'United States of America'" x-transition>
+                    <label class="block font-bold mb-2">Select state:</label>
+                    <select x-model="formData.Demo_USState">
+                        <option value="">Select...</option>
+                        <option value="Alabama">Alabama</option>
+                        <option value="Alaska">Alaska</option>
+                        <option value="Arizona">Arizona</option>
+                        <option value="Arkansas">Arkansas</option>
+                        <option value="California">California</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Connecticut">Connecticut</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Hawaii">Hawaii</option>
+                        <option value="Idaho">Idaho</option>
+                        <option value="Illinois">Illinois</option>
+                        <option value="Indiana">Indiana</option>
+                        <option value="Iowa">Iowa</option>
+                        <option value="Kansas">Kansas</option>
+                        <option value="Kentucky">Kentucky</option>
+                        <option value="Louisiana">Louisiana</option>
+                        <option value="Maine">Maine</option>
+                        <option value="Maryland">Maryland</option>
+                        <option value="Massachusetts">Massachusetts</option>
+                        <option value="Michigan">Michigan</option>
+                        <option value="Minnesota">Minnesota</option>
+                        <option value="Mississippi">Mississippi</option>
+                        <option value="Missouri">Missouri</option>
+                        <option value="Montana">Montana</option>
+                        <option value="Nebraska">Nebraska</option>
+                        <option value="Nevada">Nevada</option>
+                        <option value="New Hampshire">New Hampshire</option>
+                        <option value="New Jersey">New Jersey</option>
+                        <option value="New Mexico">New Mexico</option>
+                        <option value="New York">New York</option>
+                        <option value="North Carolina">North Carolina</option>
+                        <option value="North Dakota">North Dakota</option>
+                        <option value="Ohio">Ohio</option>
+                        <option value="Oklahoma">Oklahoma</option>
+                        <option value="Oregon">Oregon</option>
+                        <option value="Pennsylvania">Pennsylvania</option>
+                        <option value="Rhode Island">Rhode Island</option>
+                        <option value="South Carolina">South Carolina</option>
+                        <option value="South Dakota">South Dakota</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Vermont">Vermont</option>
+                        <option value="Virginia">Virginia</option>
+                        <option value="Washington">Washington</option>
+                        <option value="West Virginia">West Virginia</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                        <option value="Wyoming">Wyoming</option>
+                        <option value="District of Columbia">District of Columbia</option>
+                        <option value="Puerto Rico">Puerto Rico</option>
+                        <option value="Guam">Guam</option>
+                        <option value="U.S. Virgin Islands">U.S. Virgin Islands</option>
+                        <option value="American Samoa">American Samoa</option>
+                        <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                        <option value="Minor Outlying Islands">Minor Outlying Islands</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <p class="font-bold mb-4">Highest level of education?</p>
+                <div class="space-y-2">
+                    <template x-for="edu in eduOptions">
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                            <input type="radio" x-model="formData.Demo_Education" :value="edu" class="mr-3">
+                            <span class="text-xs font-bold" x-text="edu"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 8: EMPLOYMENT & INCOME -->
+        <div x-show="step === 4" class="space-y-8">
+            <div class="section-card">
+                <p class="font-bold mb-4">Current employment status?</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <template x-for="emp in ['Employed full time','Employed part time','Unemployed','Student','Retired','Homemaker','Unable to work']">
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                            <input type="radio" x-model="formData.Demo_Employment" :value="emp" class="mr-3">
+                            <span class="text-sm" x-text="emp"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <p class="font-bold mb-2">Annual household income (USD)?</p>
+                <select x-model="formData.Demo_Income">
+                    <option value="">Select range...</option>
+                    <option value="<25k">Under $25,000</option>
+                    <option value="25-50k">$25,000 - $49,999</option>
+                    <option value="50-100k">$50,000 - $99,999</option>
+                    <option value="100-150k">$100,000 - $149,999</option>
+                    <option value=">150k">Over $150,000</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- PAGE 9: PRIOR HEALTH & MENTAL HEALTH -->
+        <div x-show="step === 5" class="space-y-8">
+            <div class="section-card">
+                <p class="font-bold mb-4 italic">Conditions PRIOR to HPPD?</p>
+                <div class="grid grid-cols-1 gap-2">
+                    <template x-for="c in priorCondList">
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer">
+                                <input type="checkbox" :value="c.label" x-model="formData.PreHPPD_PriorCond" class="text-blue-600 rounded">
+                                <span class="ml-3 text-sm font-bold" x-text="c.label"></span>
+                            </label>
+                            <input x-show="formData.PreHPPD_PriorCond.includes(c.label) && c.hasText" type="text" x-model="formData.PreHPPD_PriorCond_Details[c.label]" placeholder="Please specify details" class="bg-blue-50 ml-6 w-[92%]">
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <p class="font-bold mb-4">Ever diagnosed with mental health condition prior to HPPD?</p>
+                <div class="flex gap-6">
+                    <label><input type="radio" x-model="formData.PreHPPD_MHdiagnosis" value="Yes" class="mr-2"> Yes</label>
+                    <label><input type="radio" x-model="formData.PreHPPD_MHdiagnosis" value="No" class="mr-2"> No</label>
+                    <label><input type="radio" x-model="formData.PreHPPD_MHdiagnosis" value="Not sure" class="mr-2"> Not sure</label>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <p class="font-bold mb-4">Any other significant health conditions?</p>
+                <div class="flex gap-6 mb-4">
+                    <label><input type="radio" x-model="formData.PreHPPD_SigHealth_Toggle" value="Yes" class="mr-2"> Yes</label>
+                    <label><input type="radio" x-model="formData.PreHPPD_SigHealth_Toggle" value="No" class="mr-2"> No</label>
+                </div>
+                <textarea x-show="formData.PreHPPD_SigHealth_Toggle === 'Yes'" x-model="formData.PreHPPD_SigHealth_Details" placeholder="Please provide details..." class="bg-blue-50"></textarea>
+            </div>
+        </div>
+
+        <!-- PAGE 10: FAMILY HISTORY MATRIX -->
+        <div x-show="step === 6" class="space-y-6">
+            <h3 class="font-bold text-center">Family history of conditions?</h3>
+            <div class="overflow-x-auto border rounded-2xl bg-white shadow-sm">
+                <table class="w-full text-left text-[10px] md:text-xs">
+                    <thead class="bg-slate-50 font-bold border-b">
+                        <tr><th class="p-4">Condition</th><th class="p-4 text-center">1st Degree</th><th class="p-4 text-center">2nd Degree</th></tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        <template x-for="item in familyList">
+                            <tr class="matrix-row">
+                                <td class="p-4 font-bold" x-text="item"></td>
+                                <td class="p-4 text-center"><input type="checkbox" x-model="formData.PreHPPD_Fam[item+'_1st']"></td>
+                                <td class="p-4 text-center"><input type="checkbox" x-model="formData.PreHPPD_Fam[item+'_2nd']"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAGE 11: SUBSTANCE MATRIX -->
+        <div x-show="step === 7" class="space-y-6">
+            <h3 class="font-bold">Substance history before HPPD?</h3>
+            <div class="overflow-x-auto border rounded-2xl bg-white shadow-sm">
+                <table class="w-full text-[9px] md:text-[11px] text-left">
+                    <thead class="bg-slate-50 border-b">
+                        <tr><th class="p-3 sticky left-0 bg-slate-50">Substance</th><template x-for="h in subHeaders"><th class="p-3 text-center" x-text="h"></th></template></tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="s in subList">
+                            <tr class="matrix-row border-b">
+                                <td class="p-3 font-black sticky left-0 bg-white" x-text="s"></td>
+                                <template x-for="h in subHeaders">
+                                    <td class="p-3 text-center"><input type="radio" :name="s" :value="h" x-model="formData.Substances[s]"></td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <div x-show="formData.Substances['Other'] && formData.Substances['Other'] !== 'Never'" x-transition class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <label class="block text-xs font-bold mb-2">Please specify other substance:</label>
+                <input type="text" x-model="formData.Substances_Other_Text" class="bg-white">
+            </div>
+        </div>
+
+
+        <!-- PAGE 12: PQ16 INSTRUCTIONS -->
+
+        <div x-show="step === 8" class="section-card">
+
+            <h2 class="font-bold text-lg text-blue-800 mb-4">Instructions</h2>
+
+            <p class="text-sm leading-relaxed">For the set of questions on the next page, please indicate whether you had any of the following symptoms or experiences <strong>BEFORE</strong> the onset of HPPD. That is, imagine going back to the time <strong>BEFORE</strong> HPPD and indicate whether any of the following were ever true.</p>
+
+        </div>
+
+           
+
+     <!-- PAGE 13 & 14: PQ16 ENDORSEMENT (RESTORED) -->
+        <div x-show="step === 9 || step === 10" class="section-card">
+            <h2 class="font-bold text-lg mb-2">PQ16 Endorse</h2>
+            <p class="text-xs text-slate-500 italic mb-6">Select "true" if the following were true before you developed HPPD.</p>
+            <div class="space-y-6">
+                <template x-for="(q, idx) in (step === 9 ? pq16Questions.slice(0,8) : pq16Questions.slice(8,16))" :key="idx">
+                    <div class="border-b pb-4">
+                        <p class="text-sm font-semibold mb-3" x-text="(step === 9 ? idx+1 : idx+9) + '. ' + q"></p>
+                        <div class="flex gap-4">
+                            <template x-for="ans in ['True', 'False', 'Don\'t remember']">
+                                <label class="flex items-center text-xs cursor-pointer">
+                                    <input type="radio" :name="'pq'+(step === 9 ? idx : idx+8)" :value="ans" x-model="formData.PQ16_Endorse[step === 9 ? idx : idx+8]" class="mr-2">
+                                    <span x-text="ans"></span>
+                                </label>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+  <!-- PAGE 15 & 16: PQ16 DISTRESS RATING (Exactly as per PDF) -->
+<div x-show="step === 11 || step === 12 " class="section-card">
+    <h2 class="font-black text-lg mb-2 text-blue-700 uppercase tracking-tighter">Rate</h2>
+    <p class="text-sm font-bold text-slate-700 mb-2">You selected "true" for the following symptoms.</p>
+    <p class="text-[11px] text-slate-500 italic mb-8">Please indicate <strong>how much distress</strong> you experienced for each. If distress varied, select how distressing it was at its most severe.</p>
+
+    <div class="space-y-10">
+        <!-- Loop Logic: Page 15 (0-8), Page 16 (9-15) -->
+        <template x-for="(q, idx) in (step === 11 ? pq16Questions.slice(0,9) : pq16Questions.slice(9,16))" :key="step + idx">
+            <!-- IMPORTANT: Logic to check the CORRECT global index -->
+            <div x-show="formData.PQ16_Endorse[step === 11 ? idx : idx + 9] === 'True'" 
+                 x-transition
+                 class="p-5 bg-slate-50 rounded-2xl border border-slate-200 shadow-sm">
+                
+                <p class="text-sm font-bold text-slate-800 mb-4" x-text="(step === 11 ? idx + 1 : idx + 10) + '. ' + q"></p>
+                
+                <!-- Distress Scale Grid -->
+                <div class="grid grid-cols-4 gap-2">
+                    <template x-for="level in ['None', 'Mild', 'Moderate', 'Severe']">
+                        <label class="flex flex-col items-center p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition group">
+                            <input type="radio" 
+                                   :name="'rate_'+(step === 11 ? idx : idx + 9)" 
+                                   :value="level" 
+                                   x-model="formData.PQ16_Rate[step === 11 ? idx : idx + 9]" 
+                                   class="w-5 h-5 text-blue-600 border-slate-300">
+                            <span class="mt-2 text-[10px] font-black uppercase text-slate-400 group-hover:text-blue-600" x-text="level"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- PAGE 16 SPECIFIC: HPPD_History (Verification: PDF Page 16 bottom) -->
+    <div x-show="step === 12" class="mt-12 pt-8 border-t border-slate-200 space-y-6">
+        <p class="font-bold text-slate-800">Which of the following best describes your HPPD history?</p>
+        <div class="space-y-3">
+            <template x-for="hist in ['I currently have HPPD.','I have previously had HPPD that is now resolved.','Other (please describe)']">
+                <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="radio" x-model="formData.HPPD_History" :value="hist" class="w-5 h-5 text-blue-600">
+                    <span class="ml-4 text-sm font-semibold" x-text="hist"></span>
+                </label>
+            </template>
+        </div>
+        <!-- Conditional Other Box -->
+        <div x-show="formData.HPPD_History === 'Other (please describe)'" x-transition class="mt-4">
+            <textarea x-model="formData.HPPD_History_Other" 
+                      placeholder="Please describe your HPPD history (e.g., triggered by tapering SSRI)..." 
+                      class="w-full h-32 bg-blue-50 border-blue-200 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+        </div>
+    </div>
+</div>
+     <!-- PAGE 17: HPPD ONSET & HEALTHCARE -->
+
+        <div x-show="step === 13" class="space-y-6">
+
+                <label class="block font-bold mb-2">How old were you when you first developed symptoms of HPPD?</label>
+
+                <input type="number" x-model="formData.HPPD_Age" class="w-1/3">
+
+
+
+
+            <div class="section-card">
+
+
+
+                <p class="font-bold mb-4">Have you talked with a healthcare provider regarding HPPD?</p>
+
+                <div class="flex gap-8">
+
+
+                    <label><input type="radio" x-model="formData.HPPD_Healthcare" value="Yes" class="mr-2"> Yes</label>
+
+                    <label><input type="radio" x-model="formData.HPPD_Healthcare" value="No" class="mr-2"> No</label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Page 17 Multi-Select -->
+
+            <div x-show="formData.HPPD_Healthcare === 'Yes'" class="section-card">
+
+                <p class="font-bold mb-4">What type of healthcare providers have you consulted? (Select all)</p>
+
+                <div class="space-y-2">
+
+
+                    <template x-for="p in ['Physician (psychiatrist)','Physician (neurologist)','Physician (primary care)','Psychologist','Therapist','Other']">
+
+                        <label class="flex items-center p-2 border rounded-xl cursor-pointer">
+
+                            <input type="checkbox" :value="p" x-model="formData.HPPD_Providers" class="mr-3">
+
+                            <span class="text-sm" x-text="p"></span>
+
+                        </label>
+
+                    </template>
+
+                </div>
+
+
+
+                <input x-show="formData.HPPD_Providers.includes('Other')" type="text" x-model="formData.HPPD_Providers_Other" placeholder="Specify provider" class="mt-2 bg-blue-50">
+
+            </div>
+
+        </div>
+
+<!-- PAGE 18: HPPD LEARNED, PERCEPTION & IMPAIRMENT -->
+<div x-show="step === 14" class="space-y-6">
+    <!-- HPPD_Learned -->
+    <div class="section-card">
+        <p class="font-bold mb-4">How did you learn you had HPPD?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="l in ['From a psychiatrist','From a doctor other than a psychiatrist','Family Member','Friend','Therapist','Advisor','Self-diagnosed (e.g. read about it)','Other (please specify)']">
+                <label class="flex items-center p-2 border rounded-xl cursor-pointer hover:bg-slate-50">
+                    <input type="checkbox" :value="l" x-model="formData.HPPD_Learned" class="mr-3">
+                    <span class="text-xs" x-text="l"></span>
+                </label>
+            </template>
+        </div>
+        <div x-show="formData.HPPD_Learned.includes('Other (please specify)')" class="mt-3">
+            <input type="text" x-model="formData.HPPD_Learned_Other" placeholder="Please specify how you learned" class="bg-blue-50">
+        </div>
+    </div>
+
+    <!-- HPPD_Perception -->
+    <div class="section-card">
+        <p class="text-xs italic mb-4 text-slate-500">Following cessation of use of a hallucinogen, I have had the reexperiencing of one or more of the perceptual symptoms that were experienced while intoxicated... (e.g., geometric hallucinations, false perceptions of movement, flashes of color, trails, etc.)</p>
+        <p class="font-bold mb-3">Please indicate whether the following is true for you:</p>
+        <div class="flex gap-6">
+            <label class="flex items-center"><input type="radio" x-model="formData.HPPD_Perception" value="True" class="mr-2"> True</label>
+            <label class="flex items-center"><input type="radio" x-model="formData.HPPD_Perception" value="False" class="mr-2"> False</label>
+            <label class="flex items-center"><input type="radio" x-model="formData.HPPD_Perception" value="Not sure" class="mr-2"> Not sure</label>
+        </div>
+    </div>
+
+    <!-- HPPD_Impairment -->
+    <div class="section-card">
+        <p class="font-bold mb-4">Do these perceptual symptoms cause significant impairment in any of the following domains? (Select all that apply)</p>
+        <div class="space-y-2">
+            <template x-for="imp in ['Relationships with family, friends, and others','Ability to work or attend school','Responsibilities at home (e.g. housework)','Other significant area of daily functioning (please describe)','None of the above']">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                    <input type="checkbox" :value="imp" x-model="formData.HPPD_Impairment" class="mr-3">
+                    <span class="text-xs" x-text="imp"></span>
+                </label>
+            </template>
+        </div>
+        <div x-show="formData.HPPD_Impairment.includes('Other significant area of daily functioning (please describe)')" class="mt-3">
+            <input type="text" x-model="formData.HPPD_Impairment_Other" placeholder="Please describe the impairment" class="bg-blue-50">
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 19: HPPD DIAGNOSIS & PRIOR DIAGNOSIS -->
+<div x-show="step === 15" class="space-y-6">
+    <div class="section-card">
+        <p class="font-bold mb-2">Please indicate if you have ever experienced or been diagnosed with any of the following:</p>
+        <p class="text-[10px] text-slate-400 mb-4 italic">(if none, select none of the above)</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="diag in ['Schizophrenia','Epilepsy or seizure disorder','Infection of the brain or nervous system','Significant head injury','Multiple sclerosis','Alzheimer\'s disease','Huntington disease','Normal pressure hydrocephalus','Parkinson\'s disease','Other condition (describe)','None of the above']">
+                <label class="flex items-center p-2 border rounded-xl cursor-pointer hover:bg-slate-50">
+                    <input type="checkbox" :value="diag" x-model="formData.HPPD_Diagnosis" class="mr-3">
+                    <span class="text-xs" x-text="diag"></span>
+                </label>
+            </template>
+        </div>
+        <div x-show="formData.HPPD_Diagnosis.includes('Other condition (describe)')" class="mt-3">
+            <input type="text" x-model="formData.HPPD_Diagnosis_Other" placeholder="Describe the condition" class="bg-blue-50">
+        </div>
+    </div>
+
+    <!-- HPPD_Diagnosis_Prior -->
+    <div x-show="formData.HPPD_Diagnosis.length > 0 && !formData.HPPD_Diagnosis.includes('None of the above')" class="section-card animate-fade-in">
+        <p class="font-bold mb-4">Please select which of the following were diagnosed BEFORE you developed HPPD:</p>
+        <div class="space-y-2">
+            <template x-for="selected in formData.HPPD_Diagnosis.filter(i => i !== 'None of the above' && i !== 'Other condition (describe)')">
+                <label class="flex items-center p-2 bg-slate-50 border rounded-lg">
+                    <input type="checkbox" :value="selected" x-model="formData.HPPD_Diagnosis_Prior" class="mr-3">
+                    <span class="text-xs font-bold" x-text="selected"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+</div>
+
+
+    <!-- PAGE 20: HPPD VISUAL SYMPTOMS (Exactly as per PDF Pages 20-21) -->
+<div x-show="step === 16" class="section-card">
+    <h2 class="font-black text-lg mb-2 uppercase tracking-tighter">HPPD Visual Symptoms</h2>
+    <p class="text-sm font-bold text-slate-700 mb-2">Which of these visual symptoms have you experienced?</p>
+    <p class="text-[10px] text-slate-400 italic mb-8">(starred * ones fall under DSM-5 diagnostic criteria)</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+        <template x-for="sym in visualSymptomsList" :key="sym">
+            <div class="flex flex-col">
+                <label class="flex items-start p-3 border border-slate-100 rounded-xl cursor-pointer hover:bg-blue-50 transition group">
+                    <input type="checkbox" 
+                           :value="sym" 
+                           x-model="formData.HPPD_VisualSymptoms" 
+                           class="mt-1 w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
+                    <span class="ml-3 text-[11px] font-bold text-slate-600 group-hover:text-blue-800 leading-tight" x-text="sym"></span>
+                </label>
+                
+                <!-- Mandatory "Other" text box triggers specifically for the "Other" item -->
+                <template x-if="sym === 'Other (please specify)'">
+                    <div x-show="formData.HPPD_VisualSymptoms.includes('Other (please specify)')" 
+                         x-transition 
+                         class="mt-2 ml-8 p-3 bg-blue-50 rounded-xl border border-blue-100">
+                        <label class="block text-[10px] font-black uppercase text-blue-800 mb-2">Please describe:</label>
+                        <input type="text" 
+                               x-model="formData.HPPD_VisualSymptoms_Other" 
+                               placeholder="Type here..." 
+                               class="bg-white border-blue-200">
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+</div>
+<!-- PAGE 21: CLARIFICATION & ACCOMPANYING SYMPTOMS -->
+<div x-show="step === 17" class="space-y-6">
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Clarification ? 'border-red-500' : ''">
+        <label class="block font-black text-xs uppercase tracking-widest text-slate-400 mb-2">HPPD Clarification</label>
+        <p class="text-sm font-bold mb-4">If there are other aspects of your HPPD that you wish to describe or clarify, please do so here:</p>
+        <textarea x-model="formData.HPPD_Clarification" class="h-32 bg-slate-50 border-slate-200" placeholder="Describe any other aspects..."></textarea>
+    </div>
+
+    <div class="section-card" :class="errorMsg && (formData.HPPD_Symptoms.includes('Other sensory problem (numbness, tingling, sensitivity to touch)') && !formData.HPPD_Symptoms_Other) ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4">Do you have any of the following symptoms that accompany your HPPD? (Check all that apply)</p>
+        <div class="space-y-2">
+            <template x-for="s in ['Depersonalization (feeling detached from one\'s body or one\'s mental processes)','Derealization (a mental state where one feels detached from their surroundings)','Auditory hallucinations','Mood swings','Other sensory problem (numbness, tingling, sensitivity to touch)','Paranoia','I have none of the above']">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="s" x-model="formData.HPPD_Symptoms" class="w-4 h-4 text-blue-600 rounded">
+                    <span class="ml-3 text-xs font-semibold" x-text="s"></span>
+                </label>
+            </template>
+        </div>
+        <!-- OTHER TEXT BOX -->
+        <div x-show="formData.HPPD_Symptoms.includes('Other sensory problem (numbness, tingling, sensitivity to touch)')" x-transition class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
+            <label class="block text-[10px] font-black uppercase text-blue-800 mb-2">Please specify the sensory problem:</label>
+            <input type="text" x-model="formData.HPPD_Symptoms_Other" class="bg-white border-blue-200">
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 22: ONSET & DURATION -->
+<div x-show="step === 18" class="space-y-6">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">How long after using a psychedelic drug did you begin experiencing visual symptoms?</p>
+        <div class="grid grid-cols-1 gap-2">
+            <template x-for="time in ['Within 1 day (immediately)','Within 1 day to 1 week','Within 1 week to 1 month','1-6 months','7-12 months','More than a year','Other (please specify)']">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                    <input type="radio" x-model="formData.HPPD_Beginning" :value="time" class="w-4 h-4 text-blue-600">
+                    <span class="ml-3 text-xs" x-text="time"></span>
+                </label>
+            </template>
+        </div>
+        <div x-show="formData.HPPD_Beginning === 'Other (please specify)'" class="mt-3"><input type="text" x-model="formData.HPPD_Beginning_Other" placeholder="Specify timing..." class="bg-blue-50"></div>
+    </div>
+
+    <div class="section-card" :class="errorMsg && (formData.HPPD_Trigger === 'Other:' && !formData.HPPD_Trigger_Other) ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4">What do you think triggered the onset of your visual symptoms?</p>
+        <div class="space-y-3">
+            <label class="flex items-center p-3 border rounded-xl cursor-pointer"><input type="radio" x-model="formData.HPPD_Trigger" value="Just drug use" class="mr-3"> <span class="text-xs">Just drug use</span></label>
+            <label class="flex items-center p-3 border rounded-xl cursor-pointer"><input type="radio" x-model="formData.HPPD_Trigger" value="Drug use plus something else:" class="mr-3"> <span class="text-xs">Drug use plus something else:</span></label>
+            <input x-show="formData.HPPD_Trigger === 'Drug use plus something else:'" type="text" x-model="formData.HPPD_Trigger_Plus" class="bg-blue-50 ml-6 w-[92%] mb-2" placeholder="Specify the other factor">
+            
+            <label class="flex items-center p-3 border rounded-xl cursor-pointer"><input type="radio" x-model="formData.HPPD_Trigger" value="Other:" class="mr-3"> <span class="text-xs">Other:</span></label>
+            <input x-show="formData.HPPD_Trigger === 'Other:'" type="text" x-model="formData.HPPD_Trigger_Other" class="bg-blue-50 ml-6 w-[92%]" placeholder="Please specify other">
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 23: EPISODES & DRUG SELECTION -->
+<div x-show="step === 19" class="space-y-6">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4 italic text-slate-500">Single vs Multiple episodes:</p>
+        <div class="flex gap-4">
+            <template x-for="opt in ['Single', 'Multiple', 'Other']">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" x-model="formData.HPPD_Episodes" :value="opt" class="w-5 h-5 text-blue-600">
+                    <span class="ml-2 text-xs font-bold" x-text="opt"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_Episodes === 'Other'" type="text" x-model="formData.HPPD_Episodes_Other" placeholder="Specify..." class="mt-4 bg-blue-50">
+    </div>
+
+    <div class="section-card">
+        <p class="font-black text-blue-800 text-sm mb-4 uppercase">HPPD Drugs selection</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="drug in drugListDetailed" :key="drug">
+                <div class="flex flex-col">
+                    <label class="flex items-center p-3 border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                        <input type="checkbox" :value="drug" x-model="formData.HPPD_Drugs" class="w-5 h-5 text-blue-600 rounded">
+                        <span class="ml-3 text-[11px] font-bold text-slate-600" x-text="drug"></span>
+                    </label>
+                    <template x-if="drug === 'Other'">
+                        <div x-show="formData.HPPD_Drugs.includes('Other')" class="mt-2 ml-8">
+                            <input type="text" x-model="formData.HPPD_Drugs_Other" placeholder="Specify other drug..." class="w-full p-2 bg-blue-50 text-xs border border-blue-100 rounded-lg">
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 24: DOSES, ADDITIONAL INFO & UNUSUAL INCIDENT -->
+<div x-show="step === 20" class="space-y-6">
+    <div class="section-card">
+        <h3 class="font-black text-sm uppercase text-blue-800 mb-6 tracking-widest">HPPD Drug Dose Matrix</h3>
+        
+        <div class="space-y-6">
+            <!-- Dynamic Rows based on Page 23 -->
+            <template x-for="drug in formData.HPPD_Drugs" :key="drug">
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                    <p class="text-xs font-black uppercase text-slate-500 mb-3" x-text="drug === 'Other' ? 'OTHER: ' + formData.HPPD_Drugs_Other : drug"></p>
+                    <div class="grid grid-cols-5 gap-1">
+                        <template x-for="lvl in ['Low dose', 'Medium or Moderate dose', 'Large dose', 'Extremely large dose', 'Not sure']">
+                            <label class="flex flex-col items-center p-2 bg-white border border-slate-100 rounded-lg cursor-pointer hover:border-blue-400">
+                                <input type="radio" :name="'dose_'+drug" :value="lvl" x-model="formData.HPPD_Doses[drug]" class="mb-2">
+                                <span class="text-[7px] text-center font-bold uppercase leading-tight" x-text="lvl"></span>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- HPPD_AdditionalInfo -->
+    <div class="section-card">
+        <p class="font-bold text-sm mb-2 italic text-slate-700">Additional Info.</p>
+        <p class="text-[11px] text-slate-500 mb-4">Please enter any additional details about dose - e.g. number of grams/milligrams/tablets etc. used:</p>
+        <textarea x-model="formData.HPPD_AdditionalInfo" class="h-24 bg-slate-50 border-slate-200" placeholder="e.g. 300mg, 2 tabs..."></textarea>
+    </div>
+
+    <!-- HPPD_Unusual -->
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Unusual ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4 italic text-slate-700">Was there anything special or unusual about the episode of drug use that you believe led to HPPD?</p>
+        <div class="flex gap-8 mb-4">
+            <template x-for="u in ['No', 'Yes', 'Maybe']">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" x-model="formData.HPPD_Unusual" :value="u" class="w-5 h-5 text-blue-600">
+                    <span class="ml-2 text-sm font-bold" x-text="u"></span>
+                </label>
+            </template>
+        </div>
+
+        <!-- HPPD_Unusual_Text -->
+        <div x-show="formData.HPPD_Unusual === 'Yes' || formData.HPPD_Unusual === 'Maybe'" x-transition>
+            <p class="text-[11px] font-black text-blue-800 uppercase mb-2">Please describe:</p>
+            <textarea x-model="formData.HPPD_Unusual_Text" class="h-32 bg-blue-50 border-blue-200" placeholder="Describe the incident..."></textarea>
+        </div>
+    </div>
+</div>
+<!-- PAGE 25: MEDICATIONS, PROGRESSION & SUBTYPE (Verified verbatim from PDF) -->
+<div x-show="step === 21" class="space-y-8">
+    
+    <!-- HPPD_Medications -->
+    <div class="section-card" :class="errorMsg && (formData.HPPD_Medications === 'Yes' && !formData.HPPD_Medications_Text) ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4 leading-relaxed text-slate-800">
+            Were you taking any medication or supplement either at the time of developing HPPD or at the time that you took the psychedelic that immediately preceded you developing HPPD (e.g. antidepressant medication, vitamins, etc.)?
+        </p>
+        <div class="flex gap-6 mb-4">
+            <template x-for="opt in ['Yes', 'No', 'Not sure']">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" x-model="formData.HPPD_Medications" :value="opt" class="w-5 h-5 text-blue-600">
+                    <span class="ml-2 text-sm font-bold" x-text="opt"></span>
+                </label>
+            </template>
+        </div>
+        <!-- Conditional Text Area -->
+        <div x-show="formData.HPPD_Medications === 'Yes'" x-transition>
+            <p class="text-[10px] font-black uppercase text-blue-800 mb-2">If yes, please indicate what these were:</p>
+            <textarea x-model="formData.HPPD_Medications_Text" 
+                      class="h-24 bg-blue-50 border-blue-200 p-4 w-full rounded-xl outline-none focus:ring-2 focus:ring-blue-400" 
+                      placeholder="List medications/supplements here..."></textarea>
+        </div>
+    </div>
+
+    <!-- HPPD_Progression -->
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Progression ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4 text-slate-800">
+            Has your condition gotten worse over time, stayed the same, or improved over time?
+        </p>
+        <div class="space-y-3">
+            <template x-for="p in ['Gotten better', 'Stayed the same', 'Gotten worse', 'Gotten better and worse (symptoms come and go)']">
+                <label class="flex items-center p-3 border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="radio" x-model="formData.HPPD_Progression" :value="p" class="w-5 h-5 text-blue-600">
+                    <span class="ml-3 text-xs font-bold text-slate-700" x-text="p"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+
+    <!-- HPPD_Subtype -->
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Subtype ? 'border-red-500' : ''">
+        <h3 class="font-black text-xs uppercase tracking-widest text-blue-800 mb-4">HPPD Subtype</h3>
+        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 mb-6 text-[11px] leading-relaxed text-slate-600 space-y-4">
+            <p>Some research has suggested that there may be two HPPD subtypes. Please read the following and select whether you believe one or the other is more consistent with your experience:</p>
+            <p><strong>Type 1 HPPD</strong> is characterized by brief "flashbacks" that come on with unpredictable timing and usually resolve completely between episodes.</p>
+            <p><strong>Type 2 HPPD</strong> is marked by long-term, pervasive perceptual disturbances that persist continuously or almost continuously. HPPD-2 tends to be more debilitating, often interfering with daily functioning and mental well-being.</p>
+        </div>
+        <div class="space-y-3">
+            <template x-for="type in ['I have Type 1', 'I have Type 2', 'I have elements of both', 'Neither describes my experience']">
+                <label class="flex items-center p-3 border border-slate-100 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="radio" x-model="formData.HPPD_Subtype" :value="type" class="w-5 h-5 text-blue-600">
+                    <span class="ml-3 text-xs font-bold text-slate-700" x-text="type"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 26: WEEKLY IMPACT & DISRUPTION SCALE -->
+<div x-show="step === 22" class="space-y-8">
+    <div class="section-card bg-slate-50 border-blue-100">
+        <h3 class="font-black text-xs uppercase tracking-widest text-blue-800 mb-2">Past Week</h3>
+        <p class="text-sm italic text-slate-600 leading-relaxed">For the next set of questions please think about your HPPD symptoms and their effects over the last <strong>7 days</strong>.</p>
+    </div>
+
+    <!-- HPPD_Work -->
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Work ? 'border-red-500 ring-2 ring-red-50' : ''">
+        <p class="font-bold text-sm mb-4 text-slate-800 leading-relaxed">Is the following true for you?</p>
+        <p class="text-xs text-slate-500 mb-4 italic">I have not worked/studied at all during the past week for reasons unrelated to the disorder. (Includes paid, unpaid volunteer work or training)</p>
+        <div class="space-y-3">
+            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                <input type="radio" x-model="formData.HPPD_Work" value="Yes" class="w-5 h-5 text-blue-600">
+                <span class="ml-3 text-xs font-semibold text-slate-700">Yes, I have not worked/studied for reasons unrelated to HPPD</span>
+            </label>
+            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                <input type="radio" x-model="formData.HPPD_Work" value="No" class="w-5 h-5 text-blue-600">
+                <span class="ml-3 text-xs font-semibold text-slate-700">No</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- HPPD_Disruption Matrix (0-10 Scale) -->
+    <div class="section-card" :class="errorMsg && Object.values(formData.HPPD_Disruption).includes(null) ? 'border-red-500 ring-2 ring-red-50' : ''">
+        <p class="font-bold text-sm mb-2 text-slate-800 leading-relaxed">HPPD Disruption.</p>
+        <p class="text-xs text-slate-500 mb-8 leading-relaxed">How much have your HPPD symptoms disrupted the following areas? Use the following scale where 0 is "not at all," 1-3 is "mildly," 4-6 is "moderately," 7-9 is "markedly," and 10 is "extremely."</p>
+
+        <div class="space-y-10">
+            <template x-for="area in ['Work/school', 'Social life', 'Family life/home responsibilities']">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs font-black uppercase text-blue-900 tracking-tighter" x-text="area"></span>
+                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded" x-show="formData.HPPD_Disruption[area] !== null" x-text="`Score: ${formData.HPPD_Disruption[area]}`"></span>
+                    </div>
+                    <div class="flex justify-between gap-1">
+                        <template x-for="n in [0,1,2,3,4,5,6,7,8,9,10]">
+                            <label class="flex flex-col items-center flex-1 group">
+                                <input type="radio" :name="area" :value="n" x-model="formData.HPPD_Disruption[area]" class="w-4 h-4 text-blue-600 mb-2">
+                                <span class="text-[8px] font-bold text-slate-400 group-hover:text-blue-600" x-text="n"></span>
+                            </label>
+                        </template>
+                    </div>
+                    <div class="flex justify-between mt-2 px-1 text-[7px] font-black uppercase text-slate-300">
+                        <span>Not at all</span>
+                        <span>Moderately</span>
+                        <span>Extremely</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- HPPD_Days_Lost Dropdown -->
+    <div class="section-card" :class="errorMsg && formData.HPPD_Days_Lost === '' ? 'border-red-500 ring-2 ring-red-50' : ''">
+        <p class="font-bold text-sm mb-4 text-slate-800 leading-relaxed italic">Days lost:</p>
+        <p class="text-xs text-slate-600 mb-6 leading-relaxed">On how many days in the last week did your symptoms cause you to <strong>miss school or work</strong>, or leave you <strong>totally unable</strong> to carry out your normal responsibilities?</p>
+        <select x-model="formData.HPPD_Days_Lost" class="md:w-1/3">
+            <option value="">Select days...</option>
+            <template x-for="d in [0,1,2,3,4,5,6,7]">
+                <option :value="d" x-text="d"></option>
+            </template>
+        </select>
+    </div>
+</div>
+
+<!-- PAGE 27: UNPRODUCTIVE DAYS & TREATMENT INTRO -->
+<div x-show="step === 23" class="space-y-8">
+    <!-- HPPD_Unproductive -->
+    <div class="section-card" :class="errorMsg && formData.HPPD_Unproductive === '' ? 'border-red-500 ring-2 ring-red-50' : ''">
+        <p class="font-bold text-sm mb-4 text-slate-800 leading-relaxed italic">Days underproductive:</p>
+        <p class="text-xs text-slate-600 mb-6 leading-relaxed">
+            You indicated that you were totally unproductive for <span class="font-black text-blue-600" x-text="formData.HPPD_Days_Lost || '0'"></span> days over the last week. 
+            Of the <strong>remaining days</strong> that week, how many days did you feel so impaired by your symptoms that even though you went to school or work your <strong>productivity was reduced</strong>?
+        </p>
+        <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+            <template x-for="d in [0,1,2,3,4,5,6,7]">
+                <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition" :class="formData.HPPD_Unproductive === d ? 'border-blue-600 bg-blue-50' : ''">
+                    <input type="radio" x-model="formData.HPPD_Unproductive" :value="d" class="w-4 h-4 text-blue-600 mb-2">
+                    <span class="text-xs font-bold" x-text="d"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+
+    <!-- HPPD_Treatment Instruction -->
+    <div class="section-card bg-blue-900 border-0 shadow-xl">
+        <h3 class="font-black text-xs uppercase tracking-widest text-blue-300 mb-4">HPPD Treatment</h3>
+        <p class="text-sm font-bold text-white mb-4 leading-relaxed">The next section focuses on treatments that you may have tried since your HPPD diagnosis (medications, supplements, or other therapies).</p>
+        <p class="text-xs text-blue-100 leading-relaxed opacity-80">We will break these down based on class of medication or therapy. Please read each list carefully. If you have not tried any of the medications in a list, select "None of the above" at the bottom of the list.</p>
+    </div>
+</div>
+
+<!-- PAGE 28: BENZODIAZEPINES SELECTION & EFFECTS -->
+<div x-show="step === 24" class="space-y-8">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following medications (benzodiazepines or z-drugs) since your HPPD diagnosis?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="b in benzoList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="b" x-model="formData.HPPD_Benzo_Use" @change="toggleNone('HPPD_Benzo_Use', b)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="b"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_Benzo_Use.includes('Other benzodiazepine or z-drug')" type="text" x-model="formData.HPPD_Benzo_Other" placeholder="Specify other drug..." class="mt-3 bg-blue-50 border-blue-200">
+    </div>
+
+    <!-- HPPD_Benzo_Effect Matrix (Dynamic) -->
+    <div x-show="formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-blue-500">
+        <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
+        <template x-for="med in formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-8 last:mb-0">
+                <p class="text-xs font-black uppercase text-blue-900 mb-3" x-text="med.includes('Other') ? 'Other: ' + formData.HPPD_Benzo_Other : med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center p-1 border border-slate-100 rounded hover:bg-blue-50">
+                            <input type="radio" :name="'benz_'+med" :value="eff" x-model="formData.HPPD_Benzo_Effect[med]" class="w-4 h-4">
+                            <span class="text-[6px] font-black uppercase mt-1 text-center leading-none" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+
+<!-- PAGE 29: ANTIDEPRESSANTS SELECTION -->
+<div x-show="step === 25" class="space-y-6">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following medications (antidepressants or anti-anxiety drugs) since your HPPD diagnosis?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="a in antiDepList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="a" x-model="formData.HPPD_AntiDep_Use" @change="toggleNone('HPPD_AntiDep_Use', a)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="a"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_AntiDep_Use.includes('other antidepressant')" type="text" x-model="formData.HPPD_AntiDep_Other" placeholder="Specify other antidepressant..." class="mt-3 bg-blue-50 border-blue-200">
+    </div>
+</div>
+
+<!-- PAGE 30: ANTIDEPRESSANT EFFECTS & MOOD STABILIZERS -->
+<div x-show="step === 26" class="space-y-8">
+    <!-- HPPD_AntiDep_Effect (Dynamic) -->
+    <div x-show="formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-purple-500">
+        <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
+        <template x-for="med in formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-8 last:mb-0">
+                <p class="text-xs font-black uppercase text-purple-900 mb-3" x-text="med.includes('other') ? 'Other: ' + formData.HPPD_AntiDep_Other : med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center p-1 border border-slate-100 rounded">
+                            <input type="radio" :name="'ad_'+med" :value="eff" x-model="formData.HPPD_AntiDep_Effect[med]" class="w-4 h-4">
+                            <span class="text-[6px] font-black uppercase mt-1 text-center" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- HPPD_MoodStab_Use -->
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following medications (mood stabilizers or anticonvulsants) since your HPPD diagnosis?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="m in moodStabList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="m" x-model="formData.HPPD_MoodStab_Use" @change="toggleNone('HPPD_MoodStab_Use', m)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="m"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_MoodStab_Use.includes('Other mood stabilizer or anticonvulsant')" type="text" x-model="formData.HPPD_MoodStab_Other" placeholder="Specify medication..." class="mt-3 bg-blue-50 border-blue-200">
+    </div>
+</div>
+<!-- PAGE 31: ANTIPSYCHOTICS (SELECTION & EFFECTS) -->
+<div x-show="step === 27" class="space-y-8">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following medications (antipsychotics or neuroleptics) since your HPPD diagnosis?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="a in antiPsyList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="a" x-model="formData.HPPD_AntiPsy_Use" @change="toggleNone('HPPD_AntiPsy_Use', a)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="a"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_AntiPsy_Use.includes('other antipsychotic or neuroleptic')" type="text" x-model="formData.HPPD_AntiPsy_Other" placeholder="Specify other antipsychotic..." class="mt-3 bg-blue-50 border-blue-200">
+    </div>
+
+    <!-- Dynamic Effect Matrix -->
+    <div x-show="formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-red-500">
+        <p class="font-bold text-sm mb-4">How were symptoms while taking these?</p>
+        <template x-for="med in formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-6 last:mb-0">
+                <p class="text-[10px] font-black uppercase text-red-900 mb-2" x-text="med.includes('other') ? 'Other: ' + formData.HPPD_AntiPsy_Other : med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center">
+                            <input type="radio" :name="'ap_'+med" :value="eff" x-model="formData.HPPD_AntiPsy_Effect[med]" class="w-4 h-4">
+                            <span class="text-[6px] text-center font-black uppercase mt-1" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+
+<!-- PAGE 32: OTHER PRESCRIPTION MEDICATIONS -->
+<div x-show="step === 28" class="space-y-8">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following other prescription medications?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="o in otherMedList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer">
+                    <input type="checkbox" :value="o" x-model="formData.HPPD_OtherMed_Use" @change="toggleNone('HPPD_OtherMed_Use', o)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="o"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+    
+    <div x-show="formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-orange-500">
+        <p class="font-bold text-sm mb-4 italic text-slate-500 tracking-tight">Rate the effect of selected other medications:</p>
+        <template x-for="med in formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-6 last:mb-0 border-b pb-4 last:border-0">
+                <p class="text-xs font-black mb-2 text-orange-900" x-text="med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center">
+                            <input type="radio" :name="'om_'+med" :value="eff" x-model="formData.HPPD_OtherMed_Effect[med]">
+                            <span class="text-[6px] text-center font-bold uppercase mt-1" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+
+<!-- PAGE 33: SUPPLEMENTS & HERBS -->
+<div x-show="step === 29" class="space-y-8">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4 text-green-900">Have you tried any of these supplements or herbs?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="s in suppList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="s" x-model="formData.HPPD_Supp_Use" @change="toggleNone('HPPD_Supp_Use', s)" class="w-5 h-5 text-green-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold text-slate-700" x-text="s"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+    
+    <div x-show="formData.HPPD_Supp_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-green-600">
+        <p class="font-bold text-sm mb-4 italic text-green-800">How did these supplements affect you?</p>
+        <template x-for="med in formData.HPPD_Supp_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-6 last:mb-0 border-b border-green-50 pb-4">
+                <p class="text-xs font-black text-green-900 mb-2" x-text="med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center">
+                            <input type="radio" :name="'su_'+med" :value="eff" x-model="formData.HPPD_Supp_Effect[med]" class="text-green-600">
+                            <span class="text-[6px] text-center font-black mt-1" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+
+<!-- PAGE 34: NON-DRUG TREATMENTS -->
+<div x-show="step === 30" class="space-y-8">
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4">Have you tried any of the following non-drug treatments?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="n in nonDrugList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer">
+                    <input type="checkbox" :value="n" x-model="formData.HPPD_NonDrug_Use" @change="toggleNone('HPPD_NonDrug_Use', n)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-[11px] font-bold" x-text="n"></span>
+                </label>
+            </template>
+        </div>
+    </div>
+
+    <!-- HPPD_Alternatives -->
+    <div class="section-card">
+        <p class="font-bold text-sm mb-4 leading-relaxed">Have you tried any other alternative or complementary therapies for HPPD? If yes, please describe:</p>
+        <div class="flex gap-6 mb-4">
+            <label><input type="radio" x-model="formData.HPPD_Alternatives" value="Yes" class="mr-2"> Yes</label>
+            <label><input type="radio" x-model="formData.HPPD_Alternatives" value="No" class="mr-2"> No</label>
+        </div>
+        <textarea x-show="formData.HPPD_Alternatives === 'Yes'" x-model="formData.HPPD_Alternatives_Details" class="bg-blue-50 border-blue-200 h-24" placeholder="Describe therapy..."></textarea>
+    </div>
+</div>
+
+<!-- PAGE 35: POST-HPPD PSYCHEDELIC USE & SUMMARY -->
+<div x-show="step === 31" class="space-y-8">
+    <div class="section-card" :class="errorMsg && !formData.HPPD_PsyUse ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4">Since developing HPPD, have you tried to using psychedelics again?</p>
+        <div class="flex gap-8 mb-4">
+            <label><input type="radio" x-model="formData.HPPD_PsyUse" value="Yes" class="mr-2"> Yes</label>
+            <label><input type="radio" x-model="formData.HPPD_PsyUse" value="No" class="mr-2"> No</label>
+        </div>
+        
+        <div x-show="formData.HPPD_PsyUse === 'Yes'" x-transition class="space-y-6 mt-6 pt-6 border-t border-slate-100">
+            <p class="font-bold text-xs uppercase text-blue-800">What effect did the psychedelic have on your symptoms?</p>
+            <div class="flex flex-wrap gap-4">
+                <template x-for="eff in ['Made it better', 'Made it worse', 'Other']">
+                    <label class="flex items-center"><input type="radio" x-model="formData.HPPD_PsyEffect" :value="eff" class="mr-2"> <span x-text="eff"></span></label>
+                </template>
+            </div>
+            <input x-show="formData.HPPD_PsyEffect === 'Other'" type="text" x-model="formData.HPPD_PsyEffect_Other" placeholder="Describe the 'Other' effect" class="bg-blue-50">
+            
+            <p class="font-bold text-xs uppercase text-blue-800">Please describe the effects and indicate which drugs were used:</p>
+            <textarea x-model="formData.HPPD_PsyEffect_TEXT" class="h-24 bg-blue-50 border-blue-200" placeholder="Details..."></textarea>
+        </div>
+    </div>
+
+    <!-- Treatment Summaries -->
+    <div class="section-card">
+        <!--p class="font-bold text-sm mb-2 italic">HPPD MostEffective.</p-->
+        <p class="text-[10px] text-slate-500 mb-4">What was the <strong>most effective</strong> treatment or intervention you have tried so far? (If none, write NONE)</p>
+        <textarea x-model="formData.HPPD_MostEffective" class="bg-slate-50 h-20 mb-6"></textarea>
+
+        <!--p class="font-bold text-sm mb-2 italic text-red-700">HPPD_Harmful.</p-->
+        <p class="text-[10px] text-slate-500 mb-4">What treatments have been <strong>most harmful</strong>? (If none, write NONE)</p>
+        <textarea x-model="formData.HPPD_Harmful" class="bg-slate-50 h-20 mb-6"></textarea>
+
+        <!--p class="font-bold text-sm mb-2 italic">HPPD_Comments.</p-->
+        <p class="text-[10px] text-slate-500 mb-4">Any additional comments on treatment you have tried:</p>
+        <textarea x-model="formData.HPPD_Comments" class="bg-slate-50 h-20"></textarea>
+    </div>
+</div>
+<!-- PAGE 36: WORSENING FACTORS & GAD INTRO -->
+<div x-show="step === 32" class="space-y-8">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Worsened.length === 0 ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4">Do any of the following worsen your HPPD symptoms? (Select all that apply)</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <template x-for="item in worsenedList">
+                <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                    <input type="checkbox" :value="item" x-model="formData.HPPD_Worsened" @change="toggleWorsened(item)" class="w-5 h-5 text-blue-600 rounded">
+                    <span class="ml-3 text-xs font-bold capitalize" x-text="item"></span>
+                </label>
+            </template>
+        </div>
+        <input x-show="formData.HPPD_Worsened.includes('other')" type="text" x-model="formData.HPPD_Worsened_Other" placeholder="Specify other factor..." class="mt-3 bg-blue-50">
+    </div>
+
+    <div class="section-card bg-blue-900 border-0 shadow-xl">
+        <!--h3 class="font-black text-xs uppercase tracking-widest text-blue-300 mb-4">GAD Intro</h3-->
+        <p class="text-sm font-bold text-white mb-2 leading-relaxed">Thank you for your responses so far.</p>
+        <p class="text-xs text-blue-100 leading-relaxed opacity-80 italic">In this final part of the survey you'll be asked about recent symptoms or experiences you may have had, and about personality traits.</p>
+    </div>
+</div>
+
+<!-- PAGE 37: GAD-7 SCALE -->
+<div x-show="step === 33" class="space-y-6">
+    <div class="section-card bg-slate-50 border-slate-200">
+        <!--h2 class="font-bold text-lg text-slate-800">GAD</h2-->
+        <p class="text-sm text-slate-500 italic">Over the last <strong>two weeks</strong>, how often have you been bothered by any of the following problems?</p>
+    </div>
+
+    <template x-for="(q, idx) in gadQuestions" :key="idx">
+        <div class="section-card" :class="errorMsg && formData.GAD[idx] === undefined ? 'border-red-500' : ''">
+            <p class="text-sm font-bold text-slate-800 mb-4" x-text="`${idx+1}. ${q}`"></p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <template x-for="ans in ['Not at all', 'Several days', 'More than half the days', 'Nearly everyday']">
+                    <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer hover:bg-blue-50 transition">
+                        <input type="radio" :name="'gad_'+idx" :value="ans" x-model="formData.GAD[idx]" class="w-5 h-5 text-blue-600 mb-2">
+                        <span class="text-[9px] font-black uppercase text-center text-slate-400" x-text="ans"></span>
+                    </label>
+                </template>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!-- PAGE 38: PHQ-9 SCALE -->
+<div x-show="step === 34" class="space-y-6">
+    <div class="section-card bg-slate-50 border-slate-200">
+        <!--h2 class="font-bold text-lg text-slate-800">PHQ</h2-->
+        <p class="text-sm text-slate-500 italic">Over the last <strong>two weeks</strong>, how long have you been bothered by any of the following problems?</p>
+    </div>
+
+    <template x-for="(q, idx) in phqQuestions" :key="idx">
+        <div class="section-card" :class="errorMsg && formData.PHQ[idx] === undefined ? 'border-red-500' : ''">
+            <p class="text-sm font-bold text-slate-800 mb-4" x-text="`${idx+1}. ${q}`"></p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <template x-for="ans in ['Not at all', 'Several Days', 'More than half the days', 'Nearly every day']">
+                    <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer hover:bg-blue-50 transition">
+                        <input type="radio" :name="'phq_'+idx" :value="ans" x-model="formData.PHQ[idx]" class="w-5 h-5 text-blue-600 mb-2">
+                        <span class="text-[9px] font-black uppercase text-center text-slate-400" x-text="ans"></span>
+                    </label>
+                </template>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!-- PAGE 39 & 40: UEQ SCALE (0-10 DISTRESS) -->
+<div x-show="step === 35 || step === 36" class="space-y-6">
+    <div class="section-card bg-slate-800 text-white border-0">
+        <!--h2 class="font-bold text-lg">UEQ</h2-->
+        <p class="text-xs leading-relaxed opacity-80">In the past <strong>month</strong>, have you had the following thoughts, feelings, or experiences? If yes, indicate how distressing that experience has been for you, using a scale of <strong>0 to 10</strong> (0 = none, 10 = severe). If no, check "No."</p>
+    </div>
+
+    <template x-for="(q, idx) in (step === 35 ? ueqQuestions.slice(0,8) : ueqQuestions.slice(8,18))" :key="step + idx">
+        <div class="section-card" :class="errorMsg && formData.UEQ[step === 35 ? idx : idx+8] === undefined ? 'border-red-500' : ''">
+            <p class="text-xs font-bold text-slate-800 mb-6 leading-relaxed" x-text="q"></p>
+            
+            <div class="flex flex-col space-y-4">
+                <!-- 0-10 Scale -->
+                <div class="flex flex-wrap gap-1 justify-between">
+                    <template x-for="n in [0,1,2,3,4,5,6,7,8,9,10]">
+                        <label class="flex flex-col items-center flex-1 min-w-[30px] p-1 border border-slate-100 rounded hover:bg-blue-50 cursor-pointer">
+                            <input type="radio" :name="'ueq_'+idx" :value="n" x-model="formData.UEQ[step === 35 ? idx : idx+8]" class="w-4 h-4 mb-1">
+                            <span class="text-[8px] font-bold text-slate-400" x-text="n"></span>
+                        </label>
+                    </template>
+                    <!-- "No" Option -->
+                    <label class="flex flex-col items-center min-w-[45px] p-1 border-2 border-red-100 rounded-xl bg-red-50 hover:bg-red-100 cursor-pointer">
+                        <input type="radio" :name="'ueq_'+idx" value="No" x-model="formData.UEQ[step === 35 ? idx : idx+8]" class="w-4 h-4 mb-1">
+                        <span class="text-[8px] font-black text-red-600">NO</span>
+                    </label>
+                </div>
+                <div class="flex justify-between px-1 text-[7px] font-black uppercase text-slate-300">
+                    <span>None (0)</span>
+                    <span>Severe (10)</span>
+                    <span>Didn't happen</span>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+<!-- PAGE 41: UEQ CONCLUSION -->
+<div x-show="step === 37" class="space-y-6">
+    <div class="section-card bg-slate-800 text-white border-0 shadow-xl">
+        <!--h2 class="font-bold text-lg">UEQ (Continued)</h2-->
+        <p class="text-xs opacity-80">Indicate distress levels for the following (0-10 or No).</p>
+    </div>
+
+    <template x-for="(q, idx) in ueqFinalQuestions" :key="'ueq_f'+idx">
+        <div class="section-card" :class="errorMsg && formData.UEQ_Final[idx] === undefined ? 'border-red-500' : ''">
+            <p class="text-xs font-bold text-slate-800 mb-6 leading-relaxed" x-text="q"></p>
+            <div class="flex flex-col space-y-4">
+                <div class="flex flex-wrap gap-1 justify-between">
+                    <template x-for="n in [0,1,2,3,4,5,6,7,8,9,10]">
+                        <label class="flex flex-col items-center flex-1 min-w-[30px] p-1 border border-slate-100 rounded hover:bg-blue-50 cursor-pointer">
+                            <input type="radio" :name="'ueqf_'+idx" :value="n" x-model="formData.UEQ_Final[idx]" class="w-4 h-4 mb-1">
+                            <span class="text-[8px] font-bold text-slate-400" x-text="n"></span>
+                        </label>
+                    </template>
+                    <label class="flex flex-col items-center min-w-[45px] p-1 border-2 border-red-100 rounded-xl bg-red-50 hover:bg-red-100 cursor-pointer">
+                        <input type="radio" :name="'ueqf_'+idx" value="No" x-model="formData.UEQ_Final[idx]" class="w-4 h-4 mb-1">
+                        <span class="text-[8px] font-black text-red-600">NO</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!-- PAGE 42 & 43: IPIMini PERSONALITY SCALE -->
+<div x-show="step === 38 || step === 39" class="space-y-6">
+    <div class="section-card bg-slate-50 border-slate-200">
+        <!--h2 class="font-black text-lg text-slate-800 uppercase tracking-tighter">IPI Mini</h2-->
+        <p class="text-xs text-slate-500 italic leading-relaxed">Below are phrases that describe behaviors and personality traits. Please select how accurate or inaccurate each statement is about you as you <strong>really are</strong>.</p>
+    </div>
+
+    <template x-for="(q, idx) in (step === 38 ? ipiQuestions.slice(0,15) : ipiQuestions.slice(15,20))" :key="'ipi'+idx">
+        <div class="section-card" :class="errorMsg && formData.IPIMini[step === 38 ? idx : idx+15] === undefined ? 'border-red-500' : ''">
+            <p class="text-sm font-bold text-slate-800 mb-6" x-text="q"></p>
+            <div class="grid grid-cols-5 gap-1 text-center">
+                <template x-for="ans in ['Very inaccurate', 'Moderately inaccurate', 'Neither', 'Moderately accurate', 'Very Accurate']">
+                    <label class="flex flex-col items-center p-2 border border-slate-100 rounded-xl hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" :name="'ipi_q'+(step === 38 ? idx : idx+15)" :value="ans" x-model="formData.IPIMini[step === 38 ? idx : idx+15]" class="w-4 h-4 mb-2">
+                        <span class="text-[6px] font-black uppercase text-slate-400 leading-none" x-text="ans"></span>
+                    </label>
+                </template>
+            </div>
+        </div>
+    </template>
+</div>
+
+<!-- PAGE 44: BDES SCALE & FINAL COMMENTS -->
+<div x-show="step === 40" class="space-y-8">
+    <div class="section-card bg-indigo-900 text-white border-0 shadow-2xl">
+        <!--h2 class="font-black text-lg uppercase tracking-widest">BDES</h2-->
+        <p class="text-xs opacity-80 italic">Brief Dissociative Experiences Scale: how much of each experience has happened to you in the past <strong>7 days</strong>?</p>
+    </div>
+
+    <template x-for="(q, idx) in bdesQuestions" :key="'bdes'+idx">
+        <div class="section-card" :class="errorMsg && formData.BDES[idx] === undefined ? 'border-red-500' : ''">
+            <p class="text-xs font-bold text-slate-700 mb-4 leading-relaxed" x-text="q"></p>
+            <div class="grid grid-cols-5 gap-1">
+                <template x-for="ans in ['Not at all', 'Once or twice', 'Almost every day', 'About once a day', 'More than once a day']">
+                    <label class="flex flex-col items-center p-2 border border-slate-100 rounded hover:bg-indigo-50 cursor-pointer">
+                        <input type="radio" :name="'bdes_'+idx" :value="ans" x-model="formData.BDES[idx]" class="w-4 h-4 mb-2">
+                        <span class="text-[6px] font-black uppercase text-center text-slate-400 leading-none" x-text="ans"></span>
+                    </label>
+                </template>
+            </div>
+        </div>
+    </template>
+
+    <!-- FINAL COMMENTS SECTION -->
+    <div class="section-card" :class="errorMsg && (formData.Final_Comments_Toggle === 'Yes' && !formData.Final_Comments_Text) ? 'border-red-500' : ''">
+        <p class="font-bold text-sm mb-4">Do you have any final comments or feedback you wish to provide before submitting your response?</p>
+        <div class="flex gap-8 mb-6">
+            <label class="flex items-center"><input type="radio" x-model="formData.Final_Comments_Toggle" value="Yes" class="mr-2"> Yes</label>
+            <label class="flex items-center"><input type="radio" x-model="formData.Final_Comments_Toggle" value="No" class="mr-2"> No</label>
+        </div>
+        <textarea x-show="formData.Final_Comments_Toggle === 'Yes'" x-model="formData.Final_Comments_Text" class="h-32 bg-slate-50 border-slate-200" placeholder="Your final thoughts..."></textarea>
+    </div>
+
+    <div class="p-8 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
+        <p class="text-xs text-slate-400 uppercase font-black tracking-widest mb-2">End of Survey</p>
+        <p class="text-sm text-slate-500">Please review your answers. Clicking "Submit" will record your response.</p>
+    </div>
+</div>
+<!-- PAGE 45: FULL CASE REPORT LOG (Logging every page) -->
+<div x-show="step === 'LOG'" class="print:m-0 print:p-0">
+    
+    <!-- Control Banner -->
+    <div class="print:hidden flex justify-between items-center mb-8 bg-blue-600 p-6 rounded-2xl shadow-xl">
+        <div class="text-white">
+            <h2 class="text-xl font-black">All Data Logged Successfully</h2>
+            <p class="text-xs opacity-80 uppercase tracking-widest">Click below to generate the PDF file</p>
+        </div>
+        <button @click="printTranscript" class="bg-white text-blue-600 px-8 py-3 rounded-xl font-black shadow-lg hover:bg-blue-50 transition uppercase text-xs">
+            Save as PDF / Print
+        </button>
+    </div>
+
+    <!-- START OF TRANSCRIPT -->
+    <div class="bg-white p-6 md:p-10 border border-slate-300 print:border-0 print:p-0 font-sans text-[10px] leading-tight text-slate-900">
+        
+        <!-- Clinical Header -->
+        <!--div class="border-b-4 border-black pb-4 mb-6 flex justify-between items-end">
+            <div>
+                <h1 class="text-lg font-black uppercase">HPPD Research Protocol: IRB00384491</h1>
+                <p class="font-bold">Full Case Report Form (CRF) - Transcript</p>
+            </div>
+            <div class="text-right font-mono text-[8px]">
+                <p x-text="`Record Generated: ${completionTimestamp}`"></p>
+                <p>Status: VERIFIED & COMPLETE</p>
+            </div>
+        </div-->
+
+        <!-- MODULE 1: CONSENT & DEMOGRAPHICS -->
+        <div class="mb-6">
+            <h3 class="bg-black text-white p-1 font-bold uppercase mb-2">Module 1: Participant Baseline (Pages 1-8)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <template x-for="(val, key) in {
+                    'Consent_Sign (Eligibility)': formData.Consent_Sign,
+                    'Demo_Age (Current Age)': formData.Demo_Age,
+                    'Demo_Gender': formData.Demo_Gender + (formData.Demo_Gender_Other ? ': '+formData.Demo_Gender_Other : ''),
+                    'Demo_Sex (Biological)': formData.Demo_Sex,
+                    'Demo_Relationship': formData.Demo_Relationship,
+                    'Demo_Race': formData.Demo_Race.join(', ') + (formData.Demo_Race_Other ? ': '+formData.Demo_Race_Other : ''),
+                    'Demo_Country': formData.Demo_Country + (formData.Demo_Country_Other ? ': '+formData.Demo_Country_Other : ''),
+                    'Demo_USState': formData.Demo_USState || 'N/A',
+                    'Demo_Education': formData.Demo_Education,
+                    'Demo_Employment': formData.Demo_Employment,
+                    'Demo_Income': formData.Demo_Income
+                }">
+                    <tr>
+                        <td class="border border-slate-300 p-1 font-bold w-1/3 bg-slate-50" x-text="key"></td>
+                        <td class="border border-slate-300 p-1" x-text="val"></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+
+        <!-- MODULE 2: PRIOR MEDICAL (Page 9-10) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 2: Pre-HPPD Medical & Family (Page 9-10)</h3>
+            <div class="border border-slate-400 p-2 mb-2">
+                <p><strong>PreHPPD_PriorCond:</strong> <span x-text="formData.PreHPPD_PriorCond.join(', ')"></span></p>
+                <p><strong>PreHPPD_MHdiagnosis:</strong> <span x-text="formData.PreHPPD_MHdiagnosis"></span></p>
+                <p><strong>PreHPPD_SigHealth:</strong> <span x-text="formData.PreHPPD_SigHealth_Details || 'No'"></span></p>
+            </div>
+            <!-- Family Matrix -->
+            <table class="w-full border-collapse border border-slate-400">
+                <thead class="bg-slate-100 font-bold text-[8px]">
+                    <tr><th class="border border-slate-400 p-1">Condition</th><th class="border border-slate-400 p-1 text-center">1st Deg Relative</th><th class="border border-slate-400 p-1 text-center">2nd Deg Relative</th></tr>
+                </thead>
+                <tbody>
+                    <template x-for="item in familyList">
+                        <tr>
+                            <td class="border border-slate-300 p-1 font-bold" x-text="item"></td>
+                            <td class="border border-slate-300 p-1 text-center" x-text="formData.PreHPPD_Fam[item+'_1st'] ? 'TRUE' : '-'"></td>
+                            <td class="border border-slate-300 p-1 text-center" x-text="formData.PreHPPD_Fam[item+'_2nd'] ? 'TRUE' : '-'"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MODULE 3: PRIOR SUBSTANCES (Page 11) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 3: Pre-HPPD Substance History (Page 11)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <thead class="bg-slate-100">
+                    <tr><th class="border border-slate-400 p-1 text-left">Substance Name</th><th class="border border-slate-400 p-1 text-center">Reported Frequency</th></tr>
+                </thead>
+                <tbody>
+                    <template x-for="sub in subList">
+                        <tr>
+                            <td class="border border-slate-300 p-1 font-bold" x-text="sub"></td>
+                            <td class="border border-slate-300 p-1 text-center" x-text="formData.Substances[sub] || 'Never'"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MODULE 4: PQ16 CLINICAL SCALE (Page 13-15) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-blue-900 text-white p-1 font-bold uppercase mb-2">Module 4: PQ16 Scale & Distress Ratings (Page 13-15)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <thead class="bg-slate-50 font-bold">
+                    <tr><th class="border border-slate-400 p-1">Clinical Question Item</th><th class="border border-slate-400 p-1 text-center">Endorsement</th><th class="border border-slate-400 p-1 text-center">Distress Level</th></tr>
+                </thead>
+                <tbody>
+                    <template x-for="(q, idx) in pq16Questions">
+                        <tr>
+                            <td class="border border-slate-300 p-1 italic" x-text="q"></td>
+                            <td class="border border-slate-300 p-1 text-center font-bold" x-text="formData.PQ16_Endorse[idx]"></td>
+                            <td class="border border-slate-300 p-1 text-center" x-text="formData.PQ16_Endorse[idx] === 'True' ? formData.PQ16_Rate[idx] : '-'"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MODULE 5: HPPD CHARACTERISTICS (Page 16-25) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 5: HPPD Specific Diagnostics (Page 16-25)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <template x-for="(val, key) in {
+                    'HPPD_History': formData.HPPD_History + (formData.HPPD_History_Other ? ': '+formData.HPPD_History_Other : ''),
+                    'HPPD_Age (Onset)': formData.HPPD_Age,
+                    'HPPD_Healthcare': formData.HPPD_Healthcare,
+                    'HPPD_Providers': formData.HPPD_Providers.join(', '),
+                    'HPPD_VisualSymptoms': formData.HPPD_VisualSymptoms.join(', '),
+                    'HPPD_Symptoms (Accompanying)': formData.HPPD_Symptoms.join(', '),
+                    'HPPD_Beginning': formData.HPPD_Beginning,
+                    'HPPD_Trigger': formData.HPPD_Trigger + (formData.HPPD_Trigger_Other ? ': '+formData.HPPD_Trigger_Other : ''),
+                    'HPPD_Causative_Drugs': formData.HPPD_Drugs.join(', '),
+                    'HPPD_Subtype': formData.HPPD_Subtype,
+                    'HPPD_Progression': formData.HPPD_Progression
+                }">
+                    <tr>
+                        <td class="border border-slate-300 p-1 font-bold w-1/3 bg-slate-50" x-text="key"></td>
+                        <td class="border border-slate-300 p-1" x-text="val"></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+
+        <!-- MODULE 6: TREATMENT OUTCOMES (Page 28-35) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 6: Treatment Efficacy Log (Page 28-35)</h3>
+            <p class="font-bold text-slate-500 mb-1">Medication Classes Tried & Reported Effects:</p>
+            <div class="space-y-2">
+                <template x-for="category in [
+                    {name: 'Benzodiazepines', use: 'HPPD_Benzo_Use', effect: 'HPPD_Benzo_Effect'},
+                    {name: 'Antidepressants', use: 'HPPD_AntiDep_Use', effect: 'HPPD_AntiDep_Effect'},
+                    {name: 'Mood Stabilizers', use: 'HPPD_MoodStab_Use', effect: 'HPPD_MoodStab_Effect'},
+                    {name: 'Supplements', use: 'HPPD_Supp_Use', effect: 'HPPD_Supp_Effect'}
+                ]">
+                    <div x-show="formData[category.use].length > 0 && !formData[category.use].includes('None of the above')">
+                        <table class="w-full border-collapse border border-slate-400">
+                            <thead class="bg-slate-100"><tr x-show="true"><th class="p-1 border border-slate-400 text-left" colspan="2" x-text="category.name"></th></tr></thead>
+                            <template x-for="item in formData[category.use].filter(i => i !== 'None of the above')">
+                                <tr>
+                                    <td class="border border-slate-300 p-1 w-1/2" x-text="item"></td>
+                                    <td class="border border-slate-300 p-1 italic" x-text="formData[category.effect][item] || 'Not Rated'"></td>
+                                </tr>
+                            </template>
+                        </table>
+                    </div>
+                </template>
+            </div>
+            <div class="mt-4 p-2 bg-slate-50 border border-slate-300">
+                <p><strong>Most Effective Treatment:</strong> <span x-text="formData.HPPD_MostEffective"></span></p>
+                <p><strong>Most Harmful Treatment:</strong> <span x-text="formData.HPPD_Harmful"></span></p>
+            </div>
+        </div>
+
+        <!-- MODULE 7: CLINICAL SCALES (GAD, PHQ, BDES) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-black text-white p-1 font-bold uppercase mb-2">Module 7: Clinical Instruments (Page 37-44)</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <!-- GAD-7 -->
+                <table class="border-collapse border border-slate-400">
+                    <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">GAD-7 (Anxiety)</th></tr></thead>
+                    <template x-for="(q, idx) in gadQuestions">
+                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.GAD[idx]"></td></tr>
+                    </template>
+                </table>
+                <!-- PHQ-9 -->
+                <table class="border-collapse border border-slate-400">
+                    <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">PHQ-9 (Depression)</th></tr></thead>
+                    <template x-for="(q, idx) in phqQuestions">
+                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.PHQ[idx]"></td></tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+
+        <!-- FINAL COMMENTS -->
+        <div class="mt-10 pt-4 border-t-2 border-black break-inside-avoid">
+            <p class="font-bold uppercase underline mb-2">Final Comments (Comments_1):</p>
+            <div class="p-4 bg-slate-50 border border-slate-300 italic min-h-[60px]" x-text="formData.Final_Comments_Text || 'N/A'"></div>
+        </div>
+
+        <div class="mt-20 text-center text-[7px] text-slate-400 font-mono italic">
+            Certified Record - End of HPPD Clinical Transcript
+        </div>
+    </div>
+</div>
+    </main>
+
+    <!-- FOOTER NAV & ERROR BAR -->
+    <div x-show="!isTerminated" class="fixed bottom-0 left-0 right-0 z-50">
+        <div x-show="errorMsg" x-transition class="bg-red-600 text-white text-center py-3 text-[10px] font-black uppercase tracking-widest shadow-2xl">
+            <span x-text="errorMsg"></span>
+        </div>
+        <footer style="padding: 5px !important;" class="bg-white border-t p-6 flex justify-between items-center max-w-3xl mx-auto rounded-t-2xl shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+            <button @click="prev" :disabled="step === 1" class="px-8 py-3 rounded-xl border font-bold text-slate-400 disabled:opacity-20 transition hover:bg-slate-50">Back</button>
+            <button @click="next" class="px-14 py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all">Next</button>
+        </footer>
+    </div>
+</div>
+<script>
+function surveyApp() {
+    return {
+        step: 1,
+        isTerminated: false,
+        errorMsg: null,
+        formData: {
+                
+            // Demographics
+            Consent_Sign: null, Demo_Age: '', Demo_Gender: '', Demo_Gender_Other: '', 
+            Demo_Sex: '', Demo_Relationship: '', Demo_Race: [], Demo_Race_Other: '',
+            Demo_Hispanic: '', Demo_Country: 'United States of America', Demo_Country_Other: '', 
+            Demo_USState: '', Demo_Education: '', Demo_Employment: '', Demo_Income: '',
+            
+            // Prior Health
+            PreHPPD_PriorCond: [], PreHPPD_PriorCond_Details: {}, PreHPPD_MHdiagnosis: '', 
+            PreHPPD_SigHealth_Toggle: '', PreHPPD_SigHealth_Details: '', PreHPPD_Fam: {}, 
+            Substances: {}, Substances_Other_Text: '',
+
+            // Clinical Scales
+
+              PQ16_Endorse: Array(16).fill(null), // Answers from Page 13/14
+            PQ16_Rate: Array(16).fill(null),    // Distress levels for Page 15/16
+            HPPD_History: '',
+            HPPD_History_Other: '',
+
+
+             HPPD_Age: '', HPPD_Healthcare: '',
+            HPPD_Providers: [], HPPD_Providers_Other: '',
+            HPPD_VisualSymptoms: [], HPPD_Learned: [], HPPD_Learned_Other: '',
+            HPPD_Perception: '', HPPD_Impairment: [], HPPD_Impairment_Other: '',
+            HPPD_Diagnosis: [], HPPD_Diagnosis_Other: '', HPPD_Diagnosis_Prior: [],
+               // HPPD Specifics
+                   HPPD_VisualSymptoms: [], // Stores selected checkboxes
+            HPPD_VisualSymptoms_Other: '', // Stores the "Other" text,
+            HPPD_Clarification: '', HPPD_Symptoms: [], HPPD_Symptoms_Other: '',
+            HPPD_Beginning: '', HPPD_Beginning_Other: '', HPPD_Trigger: '',
+            HPPD_Trigger_Plus: '', HPPD_Trigger_Other: '',
+             
+
+
+                       // PAGE 23
+            HPPD_Episodes: '',
+            HPPD_Episodes_Other: '',
+            HPPD_Drugs: [],
+            HPPD_Drugs_Other: '',
+            // PAGE 24
+            HPPD_Doses: {}, // Map of drug name to dose level
+            HPPD_AdditionalInfo: '',
+            HPPD_Unusual: '',
+            HPPD_Unusual_Text: '',
+
+            HPPD_Medications: '',
+            HPPD_Medications_Text: '',
+            HPPD_Progression: '',
+            HPPD_Subtype: '',
+
+
+            HPPD_Work: '',
+            HPPD_Disruption: {
+                'Work/school': null,
+                'Social life': null,
+                'Family life/home responsibilities': null
+                },
+            HPPD_Days_Lost: '',
+            HPPD_Unproductive: '',
+
+            // Page 28
+            HPPD_Benzo_Use: [], HPPD_Benzo_Other: '', HPPD_Benzo_Effect: {},
+            // Page 29
+            HPPD_AntiDep_Use: [], HPPD_AntiDep_Other: '',
+            // Page 30
+            HPPD_AntiDep_Effect: {}, 
+            HPPD_MoodStab_Use: [], HPPD_MoodStab_Other: '',
+
+             HPPD_AntiPsy_Use: [], HPPD_AntiPsy_Other: '', HPPD_AntiPsy_Effect: {},
+            HPPD_OtherMed_Use: [], HPPD_OtherMed_Other: '', HPPD_OtherMed_Effect: {},
+            HPPD_Supp_Use: [], HPPD_Supp_Other: '', HPPD_Supp_Effect: {},
+            HPPD_NonDrug_Use: [], HPPD_NonDrug_Other: '', HPPD_NonDrug_Effect: {},
+            HPPD_Alternatives: 'No', HPPD_Alternatives_Details: '',
+            HPPD_PsyUse: '', HPPD_PsyEffect: '', HPPD_PsyEffect_Other: '', HPPD_PsyEffect_TEXT: '',
+            HPPD_MostEffective: '', HPPD_Harmful: '', HPPD_Comments: '',
+
+           // PAGE 36
+            HPPD_Worsened: [],
+            HPPD_Worsened_Other: '',
+            // PAGE 37
+            GAD: {}, // Map of index to value
+            // PAGE 38
+            PHQ: {}, // Map of index to value
+            // PAGE 39 & 40
+            UEQ: {} , // Map of index to value
+
+            UEQ_Final: {},    // Index 18-19
+            IPIMini: {},     // 20 items (Map of index to value)
+            BDES: {},        // 8 items (Map of index to value)
+            Final_Comments_Toggle: '',
+            Final_Comments_Text: '',
+
+            HPPD_Med_Toggle: '',
+            HPPD_Med_Details: ''
+            
+
+        },
+pq16Questions: [
+    "I feel uninterested in the things I used to enjoy.",
+    "I often seem to live through events exactly as they happened before (déjà vu).",
+    "I sometimes smell or taste things that other people can’t smell or taste.",
+    "I often hear unusual sounds like banging, clicking, hissing, or ringing.",
+    "I have been confused at times whether something I experienced was real or imaginary.",
+    "When I look at a person or mirror, I have seen the face change right before my eyes.",
+    "I get extremely anxious when meeting people for the first time.",
+    "I have seen things that other people apparently can't see.",
+    "My thoughts are sometimes so strong that I can almost hear them.",
+    "I sometimes see special meanings in advertisements or shop windows.",
+    "Sometimes I have felt that I'm not in control of my own ideas.",
+    "Sometimes I feel suddenly distracted by distant sounds.",
+    "I have heard things other people can't hear.",
+    "I often feel that others have it in for me.",
+    "I have had the sense that some person or force is around me.",
+    "I feel that parts of my body have changed in some way."
+],
+visualSymptomsList: [
+            "Seeing objects that aren't there*",
+            "Seeing unusually sharp color contrasts",
+            "Seeing movement that isn't there*",
+            "Seeing an image within an image",
+            "Seeing flashes of color*",
+            "Seeing overlapping geometric patterns",
+            "Seeing intensified colors*",
+            "Objects are seen as slightly closer or further than they are",
+            "Seeing trails or traces of objects*",
+            "Perceiving different colors as a singular color",
+            "Seeing an image in your vision even after the original image is gone*",
+            "Objects appear to be fragmented",
+            "Seeing colored light around an object, or \"halos\"*",
+            "When one of the five senses (Sight, Sound, Smell, Taste and Touch) is affected, another unrelated sense also seems to be affected",
+            "Perceiving an image as smaller than it is*",
+            "Seeing light where there is no light",
+            "Perceiving an image as larger than it is*",
+            "Seeing faces in your field of vision",
+            "Seeing spots that seem to drift in front of your eye",
+            "Sudden difficulty with reading",
+            "Seeing dots, points, particles, mottles, or specks emerging in an obscure room",
+            "Seeing static or tiny black dots across your field of vision",
+            "A perception that a part of the object is the whole object (fractals)",
+            "Seeing repeating patterns",
+            "Other (please specify)"
+        ],
+              drugListDetailed: [
+            'LSD ("acid")', 
+            'psilocybin mushrooms', 
+            'ayahuasca', 
+            'mescaline (peyote, San Pedro cactus etc.)', 
+            'DMT (N,N-dimethyltryptamine)', 
+            '5-MeO-DMT', 
+            'MDMA (ecstasy)', 
+            'MDA', 
+            'cannabis (weed, marijuana)', 
+            'ketamine', 
+            'PCP (phencyclidine, angel dust)', 
+            'DXM (dextromethorphan)', 
+            'Salvia Divinorum', 
+            '2C-B', 
+            '2C-E', 
+            '2C-I', 
+            'Other'
+        ],
+        
+// List Definitions verbatim from PDF
+benzoList: ['clonazepam (Klonopin)', 'lorazepam (Ativan, Lorazepam Intensol)', 'chlordiazepoxide (Librium)', 'alprazolam (Xanax, Alprazolam Intensol)', 'diazepam (Valium)', 'Zolpidem (Ambien, Edluar, Intermezzo)', 'Zopiclone (Lunesta)', 'Zaleplon (Sonata)', 'Other benzodiazepine or z-drug', 'None of the above'],
+
+antiDepList: ['sertraline (Zoloft)', 'fluoxetine (Prozac, Sarafem)', 'escitalopram (Lexapro)', 'citalopram (Celexa)', 'paroxetine (Paxil, Pexeva)', 'venlafaxine (Effexor)', 'duloxetine (Cymbalta, Irenka)', 'trazodone (Desyrel)', 'bupropion (Wellbutrin)', 'vilazodone (Viibryd)', 'fluvoxamine (Luvox)', 'vortioexetine (Trinellix, Brintellix)', 'amitryptiline', 'nortriptyline', 'desipramine', 'tranylcypromine (Parnate)', 'phenelzine (Nardil)', 'other antidepressant', 'None of the above'],
+
+moodStabList: ['lithium', 'valproic acid (Depakote, Depakene)', 'lamotrigine (Lamictal)', 'gabapentin (Neurontin, Gralise, Horizant)', 'pregabalin (Lyrica)', 'topiramate (Topamax)', 'oxcarbazepine (Trileptal)', 'carbamazepine (Tegretol)', 'levetiracetam (Keppra, Spritam, Roweepra)', 'Other mood stabilizer or anticonvulsant', 'None of the above'],
+
+        // Data Lists
+        eduOptions: ['High school diploma or equivalent (GED)','Some college credit, no degree','Bachelor\'s Degree','Master\'s Degree','Doctoral Degree'],
+        familyList: ['HPPD','Visual snow','Schizophrenia','Major depressive disorder','Bipolar 1 or 2','Anxiety disorder','Psychiatric hospitalization','Seizure disorder'],
+        subHeaders: ['Never', '1-2', '3-5', '6-10', '11-24', '25-50', '51-100', '100+'],
+        subList: ['LSD ("acid")', 'Psilocybin (mushrooms)', 'MDMA (ecstasy)', 'Ayahuasca', 'Cannabis (weed)', 'Ketamine', 'Other'],
+        priorCondList: [{label:'Tinnitus',hasText:false},{label:'Eye floaters',hasText:false},{label:'Head trauma',hasText:false},{label:'Other headache disorder',hasText:true},{label:'Other neurological condition',hasText:true}],
+         gadQuestions: [
+            "Feeling nervous, anxious or on edge", "Not being able to stop or control worrying", 
+            "Worrying too much about different things", "Trouble relaxing", 
+            "Being so restless that it is hard to sit still", "Becoming easily annoyed or irritable", 
+            "Feeling afraid as if something awful may happen"
+        ],
+        // List Definitions Verbatim from PDF
+antiPsyList: ['risperidone (Risperdal)', 'aripiprazole (Abilify)', 'olanzapine (Zyprexa)', 'quetiapine (Seroquel)', 'lurasidone (Latuda)', 'haloperidol (Haldol)', 'clozapine (Clozaril)', 'cariprazine (Vraylar)', 'asenapine (Saphris)', 'other antipsychotic or neuroleptic', 'None of the above'],
+
+otherMedList: ['clonidine (Catapres)', 'amphetamine or dextroamphetamine (Adderall)', 'methylphenidate or dexmethylphenidate (Ritalin, Focalin)', 'propranolol (Inderal)', 'atenolol (Tenormin)', 'naltrexone (Vivitrol, Revia)', 'reboxetine (Edronax)', 'buspirone (Buspar)', 'ketamine (prescribed by a doctor)', 'esketamine (Spravato)', 'Other', 'None of the above'],
+
+suppList: ['Ashwagandha', 'Lion\'s mane mushroom', 'St. John\'s wort (Hypericum perforatum)', 'Kava kava', 'Kratom', 'Valerian', 'Gingko biloba', 'Magnesium (any form or magnesium salt)', 'Rhodiola Rosea', 'Muscimol', 'Other supplement or herb', 'None of the above'],
+
+nonDrugList: ['Cognitive Behavioral Therapy (CBT)', 'Eye movement desensitization and reprocessing (EMDR) therapy', 'Other psychotherapy', 'Hypnosis', 'Biofeedback and Neurofeedback', 'Yoga', 'meditation', 'accupuncture', 'Transcranial magnetic stimulation (TMS)', 'Electroconvulsive therapy (ECT)', 'Other (Please specify)', 'None of the above'],
+
+
+      // STATIC DATA LISTS
+        worsenedList: ['caffeine', 'alcohol', 'cannabis', 'sleep deprivation', 'stress', 'headache', 'exercise', 'other', 'None of the above'],
+        
+        gadQuestions: [
+            "Feeling nervous, anxious or on edge",
+            "Not being able to stop or control worrying",
+            "Worrying too much about different things",
+            "Trouble relaxing",
+            "Being so restless that it is hard to sit still",
+            "Becoming easily annoyed or irritable",
+            "Feeling afraid as if something awful may happen"
+        ],
+
+        phqQuestions: [
+            "Little interest or pleasure in doing things",
+            "Feeling down, depressed, or hopeless",
+            "Trouble falling or staying asleep, or sleeping too much",
+            "Feeling tired or having little energy",
+            "Poor appetite or overeating",
+            "Feeling bad about yourself--or that you are a failure or have let yourself or your family down",
+            "Trouble concentrating on things, such as reading the newspaper or watching television",
+            "Moving or speaking so slowly that other people have noticed. Or the opposite--being so fidgety or restless that you have been moving around a lot more than usual",
+            "Thoughts that you would be better off dead or of hurting yourself in some way"
+        ],
+
+        ueqQuestions: [
+            // Page 39 items
+            "Do familiar surroundings sometimes seem strange, confusing, threatening or unreal to you?",
+            "Have you heard unusual sounds like banging, clicking, hissing, clapping or ringing in your ears?",
+            "Do things that you see appear different from the way they usually are?",
+            "Have you had experiences with telepathy, psychic forces, or fortune telling?",
+            "Have you felt that you are not in control of your own ideas or thoughts?",
+            "Do you have difficulty getting your point across, because you ramble or go off the track a lot when you talk?",
+            "Do you have strong feelings or beliefs about being unusually gifted or talented in some way?",
+            "Do you feel that other people are watching you or talking about you?",
+            // Page 40 items
+            "Do you sometimes get strange feelings on or just beneath your skin, like bugs crawling?",
+            "Do you sometimes feel suddenly distracted by distant sounds that you are not normally aware of?",
+            "Have you had the sense that some person or force is around you, although you couldn't see anyone?",
+            "Do you worry at times that something may be wrong with your mind?",
+            "Have you ever felt that you don't exist, the world does not exist, or that you are dead?",
+            "Have you been confused at times whether something you experienced was real or imaginary?",
+            "Do you hold beliefs that other people would find unusual or bizarre?",
+            "Do you feel that parts of your body have changed in some way, or that parts of my body are working differently?",
+            "Are your thoughts sometimes so strong that you can almost hear them?",
+            "Do you find yourself feeling mistrustful or suspicious of other people?"
+        ],
+ueqFinalQuestions: [
+    "Have you seen unusual things like flashes, flames, blinding light, or geometric figures?",
+    "Have you seen things that other people can't see or don't seem to see?"
+],
+
+ipiQuestions: [
+    "I am the life of the party", "I sympathize with others' feelings", "I get chores done right away", 
+    "I have frequent mood swings", "I have a vivid imagination", "I don't talk a lot", 
+    "I am not interested in other people's problems", "I often forget to put things back in their proper place", 
+    "I am relaxed most of the time", "I am not interested in abstract ideas", "I talk to a lot of different people at parties", 
+    "I feel others' emotions", "I like order", "I get upset easily", "I have difficulty understanding abstract ideas", 
+    "I keep in the background", "I am not really interested in others", "I make a mess of things", 
+    "I seldom feel blue", "I do not have a good imagination"
+],
+
+bdesQuestions: [
+    "I find myself staring in to space and thinking of nothing",
+    "People, objects, or the world around me seem strange or unreal",
+    "I find that I did things that I do not remember doing",
+    "When I am alone, I talk out loud to myself",
+    "I feel as though I were looking at the world through a fog so that people and things seem far away or unclear",
+    "I am able to ignore pain",
+    "I act so differently from one situation to another that it is almost as if I were two different people",
+    "I can do things very easily that would usually be hard for me"
+],
+        toggleWorsened(val) {
+            if (val === 'None of the above') {
+                this.formData.HPPD_Worsened = ['None of the above'];
+            } else {
+                this.formData.HPPD_Worsened = this.formData.HPPD_Worsened.filter(i => i !== 'None of the above');
+            }
+        },
+
+// Helper to handle "None of the above" behavior
+toggleNone(field, value) {
+    if (value === 'None of the above') {
+        this.formData[field] = ['None of the above'];
+    } else {
+        this.formData[field] = this.formData[field].filter(i => i !== 'None of the above');
+    }
+}, 
+
+next() {
+    this.errorMsg = null;
+
+    // PAGE 5: Eligibility
+    if (this.step === 1) {
+        if (!this.formData.Consent_Sign) { this.errorMsg = "REQUIRED: PLEASE CONFIRM ELIGIBILITY."; return; }
+        if (this.formData.Consent_Sign === 'no') { this.errorMsg = "As your age is less than 18, you are not eligible to participate in this study.";  return; }
+        if (!this.formData.Demo_Age || this.formData.Demo_Age < 18) { this.errorMsg = "ERROR: AGE MUST BE 18 OR OLDER."; return; }
+    }
+
+    if (this.step === 2) {
+        if (!this.formData.Demo_Gender) { this.errorMsg = "REQUIRED: PLEASE SELECT YOUR GENDER."; return; }
+        if (this.formData.Demo_Gender_Other && !this.formData.Demo_Gender.trim()) {
+                    this.errorMsg = "PLEASE SPECIFY YOUR OTHER GENDER.";
+                    return;
+                }
+    }
+
+     // PAGE 14 BRANCHING: 
+            // If user answered NO items as "True", skip 15 & 16 entirely and go to 17
+            if (this.step === 10) {
+                const hasTrue = this.formData.PQ16_Endorse.includes('True');
+                this.step = hasTrue ? 11 : 13;
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                return;
+            }
+
+            // PAGE 15/16 VALIDATION: 
+            // If they marked "True" on 13/14, they MUST select a distress level
+            if (this.step === 11 || this.step === 12) {
+                const start = this.step === 11 ? 0 : 9;
+                const end = this.step === 11 ? 9 : 16;
+                for (let i = start; i < end; i++) {
+                    if (this.formData.PQ16_Endorse[i] === 'True' && !this.formData.PQ16_Rate[i]) {
+                        this.errorMsg = "PLEASE RATE THE DISTRESS FOR ALL MARKED SYMPTOMS.";
+                        return;
+                    }
+                }
+            }
+
+   // PAGE 20 VALIDATION: Ensure "Other" text is filled if checked
+            if (this.step === 16) {
+                if (this.formData.HPPD_VisualSymptoms.length === 0) {
+                    this.errorMsg = "PLEASE SELECT AT LEAST ONE SYMPTOM.";
+                    return;
+                }
+                if (this.formData.HPPD_VisualSymptoms.includes('Other (please specify)') && !this.formData.HPPD_VisualSymptoms_Other.trim()) {
+                    this.errorMsg = "PLEASE SPECIFY YOUR OTHER SYMPTOMS IN THE TEXT BOX.";
+                    return;
+                }
+            }
+
+        // PAGE 23 VALIDATION
+            if (this.step === 19) {
+                if (!this.formData.HPPD_Episodes) { this.errorMsg = "PLEASE SELECT EPISODE TYPE."; return; }
+                if (this.formData.HPPD_Drugs.length === 0) { this.errorMsg = "PLEASE SELECT AT LEAST ONE DRUG."; return; }
+                if (this.formData.HPPD_Drugs.includes('Other') && !this.formData.HPPD_Drugs_Other.trim()) {
+                    this.errorMsg = "PLEASE SPECIFY THE OTHER DRUG."; return;
+                }
+            }
+
+            // PAGE 24 VALIDATION
+            if (this.step === 20) {
+                // Check if all selected drugs have a dose
+                let missingDose = false;
+                this.formData.HPPD_Drugs.forEach(d => { if(!this.formData.HPPD_Doses[d]) missingDose = true; });
+                if (missingDose) { this.errorMsg = "PLEASE SELECT A DOSE FOR EVERY DRUG LISTED."; return; }
+                
+                // Check Unusual Status
+                if (!this.formData.HPPD_Unusual) { this.errorMsg = "PLEASE SELECT IF THE EPISODE WAS UNUSUAL."; return; }
+                
+                // Check Unusual Text if Yes/Maybe
+                if ((this.formData.HPPD_Unusual === 'Yes' || this.formData.HPPD_Unusual === 'Maybe') && !this.formData.HPPD_Unusual_Text.trim()) {
+                    this.errorMsg = "PLEASE DESCRIBE WHAT WAS UNUSUAL ABOUT THE EPISODE."; return;
+                }
+            }
+
+              // PAGE 25 VALIDATION
+    if (this.step === 21) {
+        // If they chose 'Yes' for medications, text is required
+        if (this.formData.HPPD_Medications === 'Yes' && !this.formData.HPPD_Medications_Text.trim()) {
+            this.errorMsg = "PLEASE LIST THE MEDICATIONS OR SUPPLEMENTS YOU WERE TAKING.";
+            return;
+        }
+        // Progression and Subtype are mandatory
+        if (!this.formData.HPPD_Progression || !this.formData.HPPD_Subtype) {
+            this.errorMsg = "PLEASE ANSWER ALL QUESTIONS REGARDING YOUR CONDITION'S PROGRESSION AND SUBTYPE.";
+            return;
+        }
+    }
+   // PAGE 26 VALIDATION
+    if (this.step === 22) {
+        if (!this.formData.HPPD_Work) { this.errorMsg = "PLEASE INDICATE YOUR WORK STATUS FOR THE PAST WEEK."; return; }
+        
+        // Ensure all 3 disruption areas are rated
+        let missingRating = false;
+        Object.values(this.formData.HPPD_Disruption).forEach(val => { if(val === null) missingRating = true; });
+        if (missingRating) { this.errorMsg = "PLEASE RATE THE DISRUPTION FOR ALL THREE AREAS."; return; }
+        
+        if (this.formData.HPPD_Days_Lost === '') { this.errorMsg = "PLEASE INDICATE THE NUMBER OF DAYS LOST."; return; }
+    }
+
+    // PAGE 27 VALIDATION
+    if (this.step === 23) {
+        if (this.formData.HPPD_Unproductive === '') { this.errorMsg = "PLEASE INDICATE THE NUMBER OF DAYS PRODUCTIVITY WAS REDUCED."; return; }
+    }
+ // PAGE 28 VALIDATION
+    if (this.step === 24) {
+        if (this.formData.HPPD_Benzo_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION OR 'NONE OF THE ABOVE'."; return; }
+        if (this.formData.HPPD_Benzo_Use.includes('Other benzodiazepine or z-drug') && !this.formData.HPPD_Benzo_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER MEDICATION."; return; }
+        // Ensure effects are rated
+        for (let med of this.formData.HPPD_Benzo_Use) {
+            if (med !== 'None of the above' && !this.formData.HPPD_Benzo_Effect[med]) {
+                this.errorMsg = "PLEASE RATE THE EFFECT FOR ALL SELECTED MEDICATIONS."; return;
+            }
+        }
+    }
+
+    // PAGE 29 VALIDATION
+    if (this.step === 25) {
+        if (this.formData.HPPD_AntiDep_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
+        if (this.formData.HPPD_AntiDep_Use.includes('other antidepressant') && !this.formData.HPPD_AntiDep_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER ANTIDEPRESSANT."; return; }
+    }
+
+    // PAGE 30 VALIDATION
+    if (this.step === 26) {
+        // Check AntiDep effects
+        for (let med of this.formData.HPPD_AntiDep_Use) {
+            if (med !== 'None of the above' && !this.formData.HPPD_AntiDep_Effect[med]) {
+                this.errorMsg = "PLEASE RATE THE EFFECT OF YOUR ANTIDEPRESSANTS."; return;
+            }
+        }
+        // Check MoodStab Selection
+        if (this.formData.HPPD_MoodStab_Use.length === 0) { this.errorMsg = "PLEASE SELECT A MOOD STABILIZER OR 'NONE'."; return; }
+        if (this.formData.HPPD_MoodStab_Use.includes('Other mood stabilizer or anticonvulsant') && !this.formData.HPPD_MoodStab_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER MEDICATION."; return; }
+    }
+     // PAGE 31: Antipsychotics Validation
+    if (this.step === 27) {
+        if (this.formData.HPPD_AntiPsy_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
+        if (this.formData.HPPD_AntiPsy_Use.includes('other antipsychotic or neuroleptic') && !this.formData.HPPD_AntiPsy_Other) { this.errorMsg = "SPECIFY THE OTHER ANTIPSYCHOTIC."; return; }
+        for (let m of this.formData.HPPD_AntiPsy_Use) { if (m !== 'None of the above' && !this.formData.HPPD_AntiPsy_Effect[m]) { this.errorMsg = "RATE THE EFFECT FOR ALL SELECTED."; return; } }
+    }
+
+    // PAGE 32: Other Prescriptions Validation
+    if (this.step === 28) {
+        if (this.formData.HPPD_OtherMed_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
+        for (let m of this.formData.HPPD_OtherMed_Use) { if (m !== 'None of the above' && !this.formData.HPPD_OtherMed_Effect[m]) { this.errorMsg = "RATE THE EFFECT FOR ALL SELECTED."; return; } }
+    }
+
+    // PAGE 33: Supplements Validation
+    if (this.step === 29) {
+        if (this.formData.HPPD_Supp_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
+        for (let m of this.formData.HPPD_Supp_Use) { if (m !== 'None of the above' && !this.formData.HPPD_Supp_Effect[m]) { this.errorMsg = "RATE THE EFFECT FOR ALL SELECTED."; return; } }
+    }
+
+    // PAGE 35: Final Treatment Questions
+    if (this.step === 31) {
+        if (!this.formData.HPPD_PsyUse) { this.errorMsg = "INDICATE IF YOU HAVE USED PSYCHEDELICS AGAIN."; return; }
+        if (this.formData.HPPD_PsyUse === 'Yes') {
+            if (!this.formData.HPPD_PsyEffect || !this.formData.HPPD_PsyEffect_TEXT) { this.errorMsg = "DESCRIBE THE EFFECTS OF THE PSYCHEDELIC USE."; return; }
+        }
+        if (!this.formData.HPPD_MostEffective || !this.formData.HPPD_Harmful) { this.errorMsg = "PLEASE IDENTIFY THE MOST AND LEAST EFFECTIVE TREATMENTS (OR WRITE NONE)."; return; }
+    }
+            // PAGE 36 VALIDATION
+            if (this.step === 32) {
+                if (this.formData.HPPD_Worsened.length === 0) { this.errorMsg = "PLEASE SELECT WHAT WORSENS YOUR SYMPTOMS."; return; }
+                if (this.formData.HPPD_Worsened.includes('other') && !this.formData.HPPD_Worsened_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER TRIGGER."; return; }
+            }
+
+            // PAGE 37 VALIDATION (GAD-7)
+            if (this.step === 33) {
+                if (Object.keys(this.formData.GAD).length < 7) { this.errorMsg = "PLEASE ANSWER ALL 7 QUESTIONS REGARDING ANXIETY."; return; }
+            }
+
+            // PAGE 38 VALIDATION (PHQ-9)
+            if (this.step === 34) {
+                if (Object.keys(this.formData.PHQ).length < 9) { this.errorMsg = "PLEASE ANSWER ALL 9 QUESTIONS REGARDING DEPRESSION."; return; }
+            }
+
+            // PAGE 39 VALIDATION (UEQ Part 1)
+            if (this.step === 35) {
+                if (Object.keys(this.formData.UEQ).filter(k => k < 8).length < 8) { this.errorMsg = "PLEASE COMPLETE ALL ITEMS ON THIS PAGE."; return; }
+            }
+
+            // PAGE 40 VALIDATION (UEQ Part 2)
+            if (this.step === 36) {
+                if (Object.keys(this.formData.UEQ).filter(k => k >= 8).length < 10) { this.errorMsg = "PLEASE COMPLETE ALL ITEMS ON THIS PAGE."; return; }
+            }
+
+                // PAGE 41 VALIDATION (UEQ Conclusion)
+    if (this.step === 37) {
+        if (Object.keys(this.formData.UEQ_Final).length < 2) { this.errorMsg = "PLEASE COMPLETE ALL ITEMS."; return; }
+    }
+
+    // PAGE 42 & 43 VALIDATION (IPI Mini)
+    if (this.step === 38) {
+        if (Object.keys(this.formData.IPIMini).filter(k => k < 15).length < 15) { this.errorMsg = "PLEASE ANSWER ALL 15 QUESTIONS ON THIS PAGE."; return; }
+    }
+    if (this.step === 39) {
+        if (Object.keys(this.formData.IPIMini).length < 20) { this.errorMsg = "PLEASE ANSWER THE REMAINING PERSONALITY QUESTIONS."; return; }
+    }
+
+ /*  // PAGE 44 VALIDATION (BDES & FINAL)
+    if (this.step === 44) {
+        if (Object.keys(this.formData.BDES).length < 8) { this.errorMsg = "PLEASE COMPLETE THE DISSOCIATIVE EXPERIENCES SCALE."; return; }
+        if (!this.formData.Final_Comments_Toggle) { this.errorMsg = "PLEASE INDICATE IF YOU HAVE FINAL COMMENTS."; return; }
+        if (this.formData.Final_Comments_Toggle === 'Yes' && !this.formData.Final_Comments_Text.trim()) { this.errorMsg = "PLEASE ENTER YOUR FEEDBACK IN THE BOX."; return; }
+        
+        // FINAL SUBMISSION ACTION
+        alert("Thank you! Your responses have been validated and are ready for submission.");
+        console.log("Survey Result:", JSON.stringify(this.formData));
+        return;
+    }
+*/
+          if (this.step === 40) {
+        // Validation for final page
+        if (Object.keys(this.formData.BDES).length < 8) { this.errorMsg = "PLEASE COMPLETE ALL BDES ITEMS."; return; }
+        
+        // FINAL TRANSITION
+        this.step = 'LOG'; 
+        this.completionTimestamp = new Date().toLocaleString();
+        
+        // Force the browser to use a specific name when saving as PDF
+        const ts = new Date().toISOString().replace(/[-:T.]/g, "").slice(0, 14);
+        document.title = `HPPD_Survey_Transcript_${ts}`;
+        
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        return;
+    }
+
+    if (this.step < 40) {
+        this.step++;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+},
+
+
+
+// HELPER FOR PRINTING/SAVING
+downloadData() {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.formData, null, 4));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `HPPD_Survey_${timestamp}.json`);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+},
+
+printReport() {
+    window.print();
+},
+        prev() {
+            this.errorMsg = null;
+            // Handle reverse branching logic
+            if (this.step === 13) {
+                const hasTrue = this.formData.PQ16_Endorse.includes('True');
+                this.step = hasTrue ? 12 : 10;
+            } else if (this.step > 1) {
+                this.step--;
+            }
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    }
+}
+</script>
+</body>
+</html>
