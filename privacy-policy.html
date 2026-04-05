@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — QbitBrains LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+
+/* ══════════════════════════════════════════════════════════
+   TOKENS — QbitBrains Design System v4
+══════════════════════════════════════════════════════════ */
+:root {
+  --ink:         #0B0B0B;
+  --ink-2:       #111111;
+  --ink-3:       #171717;
+  --orange:      #F47A1F;
+  --orange-dk:   #D96A10;
+  --orange-glow: rgba(244,122,31,.09);
+  --orange-tint: rgba(244,122,31,.07);
+  --orange-bd:   rgba(244,122,31,.18);
+  --white:       #FFFFFF;
+  --off-white:   #FAFAFA;
+  --gray-bg:     #F4F4F4;
+  --border:      #E5E5E5;
+  --border-dk:   rgba(255,255,255,.07);
+  --body-txt:    #1A1A1A;
+  --muted:       #656565;
+  --muted-lt:    #979797;
+  --ftr-bg:      #080808;
+  --ftr-txt:     #818181;
+
+  --fh: 'Poppins', sans-serif;
+  --fb: 'Inter', sans-serif;
+
+  --max:    1200px;
+  --pad-x:  40px;
+  --sec:    116px;
+  --r:      9px;
+  --r-lg:   16px;
+  --hdr:    70px;
+
+  --s0: 0 1px 4px rgba(0,0,0,.04);
+  --s1: 0 2px 12px rgba(0,0,0,.06);
+  --s2: 0 6px 28px rgba(0,0,0,.09);
+  --s3: 0 14px 52px rgba(0,0,0,.13);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--fb);font-size:16px;line-height:1.7;
+  color:var(--body-txt);background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);}
+
+/* ══ TYPE ══════════════════════════════════════════════════ */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px;
+}
+.eyebrow::before{
+  content:'';display:block;width:18px;height:2px;
+  background:var(--orange);border-radius:2px;flex-shrink:0;
+}
+.eyebrow.lt{color:rgba(244,122,31,.82);}
+.eyebrow.lt::before{background:rgba(244,122,31,.82);}
+
+h2.sh{
+  font-family:var(--fh);font-weight:700;
+  font-size:clamp(27px,3vw,41px);
+  line-height:1.13;letter-spacing:-.018em;
+  color:var(--ink);margin-bottom:16px;
+}
+h2.sh.lt{color:#fff;}
+
+.desc{font-size:15.5px;color:var(--muted);line-height:1.88;max-width:520px;}
+.desc.lt{color:rgba(255,255,255,.48);}
+
+/* ══ BUTTONS ═══════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fh);font-size:13px;font-weight:600;
+  letter-spacing:.03em;border-radius:5px;
+  padding:13px 28px;cursor:pointer;
+  transition:all .18s ease;
+  border:1.5px solid transparent;
+  line-height:1;white-space:nowrap;
+}
+.btn-p{background:var(--orange);color:#fff;border-color:var(--orange);}
+.btn-p:hover{background:var(--orange-dk);border-color:var(--orange-dk);transform:translateY(-1px);box-shadow:0 6px 22px rgba(244,122,31,.38);}
+.btn-o{background:transparent;color:var(--orange);border-color:var(--orange);}
+.btn-o:hover{background:var(--orange);color:#fff;}
+.btn-g{background:transparent;color:rgba(255,255,255,.82);border-color:rgba(255,255,255,.28);}
+.btn-g:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.5);}
+.btn-lg{padding:15px 36px;font-size:14px;}
+
+/* ══ TOP CONTACT BAR ═══════════════════════════════════════ */
+.utility-bar{
+  background:var(--orange);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.utility-bar-in{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:8px 0;
+}
+.utility-left,
+.utility-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.utility-link,
+.utility-text{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  line-height:1;
+  color:rgba(255,255,255,.96);
+}
+.utility-link{
+  font-weight:500;
+  transition:opacity .15s ease;
+}
+.utility-link:hover{opacity:.86;}
+.utility-text{font-weight:500;}
+.utility-link svg,
+.utility-text svg{
+  width:13px;
+  height:13px;
+  color:rgba(255,255,255,.90);
+  flex-shrink:0;
+}
+.utility-divider{
+  width:1px;
+  height:12px;
+  background:rgba(255,255,255,.32);
+}
+
+/* ══ HEADER ════════════════════════════════════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  height:var(--hdr);background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:box-shadow .25s;
+  display:flex;align-items:center;
+}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.logo img{height:40px;width:auto;display:block;}
+
+.nav{display:flex;align-items:center;gap:32px;}
+.nav a{
+  font-family:var(--fb);font-size:14px;font-weight:500;
+  color:var(--body-txt);position:relative;
+  padding-bottom:3px;transition:color .15s;
+}
+.nav a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;
+  background:var(--orange);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .22s ease;
+}
+.nav a:hover,.nav a.on{color:var(--orange);}
+.nav a:hover::after,.nav a.on::after{transform:scaleX(1);}
+
+.hdr-r{display:flex;align-items:center;gap:18px;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .22s;}
+.ham.on span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.on span:nth-child(2){opacity:0;}
+.ham.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mob{
+  display:none;flex-direction:column;
+  position:absolute;top:var(--hdr);left:0;right:0;
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:22px var(--pad-x) 28px;gap:14px;
+  box-shadow:var(--s2);z-index:299;
+}
+.mob.on{display:flex;}
+.mob a{font-size:14.5px;font-weight:500;color:var(--body-txt);padding:8px 0;border-bottom:1px solid var(--border);}
+.mob a:last-of-type{border-bottom:none;}
+.mob .btn{margin-top:8px;width:100%;justify-content:center;}
+
+/* ══ SECTION DIVIDER ═══════════════════════════════════════ */
+.sec-rule{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAGE HEADER — inner-page banner (compact for legal page)
+══════════════════════════════════════════════════════════ */
+.page-hdr{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;
+  padding:64px 0 60px;
+  background:var(--ink-2);
+}
+.page-hdr-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(140deg,#090909 0%,#131313 52%,#0C0C0C 100%);
+}
+.page-hdr-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.016) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+.page-hdr-glow{
+  position:absolute;top:-40%;right:-2%;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,122,31,.055) 0%,transparent 55%);
+  pointer-events:none;
+}
+.page-hdr-rule{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(244,122,31,.14) 20%,
+    rgba(244,122,31,.14) 80%,
+    transparent 100%
+  );
+}
+.page-hdr-in{
+  position:relative;z-index:2;
+  width:100%;
+  max-width:640px;
+}
+.page-hdr-title{
+  font-family:var(--fh);
+  font-size:clamp(26px,3.2vw,40px);
+  font-weight:700;line-height:1.10;
+  letter-spacing:-.022em;color:#fff;
+  margin-bottom:18px;
+}
+.page-hdr-sub{
+  font-size:15px;color:rgba(255,255,255,.38);
+  line-height:1.82;max-width:560px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PRIVACY POLICY CONTENT
+══════════════════════════════════════════════════════════ */
+.policy-section{
+  padding:88px 0 100px;
+  background:var(--white);
+}
+.policy-container{
+  max-width:840px;
+  margin:0 auto;
+}
+
+/* Effective date bar */
+.policy-meta{
+  display:flex;align-items:center;gap:28px;
+  padding:16px 0 40px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:56px;
+  flex-wrap:wrap;
+  gap:16px 32px;
+}
+.policy-meta-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--muted);
+}
+.policy-meta-item svg{width:14px;height:14px;color:var(--orange);flex-shrink:0;}
+.policy-meta-item strong{color:var(--ink);font-weight:600;}
+
+/* Table of contents */
+.policy-toc{
+  background:var(--gray-bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:28px 32px;
+  margin-bottom:64px;
+}
+.policy-toc-title{
+  font-family:var(--fh);font-size:11px;font-weight:700;
+  color:var(--muted-lt);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.policy-toc-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 32px;
+}
+.policy-toc-list a{
+  font-size:13.5px;color:var(--muted);
+  transition:color .15s;
+  line-height:1.7;
+}
+.policy-toc-list a:hover{color:var(--orange);}
+.policy-toc-list span.num{
+  color:var(--muted-lt);font-size:12px;
+  margin-right:6px;
+}
+
+/* Section blocks */
+.policy-block{
+  margin-bottom:52px;
+}
+.policy-block:last-of-type{margin-bottom:0;}
+
+.policy-h2{
+  font-family:var(--fh);
+  font-size:18px;font-weight:700;
+  color:var(--ink);
+  line-height:1.25;
+  letter-spacing:-.012em;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.policy-h2 .sec-num{
+  font-size:11px;font-weight:700;
+  color:var(--orange);
+  background:var(--orange-tint);
+  border:1px solid var(--orange-bd);
+  border-radius:4px;
+  padding:3px 7px;
+  letter-spacing:.04em;
+  flex-shrink:0;
+}
+
+.policy-p{
+  font-size:15px;
+  color:var(--muted);
+  line-height:1.9;
+  margin-bottom:14px;
+}
+.policy-p:last-child{margin-bottom:0;}
+
+.policy-p a{
+  color:var(--orange);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  text-decoration-color:rgba(244,122,31,.35);
+  transition:text-decoration-color .15s;
+}
+.policy-p a:hover{text-decoration-color:var(--orange);}
+
+.policy-ul{
+  margin:12px 0 14px 0;
+  display:flex;flex-direction:column;gap:7px;
+}
+.policy-ul li{
+  font-size:15px;color:var(--muted);line-height:1.78;
+  padding-left:22px;position:relative;
+}
+.policy-ul li::before{
+  content:'';
+  position:absolute;left:0;top:11px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--orange);opacity:.55;
+  flex-shrink:0;
+}
+
+.policy-sub-h{
+  font-family:var(--fh);font-size:13px;font-weight:700;
+  color:var(--ink);letter-spacing:.04em;text-transform:uppercase;
+  margin:28px 0 10px;
+}
+.policy-sub-h:first-child{margin-top:0;}
+
+/* Address card */
+.policy-contact-card{
+  background:var(--gray-bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px 28px;
+  margin-top:20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.policy-contact-row{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--muted);line-height:1.65;
+}
+.policy-contact-row svg{
+  width:14px;height:14px;color:var(--orange);
+  flex-shrink:0;margin-top:3px;
+}
+.policy-contact-row a{color:var(--muted);transition:color .15s;}
+.policy-contact-row a:hover{color:var(--orange);}
+
+/* Last updated */
+.policy-last-updated{
+  margin-top:64px;
+  padding-top:28px;
+  border-top:1px solid var(--border);
+  font-size:13px;color:var(--muted-lt);
+  display:flex;align-items:center;gap:8px;
+}
+.policy-last-updated svg{width:13px;height:13px;color:var(--muted-lt);}
+
+/* ══════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════ */
+.ftr{background:var(--ftr-bg);}
+.ftr-accent{height:2px;background:linear-gradient(90deg,transparent 0%,var(--orange) 12%,var(--orange) 88%,transparent 100%);}
+
+.ftr-main{
+  display:grid;grid-template-columns:2.1fr 1fr 1fr 1.4fr;
+  gap:56px;padding:80px 0 60px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.ftr-logo img{height:36px;margin-bottom:20px;display:block;}
+.ftr-desc{font-size:13.5px;color:var(--ftr-txt);line-height:1.84;max-width:275px;margin-bottom:28px;}
+
+.ftr-exts{display:flex;flex-direction:column;gap:14px;margin:0 0 26px;}
+.ftr-extlink{
+  display:inline-flex;align-items:center;gap:8px;
+  width:fit-content;
+  font-size:13.5px;font-weight:600;
+  color:rgba(255,255,255,.84);
+  transition:color .15s ease,transform .15s ease;
+}
+.ftr-extlink::after{
+  content:"↗";
+  font-size:11px;line-height:1;
+  opacity:.78;
+  transition:transform .15s ease,opacity .15s ease;
+}
+.ftr-extlink:hover{color:var(--orange);}
+.ftr-extlink:hover::after{transform:translate(1px,-1px);opacity:1;}
+
+.ftr-social{display:flex;gap:10px;}
+.ftr-sb{
+  width:36px;height:36px;border-radius:7px;
+  border:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.30);transition:all .18s;
+}
+.ftr-sb:hover{border-color:var(--orange);color:var(--orange);}
+
+.ftr-col-h{
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.88);margin-bottom:22px;
+}
+.ftr-links{display:flex;flex-direction:column;gap:12px;}
+.ftr-links a{font-size:13.5px;color:var(--ftr-txt);transition:color .15s;line-height:1.5;}
+.ftr-links a:hover{color:var(--orange);}
+
+.ftr-cr{
+  display:flex;align-items:flex-start;gap:11px;
+  font-size:13.5px;color:var(--ftr-txt);
+  margin-bottom:14px;line-height:1.65;
+}
+.ftr-cr svg{flex-shrink:0;margin-top:2px;color:var(--orange);}
+.ftr-cr a{color:var(--ftr-txt);transition:color .15s;}
+.ftr-cr a:hover{color:var(--orange);}
+.ftr-cr span{color:var(--ftr-txt);}
+
+.ftr-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;gap:16px;flex-wrap:wrap;
+}
+.ftr-copy{font-size:12px;color:rgba(255,255,255,.22);}
+.ftr-legal{display:flex;gap:24px;}
+.ftr-legal a{font-size:12px;color:rgba(255,255,255,.22);transition:color .15s;}
+.ftr-legal a:hover{color:var(--ftr-txt);}
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════ */
+@media(max-width:1024px){
+  :root{--pad-x:28px;}
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:768px){
+  :root{--pad-x:20px;--hdr:62px;}
+  .nav{display:none;}
+  .ham{display:flex;}
+  .policy-toc-list{grid-template-columns:1fr;}
+  .ftr-main{grid-template-columns:1fr;gap:36px;}
+  .policy-section{padding:60px 0 72px;}
+}
+@media(max-width:480px){
+  :root{--pad-x:16px;}
+  .page-hdr{padding:52px 0 48px;}
+  .policy-toc{padding:22px 20px;}
+  .policy-contact-card{padding:20px 20px;}
+}
+
+
+
+@media(max-width:1100px){
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+  .ftr-main > :first-child{grid-column:1/-1;}
+  .ftr-desc{max-width:100%;}
+}
+@media(max-width:860px){
+  .ftr-main{grid-template-columns:1fr;gap:30px;padding:52px 0 40px;}
+  .ftr-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+}
+
+@media(max-width:860px){
+  .utility-right{display:none;}
+  .utility-bar-in{justify-content:center;}
+}
+@media(max-width:480px){
+  .utility-left{
+    width:100%;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .utility-link,
+  .utility-text{font-size:11.5px;}
+}
+
+</style>
+</head>
+<body>
+
+<section class="utility-bar" aria-label="Company contact details">
+  <div class="wrap utility-bar-in">
+    <div class="utility-left">
+      <a href="mailto:info@qbitbrains.com" class="utility-link" aria-label="Email QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>info@qbitbrains.com</span>
+      </a>
+      <span class="utility-divider" aria-hidden="true"></span>
+      <a href="tel:+15404607336" class="utility-link" aria-label="Call QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span>+1 (540) 460-7336</span>
+      </a>
+    </div>
+    <div class="utility-right">
+      <div class="utility-text" aria-label="Company location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Lexington, Virginia, USA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="index.html" class="logo" aria-label="QbitBrains LLC">
+      <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" />
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="hdr-r">
+      <a href="contact.html" class="btn btn-p">Get in Touch</a>
+      <button class="ham" id="ham" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mob" id="mob" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn btn-p">Get in Touch</a>
+  </nav>
+</header>
+
+
+<!-- ══ PAGE HEADER ════════════════════════════════════════════ -->
+<section class="page-hdr" aria-label="Privacy Policy page header">
+  <div class="page-hdr-bg"></div>
+  <div class="page-hdr-grid"></div>
+  <div class="page-hdr-glow"></div>
+  <div class="page-hdr-rule"></div>
+
+  <div class="wrap">
+    <div class="page-hdr-in">
+      <span class="eyebrow lt">Legal</span>
+      <h1 class="page-hdr-title">Privacy Policy</h1>
+      <p class="page-hdr-sub">This Privacy Policy explains how QbitBrains collects, uses, and protects information when you use our website and contact our company.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PRIVACY POLICY CONTENT ════════════════════════════════ -->
+<section class="policy-section" aria-label="Privacy Policy content">
+  <div class="wrap">
+    <div class="policy-container">
+
+      <!-- Meta bar -->
+      <div class="policy-meta">
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Effective Date: <strong>January 1, 2025</strong></span>
+        </div>
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Last Updated: <strong>July 2025</strong></span>
+        </div>
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>QbitBrains LLC &mdash; United States</span>
+        </div>
+      </div>
+
+      <!-- Table of Contents -->
+      <div class="policy-toc" role="navigation" aria-label="Policy sections">
+        <div class="policy-toc-title">Contents</div>
+        <div class="policy-toc-list">
+          <a href="#sec-1"><span class="num">1.</span> Who We Are</a>
+          <a href="#sec-9"><span class="num">9.</span> Children's Privacy</a>
+          <a href="#sec-2"><span class="num">2.</span> Information We Collect</a>
+          <a href="#sec-10"><span class="num">10.</span> Your Choices</a>
+          <a href="#sec-3"><span class="num">3.</span> How We Use Information</a>
+          <a href="#sec-11"><span class="num">11.</span> U.S. State Privacy Rights</a>
+          <a href="#sec-4"><span class="num">4.</span> Cookies &amp; Analytics</a>
+          <a href="#sec-12"><span class="num">12.</span> California Notice</a>
+          <a href="#sec-5"><span class="num">5.</span> How We Share Information</a>
+          <a href="#sec-13"><span class="num">13.</span> Do Not Track Signals</a>
+          <a href="#sec-6"><span class="num">6.</span> Data Retention</a>
+          <a href="#sec-14"><span class="num">14.</span> Third-Party Links</a>
+          <a href="#sec-7"><span class="num">7.</span> Data Security</a>
+          <a href="#sec-15"><span class="num">15.</span> Changes to This Policy</a>
+          <a href="#sec-8"><span class="num">8.</span> Healthcare-Related Information</a>
+          <a href="#sec-16"><span class="num">16.</span> Contact Us</a>
+        </div>
+      </div>
+
+      <!-- Introduction paragraph -->
+      <div class="policy-block">
+        <p class="policy-p">QbitBrains LLC ("QbitBrains," "we," "us," or "our") respects your privacy and is committed to handling personal information responsibly. This Privacy Policy explains how we collect, use, disclose, and protect information when you visit our website, communicate with us, or otherwise interact with us online.</p>
+        <p class="policy-p">This Privacy Policy applies to information collected through our website and related online interactions. It does not necessarily apply to information processed by QbitBrains on behalf of clients under separate contracts, statements of work, business associate agreements, data processing agreements, or other service-specific terms.</p>
+      </div>
+
+      <div class="sec-rule" style="margin-bottom:52px;"></div>
+
+      <!-- 1. Who We Are -->
+      <div class="policy-block" id="sec-1">
+        <h2 class="policy-h2"><span class="sec-num">01</span> Who We Are</h2>
+        <p class="policy-p">QbitBrains LLC is a U.S.-based technology company that provides applied AI solutions, healthcare technology solutions, enterprise software development, data analytics platforms, automation systems, and digital transformation services.</p>
+        <div class="policy-contact-card">
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>431 W Nelson Street, Lexington, VA 24450, USA</span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            <a href="tel:+15404607336">+1 (540) 460-7336</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Information We Collect -->
+      <div class="policy-block" id="sec-2">
+        <h2 class="policy-h2"><span class="sec-num">02</span> Information We Collect</h2>
+        <p class="policy-p">We may collect the following categories of information depending on how you interact with our website and company.</p>
+
+        <div class="policy-sub-h">Information You Provide Directly</div>
+        <p class="policy-p">When you fill out a contact form, email us, request information, or otherwise communicate with us, we may collect:</p>
+        <ul class="policy-ul">
+          <li>Name and email address</li>
+          <li>Phone number and company name</li>
+          <li>Job title and role</li>
+          <li>Project or inquiry details</li>
+          <li>Any other information you choose to provide</li>
+        </ul>
+
+        <div class="policy-sub-h">Information Collected Automatically</div>
+        <p class="policy-p">When you use our website, we may automatically collect certain technical and usage information, such as:</p>
+        <ul class="policy-ul">
+          <li>IP address and browser type</li>
+          <li>Device type and operating system</li>
+          <li>Referring source and pages viewed</li>
+          <li>Date, time, and duration of visits</li>
+          <li>General usage and interaction data</li>
+        </ul>
+
+        <div class="policy-sub-h">Information from Third Parties</div>
+        <p class="policy-p">We may receive information from third-party tools or service providers we use for website analytics, spam prevention, hosting and infrastructure, marketing communications, and CRM or lead management.</p>
+      </div>
+
+      <!-- 3. How We Use Information -->
+      <div class="policy-block" id="sec-3">
+        <h2 class="policy-h2"><span class="sec-num">03</span> How We Use Information</h2>
+        <p class="policy-p">We may use personal information for the following business purposes:</p>
+        <ul class="policy-ul">
+          <li>To respond to inquiries and communicate with you</li>
+          <li>To provide information about our services and capabilities</li>
+          <li>To operate, maintain, and improve our website</li>
+          <li>To understand website usage and improve user experience</li>
+          <li>To manage business relationships and prospective client interactions</li>
+          <li>To protect the security and integrity of our website and systems</li>
+          <li>To comply with legal, regulatory, and contractual obligations</li>
+          <li>To establish, exercise, or defend legal claims</li>
+        </ul>
+      </div>
+
+      <!-- 4. Cookies -->
+      <div class="policy-block" id="sec-4">
+        <h2 class="policy-h2"><span class="sec-num">04</span> Cookies &amp; Website Analytics</h2>
+        <p class="policy-p">Our website may use cookies and similar technologies to support website functionality, understand traffic patterns, improve performance, and enhance user experience. These technologies may collect information such as browser identifiers, usage activity, and session details.</p>
+        <p class="policy-p">You can control cookies through your browser settings. Disabling cookies may affect certain website functions. We may also use analytics tools that help us understand how visitors interact with our website in aggregate.</p>
+      </div>
+
+      <!-- 5. How We Share Information -->
+      <div class="policy-block" id="sec-5">
+        <h2 class="policy-h2"><span class="sec-num">05</span> How We Share Information</h2>
+        <p class="policy-p">We do not sell personal information in exchange for money. We may disclose personal information in the following circumstances:</p>
+        <ul class="policy-ul">
+          <li>To vendors and service providers that support our website, hosting, analytics, communications, security, or business operations</li>
+          <li>To professional advisers such as lawyers, auditors, and insurers</li>
+          <li>To law enforcement, regulators, or other parties where required by law or legal process</li>
+          <li>In connection with a merger, acquisition, restructuring, financing, sale of assets, or similar business transaction</li>
+          <li>Where necessary to protect our rights, users, systems, or business operations</li>
+        </ul>
+      </div>
+
+      <!-- 6. Data Retention -->
+      <div class="policy-block" id="sec-6">
+        <h2 class="policy-h2"><span class="sec-num">06</span> Data Retention</h2>
+        <p class="policy-p">We retain personal information for as long as reasonably necessary for the purposes described in this Privacy Policy, including to respond to your inquiry, maintain business records, comply with legal and regulatory obligations, resolve disputes, and enforce our agreements.</p>
+        <p class="policy-p">Retention periods may vary depending on the nature of the information and the purpose for which it was collected.</p>
+      </div>
+
+      <!-- 7. Data Security -->
+      <div class="policy-block" id="sec-7">
+        <h2 class="policy-h2"><span class="sec-num">07</span> Data Security</h2>
+        <p class="policy-p">We use reasonable administrative, technical, and organizational measures designed to protect personal information against unauthorized access, loss, misuse, alteration, or disclosure.</p>
+        <p class="policy-p">However, no website, platform, or transmission method is completely secure. For that reason, we cannot guarantee absolute security of information transmitted to or stored on our systems.</p>
+      </div>
+
+      <!-- 8. Healthcare -->
+      <div class="policy-block" id="sec-8">
+        <h2 class="policy-h2"><span class="sec-num">08</span> Healthcare-Related Information</h2>
+        <p class="policy-p">QbitBrains works in healthcare technology and related operational environments. However, our public website is not intended to serve as a patient portal, medical advice platform, or emergency communication channel.</p>
+        <p class="policy-p">Please do not submit sensitive medical information or protected health information through general website forms unless you have been specifically instructed to do so through a secure and authorized process.</p>
+        <p class="policy-p">Where QbitBrains processes protected health information on behalf of a covered entity or in another regulated capacity, that information is governed by applicable contracts, service terms, and legal requirements — not solely by this website Privacy Policy.</p>
+      </div>
+
+      <!-- 9. Children's Privacy -->
+      <div class="policy-block" id="sec-9">
+        <h2 class="policy-h2"><span class="sec-num">09</span> Children's Privacy</h2>
+        <p class="policy-p">Our website is intended for business and professional audiences. It is not directed to children under 13, and we do not knowingly collect personal information from children under 13 through the website.</p>
+        <p class="policy-p">If you believe a child has provided personal information through our website, please contact us so we can review and delete the information as appropriate.</p>
+      </div>
+
+      <!-- 10. Your Choices -->
+      <div class="policy-block" id="sec-10">
+        <h2 class="policy-h2"><span class="sec-num">10</span> Your Choices</h2>
+        <p class="policy-p">Depending on how you interact with us, you may have the following choices:</p>
+        <ul class="policy-ul">
+          <li>You may opt out of marketing emails by using the unsubscribe link in the message or contacting us directly.</li>
+          <li>You may disable cookies through your browser settings.</li>
+          <li>You may contact us to request updates or corrections to information you previously submitted.</li>
+        </ul>
+      </div>
+
+      <!-- 11. U.S. State Privacy Rights -->
+      <div class="policy-block" id="sec-11">
+        <h2 class="policy-h2"><span class="sec-num">11</span> U.S. State Privacy Rights</h2>
+        <p class="policy-p">Depending on your state of residence and subject to applicable law, you may have certain rights regarding your personal information, including the right to:</p>
+        <ul class="policy-ul">
+          <li>Know or access certain personal information we hold about you</li>
+          <li>Request deletion of certain personal information</li>
+          <li>Request correction of inaccurate personal information</li>
+          <li>Appeal certain privacy-rights decisions, where applicable</li>
+          <li>Opt out of certain types of data use, where required by law</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">To submit a privacy request, contact us at <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a> or write to us at 431 W Nelson Street, Lexington, VA 24450, USA. We may need to verify your identity before processing certain requests and will respond in accordance with applicable law.</p>
+      </div>
+
+      <!-- 12. California Notice -->
+      <div class="policy-block" id="sec-12">
+        <h2 class="policy-h2"><span class="sec-num">12</span> California Notice</h2>
+        <p class="policy-p">If California law applies to QbitBrains and your personal information, you may have rights under the California Consumer Privacy Act (CCPA), as amended, including rights related to access, deletion, correction, and certain disclosures about categories of personal information collected and purposes of use. CCPA applicability depends on legal thresholds and business-specific facts.</p>
+        <p class="policy-p">The categories of personal information we may collect are described in Section 2 (Information We Collect), and the business purposes for use are described in Section 3 (How We Use Information). QbitBrains does not sell personal information and does not share personal information for cross-context behavioral advertising.</p>
+      </div>
+
+      <!-- 13. Do Not Track -->
+      <div class="policy-block" id="sec-13">
+        <h2 class="policy-h2"><span class="sec-num">13</span> Do Not Track Signals</h2>
+        <p class="policy-p">Some browsers offer a "Do Not Track" setting. Because there is no universal standard for interpreting these signals, our website may not respond to Do Not Track signals in all cases.</p>
+      </div>
+
+      <!-- 14. Third-Party Links -->
+      <div class="policy-block" id="sec-14">
+        <h2 class="policy-h2"><span class="sec-num">14</span> Third-Party Links</h2>
+        <p class="policy-p">Our website may contain links to third-party websites or services. We are not responsible for the privacy, security, or content practices of those third parties. We encourage you to review their privacy policies before providing information to them.</p>
+      </div>
+
+      <!-- 15. Changes -->
+      <div class="policy-block" id="sec-15">
+        <h2 class="policy-h2"><span class="sec-num">15</span> Changes to This Policy</h2>
+        <p class="policy-p">We may update this Privacy Policy from time to time to reflect changes in our business, services, website functionality, legal requirements, or privacy practices. When we do, we will update the "Last Updated" date at the top of this page. We encourage you to review this page periodically to stay informed.</p>
+      </div>
+
+      <!-- 16. Contact Us -->
+      <div class="policy-block" id="sec-16">
+        <h2 class="policy-h2"><span class="sec-num">16</span> Contact Us</h2>
+        <p class="policy-p">If you have questions about this Privacy Policy or our privacy practices, please contact us using the information below.</p>
+        <div class="policy-contact-card">
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6M3 15h6"/></svg>
+            <span><strong>QbitBrains LLC</strong></span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>431 W Nelson Street, Lexington, VA 24450, USA</span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            <a href="tel:+15404607336">+1 (540) 460-7336</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Last Updated -->
+      <div class="policy-last-updated">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Last updated: July 2025
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="ftr" aria-label="Site Footer">
+  <div class="ftr-accent"></div>
+  <div class="wrap">
+    <div class="ftr-main">
+
+      <!-- Brand column -->
+      <div>
+        <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" class="ftr-logo" style="height:36px;margin-bottom:20px;display:block;" />
+        <p class="ftr-desc">QbitBrains LLC is a US-based technology company focused on applied AI, healthcare technology, enterprise software, and specialized digital platforms.</p>
+        <div class="ftr-exts">
+          <a href="https://counselrisk.com" target="_blank" rel="noopener noreferrer" class="ftr-extlink">CounselRisk</a>
+          <a href="https://bhisolutions.net/" target="_blank" rel="noopener noreferrer" class="ftr-extlink">BHI Solutions</a>
+        </div>
+        <div class="ftr-social">
+          <a href="#" class="ftr-sb" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Company</div>
+        <ul class="ftr-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Services</div>
+        <ul class="ftr-links">
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Healthcare Technology</a></li>
+          <li><a href="services.html">Custom Software</a></li>
+          <li><a href="services.html">Data Analytics</a></li>
+          <li><a href="services.html">Digital Transformation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Contact Us</div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>431 W Nelson Street,<br />Lexington, VA 24450, USA</span>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <a href="tel:+15404607336">+1 540-460-7336</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Fri &nbsp;|&nbsp; 9 AM – 5 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ftr-bar">
+      <p class="ftr-copy">&copy; 2025 QbitBrains LLC. All rights reserved.</p>
+      <div class="ftr-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══ JS ════════════════════════════════════════════════════ -->
+<script>
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  if (ham && mob) {
+    ham.addEventListener('click', () => {
+      const open = mob.classList.toggle('on');
+      ham.classList.toggle('on', open);
+      ham.setAttribute('aria-expanded', String(open));
+    });
+    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mob.classList.remove('on');
+      ham.classList.remove('on');
+      ham.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  const hdr = document.getElementById('hdr');
+  if (hdr) {
+    window.addEventListener('scroll', () => {
+      hdr.style.boxShadow = window.scrollY > 12 ? '0 2px 24px rgba(0,0,0,.09)' : 'none';
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>

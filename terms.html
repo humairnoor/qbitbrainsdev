@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Use — QbitBrains LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+
+/* ══════════════════════════════════════════════════════════
+   TOKENS — QbitBrains Design System v4
+══════════════════════════════════════════════════════════ */
+:root {
+  --ink:         #0B0B0B;
+  --ink-2:       #111111;
+  --ink-3:       #171717;
+  --orange:      #F47A1F;
+  --orange-dk:   #D96A10;
+  --orange-glow: rgba(244,122,31,.09);
+  --orange-tint: rgba(244,122,31,.07);
+  --orange-bd:   rgba(244,122,31,.18);
+  --white:       #FFFFFF;
+  --off-white:   #FAFAFA;
+  --gray-bg:     #F4F4F4;
+  --border:      #E5E5E5;
+  --border-dk:   rgba(255,255,255,.07);
+  --body-txt:    #1A1A1A;
+  --muted:       #656565;
+  --muted-lt:    #979797;
+  --ftr-bg:      #080808;
+  --ftr-txt:     #818181;
+
+  --fh: 'Poppins', sans-serif;
+  --fb: 'Inter', sans-serif;
+
+  --max:    1200px;
+  --pad-x:  40px;
+  --sec:    116px;
+  --r:      9px;
+  --r-lg:   16px;
+  --hdr:    70px;
+
+  --s0: 0 1px 4px rgba(0,0,0,.04);
+  --s1: 0 2px 12px rgba(0,0,0,.06);
+  --s2: 0 6px 28px rgba(0,0,0,.09);
+  --s3: 0 14px 52px rgba(0,0,0,.13);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--fb);font-size:16px;line-height:1.7;
+  color:var(--body-txt);background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);}
+
+/* ══ TYPE ══════════════════════════════════════════════════ */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px;
+}
+.eyebrow::before{
+  content:'';display:block;width:18px;height:2px;
+  background:var(--orange);border-radius:2px;flex-shrink:0;
+}
+.eyebrow.lt{color:rgba(244,122,31,.82);}
+.eyebrow.lt::before{background:rgba(244,122,31,.82);}
+
+/* ══ BUTTONS ═══════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fh);font-size:13px;font-weight:600;
+  letter-spacing:.03em;border-radius:5px;
+  padding:13px 28px;cursor:pointer;
+  transition:all .18s ease;
+  border:1.5px solid transparent;
+  line-height:1;white-space:nowrap;
+}
+.btn-p{background:var(--orange);color:#fff;border-color:var(--orange);}
+.btn-p:hover{background:var(--orange-dk);border-color:var(--orange-dk);transform:translateY(-1px);box-shadow:0 6px 22px rgba(244,122,31,.38);}
+.btn-g{background:transparent;color:rgba(255,255,255,.82);border-color:rgba(255,255,255,.28);}
+.btn-g:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.5);}
+
+/* ══ TOP CONTACT BAR ═══════════════════════════════════════ */
+.utility-bar{
+  background:var(--orange);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.utility-bar-in{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:8px 0;
+}
+.utility-left,
+.utility-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.utility-link,
+.utility-text{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  line-height:1;
+  color:rgba(255,255,255,.96);
+}
+.utility-link{
+  font-weight:500;
+  transition:opacity .15s ease;
+}
+.utility-link:hover{opacity:.86;}
+.utility-text{font-weight:500;}
+.utility-link svg,
+.utility-text svg{
+  width:13px;
+  height:13px;
+  color:rgba(255,255,255,.90);
+  flex-shrink:0;
+}
+.utility-divider{
+  width:1px;
+  height:12px;
+  background:rgba(255,255,255,.32);
+}
+
+/* ══ HEADER ════════════════════════════════════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  height:var(--hdr);background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:box-shadow .25s;
+  display:flex;align-items:center;
+}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.logo img{height:40px;width:auto;display:block;}
+
+.nav{display:flex;align-items:center;gap:32px;}
+.nav a{
+  font-family:var(--fb);font-size:14px;font-weight:500;
+  color:var(--body-txt);position:relative;
+  padding-bottom:3px;transition:color .15s;
+}
+.nav a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;
+  background:var(--orange);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .22s ease;
+}
+.nav a:hover,.nav a.on{color:var(--orange);}
+.nav a:hover::after,.nav a.on::after{transform:scaleX(1);}
+
+.hdr-r{display:flex;align-items:center;gap:18px;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .22s;}
+.ham.on span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.on span:nth-child(2){opacity:0;}
+.ham.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mob{
+  display:none;flex-direction:column;
+  position:absolute;top:var(--hdr);left:0;right:0;
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:22px var(--pad-x) 28px;gap:14px;
+  box-shadow:var(--s2);z-index:299;
+}
+.mob.on{display:flex;}
+.mob a{font-size:14.5px;font-weight:500;color:var(--body-txt);padding:8px 0;border-bottom:1px solid var(--border);}
+.mob a:last-of-type{border-bottom:none;}
+.mob .btn{margin-top:8px;width:100%;justify-content:center;}
+
+/* ══ SECTION DIVIDER ═══════════════════════════════════════ */
+.sec-rule{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════════════════════════ */
+.page-hdr{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;
+  padding:64px 0 60px;
+  background:var(--ink-2);
+}
+.page-hdr-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(140deg,#090909 0%,#131313 52%,#0C0C0C 100%);
+}
+.page-hdr-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.016) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+.page-hdr-glow{
+  position:absolute;top:-40%;right:-2%;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,122,31,.055) 0%,transparent 55%);
+  pointer-events:none;
+}
+.page-hdr-rule{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(244,122,31,.14) 20%,
+    rgba(244,122,31,.14) 80%,
+    transparent 100%
+  );
+}
+.page-hdr-in{
+  position:relative;z-index:2;
+  width:100%;
+  max-width:640px;
+}
+.page-hdr-title{
+  font-family:var(--fh);
+  font-size:clamp(26px,3.2vw,40px);
+  font-weight:700;line-height:1.10;
+  letter-spacing:-.022em;color:#fff;
+  margin-bottom:18px;
+}
+.page-hdr-sub{
+  font-size:15px;color:rgba(255,255,255,.38);
+  line-height:1.82;max-width:560px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TERMS CONTENT
+══════════════════════════════════════════════════════════ */
+.policy-section{
+  padding:88px 0 100px;
+  background:var(--white);
+}
+.policy-container{
+  max-width:840px;
+  margin:0 auto;
+}
+
+/* Meta bar */
+.policy-meta{
+  display:flex;align-items:center;
+  flex-wrap:wrap;
+  gap:16px 32px;
+  padding:16px 0 40px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:56px;
+}
+.policy-meta-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--muted);
+}
+.policy-meta-item svg{width:14px;height:14px;color:var(--orange);flex-shrink:0;}
+.policy-meta-item strong{color:var(--ink);font-weight:600;}
+
+/* Intro notice */
+.policy-notice{
+  background:var(--orange-tint);
+  border:1px solid var(--orange-bd);
+  border-radius:var(--r);
+  padding:20px 24px;
+  margin-bottom:56px;
+  font-size:14px;color:var(--muted);line-height:1.78;
+}
+.policy-notice strong{color:var(--ink);font-weight:600;}
+
+/* Table of contents */
+.policy-toc{
+  background:var(--gray-bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:28px 32px;
+  margin-bottom:64px;
+}
+.policy-toc-title{
+  font-family:var(--fh);font-size:11px;font-weight:700;
+  color:var(--muted-lt);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.policy-toc-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 32px;
+}
+.policy-toc-list a{
+  font-size:13.5px;color:var(--muted);
+  transition:color .15s;
+  line-height:1.7;
+}
+.policy-toc-list a:hover{color:var(--orange);}
+.policy-toc-list span.num{
+  color:var(--muted-lt);font-size:12px;
+  margin-right:6px;
+}
+
+/* Section blocks */
+.policy-block{
+  margin-bottom:52px;
+}
+.policy-block:last-of-type{margin-bottom:0;}
+
+.policy-h2{
+  font-family:var(--fh);
+  font-size:18px;font-weight:700;
+  color:var(--ink);
+  line-height:1.25;
+  letter-spacing:-.012em;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.policy-h2 .sec-num{
+  font-size:11px;font-weight:700;
+  color:var(--orange);
+  background:var(--orange-tint);
+  border:1px solid var(--orange-bd);
+  border-radius:4px;
+  padding:3px 7px;
+  letter-spacing:.04em;
+  flex-shrink:0;
+}
+
+.policy-p{
+  font-size:15px;
+  color:var(--muted);
+  line-height:1.9;
+  margin-bottom:14px;
+}
+.policy-p:last-child{margin-bottom:0;}
+
+.policy-p a{
+  color:var(--orange);
+  text-decoration:underline;
+  text-underline-offset:2px;
+  text-decoration-color:rgba(244,122,31,.35);
+  transition:text-decoration-color .15s;
+}
+.policy-p a:hover{text-decoration-color:var(--orange);}
+
+.policy-ul{
+  margin:12px 0 14px 0;
+  display:flex;flex-direction:column;gap:7px;
+}
+.policy-ul li{
+  font-size:15px;color:var(--muted);line-height:1.78;
+  padding-left:22px;position:relative;
+}
+.policy-ul li::before{
+  content:'';
+  position:absolute;left:0;top:11px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--orange);opacity:.55;
+  flex-shrink:0;
+}
+
+/* Address / contact card */
+.policy-contact-card{
+  background:var(--gray-bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px 28px;
+  margin-top:20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.policy-contact-row{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--muted);line-height:1.65;
+}
+.policy-contact-row svg{
+  width:14px;height:14px;color:var(--orange);
+  flex-shrink:0;margin-top:3px;
+}
+.policy-contact-row a{color:var(--muted);transition:color .15s;}
+.policy-contact-row a:hover{color:var(--orange);}
+
+/* Last updated */
+.policy-last-updated{
+  margin-top:64px;
+  padding-top:28px;
+  border-top:1px solid var(--border);
+  font-size:13px;color:var(--muted-lt);
+  display:flex;align-items:center;gap:8px;
+}
+.policy-last-updated svg{width:13px;height:13px;color:var(--muted-lt);}
+
+/* ══════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════ */
+.ftr{background:var(--ftr-bg);}
+.ftr-accent{height:2px;background:linear-gradient(90deg,transparent 0%,var(--orange) 12%,var(--orange) 88%,transparent 100%);}
+
+.ftr-main{
+  display:grid;grid-template-columns:2.1fr 1fr 1fr 1.4fr;
+  gap:56px;padding:80px 0 60px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.ftr-logo img{height:36px;margin-bottom:20px;display:block;}
+.ftr-desc{font-size:13.5px;color:var(--ftr-txt);line-height:1.84;max-width:275px;margin-bottom:28px;}
+
+.ftr-exts{display:flex;flex-direction:column;gap:14px;margin:0 0 26px;}
+.ftr-extlink{
+  display:inline-flex;align-items:center;gap:8px;
+  width:fit-content;
+  font-size:13.5px;font-weight:600;
+  color:rgba(255,255,255,.84);
+  transition:color .15s ease,transform .15s ease;
+}
+.ftr-extlink::after{
+  content:"↗";
+  font-size:11px;line-height:1;
+  opacity:.78;
+  transition:transform .15s ease,opacity .15s ease;
+}
+.ftr-extlink:hover{color:var(--orange);}
+.ftr-extlink:hover::after{transform:translate(1px,-1px);opacity:1;}
+
+.ftr-social{display:flex;gap:10px;}
+.ftr-sb{
+  width:36px;height:36px;border-radius:7px;
+  border:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.30);transition:all .18s;
+}
+.ftr-sb:hover{border-color:var(--orange);color:var(--orange);}
+
+.ftr-col-h{
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.88);margin-bottom:22px;
+}
+.ftr-links{display:flex;flex-direction:column;gap:12px;}
+.ftr-links a{font-size:13.5px;color:var(--ftr-txt);transition:color .15s;line-height:1.5;}
+.ftr-links a:hover{color:var(--orange);}
+
+.ftr-cr{
+  display:flex;align-items:flex-start;gap:11px;
+  font-size:13.5px;color:var(--ftr-txt);
+  margin-bottom:14px;line-height:1.65;
+}
+.ftr-cr svg{flex-shrink:0;margin-top:2px;color:var(--orange);}
+.ftr-cr a{color:var(--ftr-txt);transition:color .15s;}
+.ftr-cr a:hover{color:var(--orange);}
+.ftr-cr span{color:var(--ftr-txt);}
+
+.ftr-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;gap:16px;flex-wrap:wrap;
+}
+.ftr-copy{font-size:12px;color:rgba(255,255,255,.22);}
+.ftr-legal{display:flex;gap:24px;}
+.ftr-legal a{font-size:12px;color:rgba(255,255,255,.22);transition:color .15s;}
+.ftr-legal a:hover{color:var(--ftr-txt);}
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════ */
+@media(max-width:1024px){
+  :root{--pad-x:28px;}
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:768px){
+  :root{--pad-x:20px;--hdr:62px;}
+  .nav{display:none;}
+  .ham{display:flex;}
+  .policy-toc-list{grid-template-columns:1fr;}
+  .ftr-main{grid-template-columns:1fr;gap:36px;}
+  .policy-section{padding:60px 0 72px;}
+}
+@media(max-width:480px){
+  :root{--pad-x:16px;}
+  .page-hdr{padding:52px 0 48px;}
+  .policy-toc{padding:22px 20px;}
+  .policy-contact-card{padding:20px 20px;}
+}
+
+
+
+@media(max-width:1100px){
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+  .ftr-main > :first-child{grid-column:1/-1;}
+  .ftr-desc{max-width:100%;}
+}
+@media(max-width:860px){
+  .ftr-main{grid-template-columns:1fr;gap:30px;padding:52px 0 40px;}
+  .ftr-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+}
+
+@media(max-width:860px){
+  .utility-right{display:none;}
+  .utility-bar-in{justify-content:center;}
+}
+@media(max-width:480px){
+  .utility-left{
+    width:100%;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .utility-link,
+  .utility-text{font-size:11.5px;}
+}
+
+</style>
+</head>
+<body>
+
+<section class="utility-bar" aria-label="Company contact details">
+  <div class="wrap utility-bar-in">
+    <div class="utility-left">
+      <a href="mailto:info@qbitbrains.com" class="utility-link" aria-label="Email QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>info@qbitbrains.com</span>
+      </a>
+      <span class="utility-divider" aria-hidden="true"></span>
+      <a href="tel:+15404607336" class="utility-link" aria-label="Call QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span>+1 (540) 460-7336</span>
+      </a>
+    </div>
+    <div class="utility-right">
+      <div class="utility-text" aria-label="Company location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Lexington, Virginia, USA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="index.html" class="logo" aria-label="QbitBrains LLC">
+      <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" />
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="hdr-r">
+      <a href="contact.html" class="btn btn-p">Get in Touch</a>
+      <button class="ham" id="ham" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mob" id="mob" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn btn-p">Get in Touch</a>
+  </nav>
+</header>
+
+
+<!-- ══ PAGE HEADER ════════════════════════════════════════════ -->
+<section class="page-hdr" aria-label="Terms of Use page header">
+  <div class="page-hdr-bg"></div>
+  <div class="page-hdr-grid"></div>
+  <div class="page-hdr-glow"></div>
+  <div class="page-hdr-rule"></div>
+
+  <div class="wrap">
+    <div class="page-hdr-in">
+      <span class="eyebrow lt">Legal</span>
+      <h1 class="page-hdr-title">Terms of Use</h1>
+      <p class="page-hdr-sub">These Terms govern your access to and use of the QbitBrains website, including all content and functionality made available through it.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ TERMS CONTENT ══════════════════════════════════════════ -->
+<section class="policy-section" aria-label="Terms of Use content">
+  <div class="wrap">
+    <div class="policy-container">
+
+      <!-- Meta bar -->
+      <div class="policy-meta">
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Effective Date: <strong>January 1, 2025</strong></span>
+        </div>
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Last Updated: <strong>July 2025</strong></span>
+        </div>
+        <div class="policy-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>QbitBrains LLC &mdash; United States</span>
+        </div>
+      </div>
+
+      <!-- Acceptance notice -->
+      <div class="policy-notice">
+        <strong>Please read these Terms carefully.</strong> By accessing or using this website, you agree to be bound by these Terms of Use. If you do not agree, you should not use this website.
+      </div>
+
+      <!-- Table of Contents -->
+      <div class="policy-toc" role="navigation" aria-label="Terms sections">
+        <div class="policy-toc-title">Contents</div>
+        <div class="policy-toc-list">
+          <a href="#sec-1"><span class="num">1.</span> Company Information</a>
+          <a href="#sec-13"><span class="num">13.</span> Website Availability</a>
+          <a href="#sec-2"><span class="num">2.</span> Acceptance of Terms</a>
+          <a href="#sec-14"><span class="num">14.</span> Disclaimer of Warranties</a>
+          <a href="#sec-3"><span class="num">3.</span> Changes to These Terms</a>
+          <a href="#sec-15"><span class="num">15.</span> Limitation of Liability</a>
+          <a href="#sec-4"><span class="num">4.</span> Use of the Website</a>
+          <a href="#sec-16"><span class="num">16.</span> Indemnification</a>
+          <a href="#sec-5"><span class="num">5.</span> Content &amp; Informational Purpose</a>
+          <a href="#sec-17"><span class="num">17.</span> Governing Law</a>
+          <a href="#sec-6"><span class="num">6.</span> No Client Relationship</a>
+          <a href="#sec-18"><span class="num">18.</span> Jurisdiction &amp; Venue</a>
+          <a href="#sec-7"><span class="num">7.</span> Intellectual Property Rights</a>
+          <a href="#sec-19"><span class="num">19.</span> International Use</a>
+          <a href="#sec-8"><span class="num">8.</span> Trademarks</a>
+          <a href="#sec-20"><span class="num">20.</span> Severability</a>
+          <a href="#sec-9"><span class="num">9.</span> User Submissions</a>
+          <a href="#sec-21"><span class="num">21.</span> Waiver</a>
+          <a href="#sec-10"><span class="num">10.</span> Sensitive Information</a>
+          <a href="#sec-22"><span class="num">22.</span> Entire Agreement</a>
+          <a href="#sec-11"><span class="num">11.</span> Privacy</a>
+          <a href="#sec-23"><span class="num">23.</span> Contact Us</a>
+          <a href="#sec-12"><span class="num">12.</span> Third-Party Links</a>
+        </div>
+      </div>
+
+      <!-- 1. Company Information -->
+      <div class="policy-block" id="sec-1">
+        <h2 class="policy-h2"><span class="sec-num">01</span> Company Information</h2>
+        <p class="policy-p">QbitBrains LLC is a U.S.-based technology company providing services and solutions in applied artificial intelligence, healthcare technology, enterprise software, data analytics, automation, digital transformation, and related technology initiatives.</p>
+        <div class="policy-contact-card">
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>431 W Nelson Street, Lexington, VA 24450, USA</span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            <a href="tel:+15404607336">+1 (540) 460-7336</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Acceptance -->
+      <div class="policy-block" id="sec-2">
+        <h2 class="policy-h2"><span class="sec-num">02</span> Acceptance of Terms</h2>
+        <p class="policy-p">By accessing, browsing, or using this website, you represent that you have read, understood, and agree to be bound by these Terms and by our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+        <p class="policy-p">If you are using the website on behalf of a company or other legal entity, you represent that you have the authority to bind that entity to these Terms.</p>
+      </div>
+
+      <!-- 3. Changes -->
+      <div class="policy-block" id="sec-3">
+        <h2 class="policy-h2"><span class="sec-num">03</span> Changes to These Terms</h2>
+        <p class="policy-p">We may update these Terms from time to time at our discretion. Any changes will be posted on this page with an updated "Last Updated" date. Your continued use of the website after changes are posted constitutes your acceptance of the revised Terms.</p>
+      </div>
+
+      <!-- 4. Use of Website -->
+      <div class="policy-block" id="sec-4">
+        <h2 class="policy-h2"><span class="sec-num">04</span> Use of the Website</h2>
+        <p class="policy-p">You may use this website only for lawful purposes and in accordance with these Terms. You agree not to:</p>
+        <ul class="policy-ul">
+          <li>Use the website in any way that violates applicable law or regulation</li>
+          <li>Attempt to gain unauthorized access to the website, servers, systems, or networks</li>
+          <li>Interfere with the operation, security, or integrity of the website</li>
+          <li>Introduce malicious code, viruses, bots, scraping tools, or harmful material</li>
+          <li>Use the website to transmit unlawful, infringing, deceptive, or harmful content</li>
+          <li>Reproduce, distribute, modify, or exploit website content except as permitted by these Terms or with our written consent</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">We reserve the right to suspend, restrict, or terminate access to the website if we believe a user has violated these Terms or used the website in an improper manner.</p>
+      </div>
+
+      <!-- 5. Content -->
+      <div class="policy-block" id="sec-5">
+        <h2 class="policy-h2"><span class="sec-num">05</span> Website Content &amp; Informational Purpose</h2>
+        <p class="policy-p">The content on this website is provided for general informational purposes only. It is intended to describe QbitBrains, its services, capabilities, technology initiatives, and related business information. Nothing on this website constitutes:</p>
+        <ul class="policy-ul">
+          <li>Legal, medical, or regulatory advice</li>
+          <li>Professional consulting advice specific to your circumstances</li>
+          <li>A guarantee of results, performance, or availability</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">Your use of the website and reliance on any information provided is at your own risk.</p>
+      </div>
+
+      <!-- 6. No Client Relationship -->
+      <div class="policy-block" id="sec-6">
+        <h2 class="policy-h2"><span class="sec-num">06</span> No Client or Professional Relationship</h2>
+        <p class="policy-p">Your use of this website, including contacting us through the website, does not by itself create a client relationship, business partnership, fiduciary relationship, legal or advisory relationship, or any obligation on the part of QbitBrains to provide services.</p>
+        <p class="policy-p">A formal relationship is created only through a separate written agreement signed or otherwise duly executed by the relevant parties.</p>
+      </div>
+
+      <!-- 7. Intellectual Property -->
+      <div class="policy-block" id="sec-7">
+        <h2 class="policy-h2"><span class="sec-num">07</span> Intellectual Property Rights</h2>
+        <p class="policy-p">All content, materials, and features on this website — including text, graphics, logos, icons, design elements, images, software, layout, and overall presentation — are owned by QbitBrains LLC or its licensors and are protected by applicable intellectual property laws.</p>
+        <p class="policy-p">You may view, download, or print limited portions of the website for your own lawful internal business use, provided that you do not:</p>
+        <ul class="policy-ul">
+          <li>Remove copyright, trademark, or proprietary notices</li>
+          <li>Modify the content</li>
+          <li>Use the content for commercial resale or exploitation</li>
+          <li>Represent website content as your own</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">No right, title, or interest in any intellectual property is transferred to you by your use of the website.</p>
+      </div>
+
+      <!-- 8. Trademarks -->
+      <div class="policy-block" id="sec-8">
+        <h2 class="policy-h2"><span class="sec-num">08</span> Trademarks</h2>
+        <p class="policy-p">"QbitBrains," the QbitBrains name, logo, and related branding elements are the property of QbitBrains LLC unless otherwise stated. Other product names, company names, marks, or logos referenced on the website may be the property of their respective owners.</p>
+        <p class="policy-p">You may not use any trademark, logo, or branding element from this website without prior written permission.</p>
+      </div>
+
+      <!-- 9. User Submissions -->
+      <div class="policy-block" id="sec-9">
+        <h2 class="policy-h2"><span class="sec-num">09</span> User Submissions</h2>
+        <p class="policy-p">If you submit information to us through the website — including through contact forms, email inquiries, or requests for information — you agree that:</p>
+        <ul class="policy-ul">
+          <li>The information you provide is accurate to the best of your knowledge</li>
+          <li>You have the right to provide that information</li>
+          <li>You will not submit unlawful, confidential third-party, or sensitive information unless specifically requested through an authorized secure process</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">Unless expressly stated otherwise in a separate written agreement, any ideas, suggestions, or feedback you provide regarding the website may be used by QbitBrains without restriction or compensation.</p>
+      </div>
+
+      <!-- 10. Sensitive Information -->
+      <div class="policy-block" id="sec-10">
+        <h2 class="policy-h2"><span class="sec-num">10</span> Sensitive Information</h2>
+        <p class="policy-p">This website is not intended to receive highly sensitive, confidential, or regulated information through general contact forms or ordinary email. Please do not submit through the website:</p>
+        <ul class="policy-ul">
+          <li>Protected health information or patient data</li>
+          <li>Medical records or clinical data</li>
+          <li>Highly sensitive personal information</li>
+          <li>Confidential client matter details</li>
+          <li>Regulated data requiring special handling</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">If a secure method for sharing such information is needed, it should be arranged separately through an authorized process.</p>
+      </div>
+
+      <!-- 11. Privacy -->
+      <div class="policy-block" id="sec-11">
+        <h2 class="policy-h2"><span class="sec-num">11</span> Privacy</h2>
+        <p class="policy-p">Your use of the website is also subject to our <a href="privacy-policy.html">Privacy Policy</a>, which describes how we collect, use, and protect information submitted through the website. By using the website, you acknowledge that you have reviewed our Privacy Policy.</p>
+      </div>
+
+      <!-- 12. Third-Party Links -->
+      <div class="policy-block" id="sec-12">
+        <h2 class="policy-h2"><span class="sec-num">12</span> Third-Party Links &amp; Services</h2>
+        <p class="policy-p">This website may contain links to third-party websites, tools, platforms, or services for convenience or reference. QbitBrains does not control and is not responsible for the content, availability, security, or privacy practices of third-party sites or services.</p>
+        <p class="policy-p">Accessing third-party sites is at your own risk and subject to the terms and policies of those third parties.</p>
+      </div>
+
+      <!-- 13. Availability -->
+      <div class="policy-block" id="sec-13">
+        <h2 class="policy-h2"><span class="sec-num">13</span> Website Availability</h2>
+        <p class="policy-p">We may update, modify, suspend, or discontinue any part of the website at any time and without prior notice. We do not guarantee that the website, or any content or functionality on it, will always be available, uninterrupted, secure, or error-free.</p>
+      </div>
+
+      <!-- 14. Disclaimer -->
+      <div class="policy-block" id="sec-14">
+        <h2 class="policy-h2"><span class="sec-num">14</span> Disclaimer of Warranties</h2>
+        <p class="policy-p">This website and all content made available through it are provided on an "as is" and "as available" basis, without warranties of any kind, whether express, implied, or statutory. To the fullest extent permitted by law, QbitBrains disclaims all warranties, including but not limited to:</p>
+        <ul class="policy-ul">
+          <li>Merchantability and fitness for a particular purpose</li>
+          <li>Non-infringement of third-party rights</li>
+          <li>Accuracy, completeness, or reliability of content</li>
+          <li>Availability, security, or freedom from errors or harmful components</li>
+        </ul>
+      </div>
+
+      <!-- 15. Limitation of Liability -->
+      <div class="policy-block" id="sec-15">
+        <h2 class="policy-h2"><span class="sec-num">15</span> Limitation of Liability</h2>
+        <p class="policy-p">To the fullest extent permitted by law, QbitBrains LLC and its officers, directors, employees, affiliates, contractors, licensors, and agents shall not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages arising out of or related to your use of, or inability to use, the website. This includes, without limitation, damages for:</p>
+        <ul class="policy-ul">
+          <li>Loss of profits or business opportunities</li>
+          <li>Loss of data or business interruption</li>
+          <li>Reputational harm or system failure</li>
+        </ul>
+        <p class="policy-p" style="margin-top:16px;">To the fullest extent permitted by law, QbitBrains' total liability for any claim arising out of or relating to the website shall not exceed one hundred U.S. dollars (US $100) or the amount you paid, if any, to use the website, whichever is greater.</p>
+      </div>
+
+      <!-- 16. Indemnification -->
+      <div class="policy-block" id="sec-16">
+        <h2 class="policy-h2"><span class="sec-num">16</span> Indemnification</h2>
+        <p class="policy-p">You agree to defend, indemnify, and hold harmless QbitBrains LLC and its officers, directors, employees, affiliates, contractors, licensors, and agents from and against any claims, liabilities, damages, judgments, losses, costs, expenses, or fees arising out of or related to:</p>
+        <ul class="policy-ul">
+          <li>Your use of the website</li>
+          <li>Your violation of these Terms</li>
+          <li>Your violation of any law or third-party right</li>
+          <li>Any information or material you submit through the website</li>
+        </ul>
+      </div>
+
+      <!-- 17. Governing Law -->
+      <div class="policy-block" id="sec-17">
+        <h2 class="policy-h2"><span class="sec-num">17</span> Governing Law</h2>
+        <p class="policy-p">These Terms shall be governed by and construed in accordance with the laws of the Commonwealth of Virginia, without regard to its conflict of law principles.</p>
+      </div>
+
+      <!-- 18. Jurisdiction -->
+      <div class="policy-block" id="sec-18">
+        <h2 class="policy-h2"><span class="sec-num">18</span> Jurisdiction &amp; Venue</h2>
+        <p class="policy-p">Any dispute arising out of or relating to these Terms or the website shall be brought exclusively in the state or federal courts located in Rockbridge County, Virginia, and you consent to the personal jurisdiction and venue of those courts.</p>
+      </div>
+
+      <!-- 19. International Use -->
+      <div class="policy-block" id="sec-19">
+        <h2 class="policy-h2"><span class="sec-num">19</span> International Use</h2>
+        <p class="policy-p">This website is operated from the United States and is intended primarily for business users and organizations interacting with QbitBrains in a professional capacity. If you access the website from outside the United States, you do so at your own initiative and are responsible for compliance with applicable local laws.</p>
+      </div>
+
+      <!-- 20. Severability -->
+      <div class="policy-block" id="sec-20">
+        <h2 class="policy-h2"><span class="sec-num">20</span> Severability</h2>
+        <p class="policy-p">If any provision of these Terms is found to be invalid, unlawful, or unenforceable, the remaining provisions shall remain in full force and effect.</p>
+      </div>
+
+      <!-- 21. Waiver -->
+      <div class="policy-block" id="sec-21">
+        <h2 class="policy-h2"><span class="sec-num">21</span> Waiver</h2>
+        <p class="policy-p">No waiver by QbitBrains of any term or condition set out in these Terms shall be deemed a continuing waiver of that term or condition or a waiver of any other term or condition.</p>
+      </div>
+
+      <!-- 22. Entire Agreement -->
+      <div class="policy-block" id="sec-22">
+        <h2 class="policy-h2"><span class="sec-num">22</span> Entire Agreement</h2>
+        <p class="policy-p">These Terms, together with the <a href="privacy-policy.html">Privacy Policy</a> and any other policies or notices expressly incorporated by reference, constitute the entire agreement between you and QbitBrains regarding your use of the website.</p>
+      </div>
+
+      <!-- 23. Contact Us -->
+      <div class="policy-block" id="sec-23">
+        <h2 class="policy-h2"><span class="sec-num">23</span> Contact Us</h2>
+        <p class="policy-p">If you have any questions about these Terms, please contact us using the information below.</p>
+        <div class="policy-contact-card">
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6M3 15h6"/></svg>
+            <span><strong>QbitBrains LLC</strong></span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>431 W Nelson Street, Lexington, VA 24450, USA</span>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+          </div>
+          <div class="policy-contact-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            <a href="tel:+15404607336">+1 (540) 460-7336</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Last Updated -->
+      <div class="policy-last-updated">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Last updated: July 2025
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="ftr" aria-label="Site Footer">
+  <div class="ftr-accent"></div>
+  <div class="wrap">
+    <div class="ftr-main">
+
+      <!-- Brand column -->
+      <div>
+        <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" class="ftr-logo" style="height:36px;margin-bottom:20px;display:block;" />
+        <p class="ftr-desc">QbitBrains LLC is a US-based technology company focused on applied AI, healthcare technology, enterprise software, and specialized digital platforms.</p>
+        <div class="ftr-exts">
+          <a href="https://counselrisk.com" target="_blank" rel="noopener noreferrer" class="ftr-extlink">CounselRisk</a>
+          <a href="https://bhisolutions.net/" target="_blank" rel="noopener noreferrer" class="ftr-extlink">BHI Solutions</a>
+        </div>
+        <div class="ftr-social">
+          <a href="#" class="ftr-sb" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Company</div>
+        <ul class="ftr-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Services</div>
+        <ul class="ftr-links">
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Healthcare Technology</a></li>
+          <li><a href="services.html">Custom Software</a></li>
+          <li><a href="services.html">Data Analytics</a></li>
+          <li><a href="services.html">Digital Transformation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Contact Us</div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>431 W Nelson Street,<br />Lexington, VA 24450, USA</span>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <a href="tel:+15404607336">+1 540-460-7336</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Fri &nbsp;|&nbsp; 9 AM – 5 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ftr-bar">
+      <p class="ftr-copy">&copy; 2025 QbitBrains LLC. All rights reserved.</p>
+      <div class="ftr-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══ JS ════════════════════════════════════════════════════ -->
+<script>
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  if (ham && mob) {
+    ham.addEventListener('click', () => {
+      const open = mob.classList.toggle('on');
+      ham.classList.toggle('on', open);
+      ham.setAttribute('aria-expanded', String(open));
+    });
+    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mob.classList.remove('on');
+      ham.classList.remove('on');
+      ham.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  const hdr = document.getElementById('hdr');
+  if (hdr) {
+    window.addEventListener('scroll', () => {
+      hdr.style.boxShadow = window.scrollY > 12 ? '0 2px 24px rgba(0,0,0,.09)' : 'none';
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>

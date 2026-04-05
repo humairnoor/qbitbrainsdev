@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact QbitBrains LLC — Applied AI, Healthcare Technology &amp; Enterprise Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+
+/* ══════════════════════════════════════════════════════════
+   TOKENS — QbitBrains Design System v4
+══════════════════════════════════════════════════════════ */
+:root {
+  --ink:         #0B0B0B;
+  --ink-2:       #111111;
+  --ink-3:       #171717;
+  --orange:      #F47A1F;
+  --orange-dk:   #D96A10;
+  --orange-glow: rgba(244,122,31,.09);
+  --orange-tint: rgba(244,122,31,.07);
+  --orange-bd:   rgba(244,122,31,.18);
+  --white:       #FFFFFF;
+  --off-white:   #FAFAFA;
+  --gray-bg:     #F4F4F4;
+  --border:      #E5E5E5;
+  --border-dk:   rgba(255,255,255,.07);
+  --body-txt:    #1A1A1A;
+  --muted:       #656565;
+  --muted-lt:    #979797;
+  --ftr-bg:      #080808;
+  --ftr-txt:     #818181;
+
+  --fh: 'Poppins', sans-serif;
+  --fb: 'Inter', sans-serif;
+
+  --max:    1200px;
+  --pad-x:  40px;
+  --sec:    116px;
+  --r:      9px;
+  --r-lg:   16px;
+  --hdr:    70px;
+
+  --s0: 0 1px 4px rgba(0,0,0,.04);
+  --s1: 0 2px 12px rgba(0,0,0,.06);
+  --s2: 0 6px 28px rgba(0,0,0,.09);
+  --s3: 0 14px 52px rgba(0,0,0,.13);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--fb);font-size:16px;line-height:1.7;
+  color:var(--body-txt);background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);}
+
+/* ══ TYPE ══════════════════════════════════════════════════ */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px;
+}
+.eyebrow::before{
+  content:'';display:block;width:18px;height:2px;
+  background:var(--orange);border-radius:2px;flex-shrink:0;
+}
+.eyebrow.lt{color:rgba(244,122,31,.82);}
+.eyebrow.lt::before{background:rgba(244,122,31,.82);}
+
+h2.sh{
+  font-family:var(--fh);font-weight:700;
+  font-size:clamp(27px,3vw,41px);
+  line-height:1.13;letter-spacing:-.018em;
+  color:var(--ink);margin-bottom:16px;
+}
+h2.sh.lt{color:#fff;}
+
+.desc{font-size:15.5px;color:var(--muted);line-height:1.88;max-width:520px;}
+.desc.lt{color:rgba(255,255,255,.48);}
+.desc.cx{margin:0 auto;}
+
+/* ══ BUTTONS ═══════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fh);font-size:13px;font-weight:600;
+  letter-spacing:.03em;border-radius:5px;
+  padding:13px 28px;cursor:pointer;
+  transition:all .18s ease;
+  border:1.5px solid transparent;
+  line-height:1;white-space:nowrap;
+}
+.btn-p{background:var(--orange);color:#fff;border-color:var(--orange);}
+.btn-p:hover{background:var(--orange-dk);border-color:var(--orange-dk);transform:translateY(-1px);box-shadow:0 6px 22px rgba(244,122,31,.38);}
+.btn-o{background:transparent;color:var(--orange);border-color:var(--orange);}
+.btn-o:hover{background:var(--orange);color:#fff;}
+.btn-g{background:transparent;color:rgba(255,255,255,.82);border-color:rgba(255,255,255,.28);}
+.btn-g:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.5);}
+.btn-lg{padding:15px 36px;font-size:14px;}
+
+/* ══ ICONS ═════════════════════════════════════════════════ */
+.ico{
+  display:flex;align-items:center;justify-content:center;
+  background:var(--orange-tint);border:1px solid var(--orange-bd);
+  border-radius:10px;flex-shrink:0;
+}
+.ico svg{color:var(--orange);}
+.ico-sm{width:40px;height:40px;}
+.ico-md{width:48px;height:48px;}
+.ico-sm svg{width:18px;height:18px;}
+.ico-md svg{width:22px;height:22px;}
+.ico-dk{background:rgba(244,122,31,.11);border-color:rgba(244,122,31,.22);}
+
+/* ══ TOP CONTACT BAR ═══════════════════════════════════════ */
+.utility-bar{
+  background:var(--orange);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.utility-bar-in{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:8px 0;
+}
+.utility-left,
+.utility-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.utility-link,
+.utility-text{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  line-height:1;
+  color:rgba(255,255,255,.96);
+}
+.utility-link{
+  font-weight:500;
+  transition:opacity .15s ease;
+}
+.utility-link:hover{opacity:.86;}
+.utility-text{font-weight:500;}
+.utility-link svg,
+.utility-text svg{
+  width:13px;
+  height:13px;
+  color:rgba(255,255,255,.90);
+  flex-shrink:0;
+}
+.utility-divider{
+  width:1px;
+  height:12px;
+  background:rgba(255,255,255,.32);
+}
+
+/* ══ HEADER ════════════════════════════════════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  height:var(--hdr);background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:box-shadow .25s;
+  display:flex;align-items:center;
+}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;width:100%;}
+.logo img{height:40px;width:auto;display:block;}
+
+.nav{display:flex;align-items:center;gap:32px;}
+.nav a{
+  font-family:var(--fb);font-size:14px;font-weight:500;
+  color:var(--body-txt);position:relative;
+  padding-bottom:3px;transition:color .15s;
+}
+.nav a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;
+  background:var(--orange);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .22s ease;
+}
+.nav a:hover,.nav a.on{color:var(--orange);}
+.nav a:hover::after,.nav a.on::after{transform:scaleX(1);}
+
+.hdr-r{display:flex;align-items:center;gap:18px;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .22s;}
+.ham.on span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.on span:nth-child(2){opacity:0;}
+.ham.on span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mob{
+  display:none;flex-direction:column;
+  position:absolute;top:var(--hdr);left:0;right:0;
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:22px var(--pad-x) 28px;gap:14px;
+  box-shadow:var(--s2);z-index:299;
+}
+.mob.on{display:flex;}
+.mob a{font-size:14.5px;font-weight:500;color:var(--body-txt);padding:8px 0;border-bottom:1px solid var(--border);}
+.mob a:last-of-type{border-bottom:none;}
+.mob .btn{margin-top:8px;width:100%;justify-content:center;}
+
+/* ══ SECTION DIVIDER ═══════════════════════════════════════ */
+.sec-rule{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);
+}
+.sec-rule.dk{
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07) 20%,rgba(255,255,255,.07) 80%,transparent);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAGE HEADER — inner-page banner
+══════════════════════════════════════════════════════════ */
+.page-hdr{
+  position:relative;overflow:hidden;
+  min-height:46vh;
+  display:flex;align-items:center;
+  padding:80px 0 76px;
+  background:var(--ink-2);
+}
+.page-hdr-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(140deg,#090909 0%,#131313 52%,#0C0C0C 100%);
+}
+.page-hdr-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.016) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+.page-hdr-glow{
+  position:absolute;top:-30%;right:-4%;
+  width:620px;height:620px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,122,31,.065) 0%,transparent 55%);
+  pointer-events:none;
+}
+.page-hdr-glow2{
+  position:absolute;bottom:-40%;left:-5%;
+  width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,122,31,.028) 0%,transparent 62%);
+  pointer-events:none;
+}
+.page-hdr-in{
+  position:relative;z-index:2;
+  width:100%;
+  max-width:740px;
+}
+.page-hdr-title{
+  font-family:var(--fh);
+  font-size:clamp(26px,3.2vw,42px);
+  font-weight:700;line-height:1.10;
+  letter-spacing:-.022em;color:#fff;
+  margin-bottom:20px;
+}
+.page-hdr-title em{font-style:normal;color:var(--orange);}
+.page-hdr-sub{
+  font-size:15.5px;color:rgba(255,255,255,.40);
+  line-height:1.82;max-width:600px;
+}
+.page-hdr-rule{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(244,122,31,.14) 20%,
+    rgba(244,122,31,.14) 80%,
+    transparent 100%
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   CONTACT INTRO
+══════════════════════════════════════════════════════════ */
+.contact-intro{
+  padding:72px 0 60px;
+  background:var(--white);
+}
+.contact-intro-in{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:72px;
+  align-items:center;
+}
+.contact-intro-l .sh{margin-bottom:16px;}
+.contact-intro-l .desc{max-width:420px;}
+.contact-intro-r{
+  border-left:1px solid var(--border);
+  padding-left:56px;
+}
+.intro-stat{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+}
+.intro-stat:last-child{border-bottom:none;padding-bottom:0;}
+.intro-stat-num{
+  font-family:var(--fh);font-size:26px;font-weight:700;
+  color:var(--orange);line-height:1;min-width:52px;
+}
+.intro-stat-txt{
+  font-size:13.5px;color:var(--muted);line-height:1.72;
+}
+.intro-stat-label{
+  font-family:var(--fh);font-size:12px;font-weight:600;
+  color:var(--ink);margin-bottom:4px;letter-spacing:.01em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAIN CONTACT SECTION — two columns
+══════════════════════════════════════════════════════════ */
+.contact-main{
+  padding:var(--sec) 0;
+  background:var(--gray-bg);
+}
+.contact-main-grid{
+  display:grid;
+  grid-template-columns:7fr 5fr;
+  gap:48px;
+  align-items:start;
+}
+
+/* ── Contact Form ── */
+.contact-form-panel{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:48px 44px;
+  box-shadow:var(--s1);
+}
+.form-section-head{
+  margin-bottom:32px;
+}
+.form-section-title{
+  font-family:var(--fh);font-size:19px;font-weight:700;
+  color:var(--ink);margin-bottom:6px;
+}
+.form-section-sub{
+  font-size:13.5px;color:var(--muted);line-height:1.72;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.form-group{
+  margin-bottom:20px;
+}
+.form-label{
+  display:block;
+  font-family:var(--fh);font-size:11.5px;font-weight:600;
+  color:var(--ink);letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.form-label span{color:var(--orange);}
+
+.form-input,
+.form-select,
+.form-textarea{
+  width:100%;
+  background:var(--off-white);
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  padding:12px 16px;
+  font-family:var(--fb);font-size:14px;
+  color:var(--body-txt);
+  transition:border-color .18s, box-shadow .18s, background .18s;
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+}
+.form-input::placeholder,
+.form-textarea::placeholder{
+  color:var(--muted-lt);
+}
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover{
+  border-color:#CCCCCC;
+  background:var(--white);
+}
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus{
+  border-color:var(--orange);
+  background:var(--white);
+  box-shadow:0 0 0 3px rgba(244,122,31,.10);
+}
+.form-textarea{
+  min-height:128px;
+  resize:vertical;
+  line-height:1.7;
+}
+.form-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23979797' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:40px;
+  cursor:pointer;
+}
+.form-select option{background:var(--white);color:var(--body-txt);}
+
+.form-submit-row{
+  display:flex;align-items:center;gap:20px;
+  margin-top:8px;
+}
+.form-note{
+  font-size:12.5px;color:var(--muted-lt);line-height:1.68;
+}
+
+/* ── Contact Details Panel ── */
+.contact-details-panel{
+  display:flex;flex-direction:column;gap:24px;
+}
+
+.contact-detail-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:32px 28px;
+  box-shadow:var(--s0);
+}
+
+.detail-card-title{
+  font-family:var(--fh);font-size:13px;font-weight:700;
+  color:var(--ink);letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:22px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+
+.detail-item{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.detail-item:last-child{border-bottom:none;padding-bottom:0;}
+.detail-item:first-child{padding-top:0;}
+
+.detail-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:8px;
+  background:var(--orange-tint);border:1px solid var(--orange-bd);
+  flex-shrink:0;margin-top:2px;
+}
+.detail-icon svg{width:15px;height:15px;color:var(--orange);}
+
+.detail-text{}
+.detail-label{
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  color:var(--muted-lt);letter-spacing:.10em;text-transform:uppercase;
+  margin-bottom:3px;
+}
+.detail-value{
+  font-size:14px;color:var(--body-txt);line-height:1.6;font-weight:500;
+}
+.detail-value a{
+  color:var(--body-txt);transition:color .15s;
+}
+.detail-value a:hover{color:var(--orange);}
+
+.response-note{
+  background:var(--orange-tint);
+  border:1px solid var(--orange-bd);
+  border-radius:var(--r);
+  padding:16px 18px;
+  font-size:13px;color:var(--muted);line-height:1.72;
+  margin-top:4px;
+}
+.response-note strong{color:var(--ink);font-weight:600;}
+
+/* ══════════════════════════════════════════════════════════
+   INQUIRY TOPICS
+══════════════════════════════════════════════════════════ */
+.inquiry-topics{
+  padding:var(--sec) 0;
+  background:var(--white);
+}
+.sh-blk{margin-bottom:52px;}
+.sh-blk.cx{text-align:center;}
+.sh-blk.cx .desc{margin:0 auto;}
+
+.topics-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:20px;
+}
+.topic-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:28px 24px;
+  box-shadow:var(--s0);
+  transition:box-shadow .22s, transform .22s, border-color .22s;
+  position:relative;
+  overflow:hidden;
+  display:flex;flex-direction:column;gap:14px;
+}
+.topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--orange),rgba(244,122,31,.4));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s ease;
+}
+.topic-card:hover::before{transform:scaleX(1);}
+.topic-card:hover{
+  box-shadow:var(--s2);
+  transform:translateY(-4px);
+  border-color:rgba(244,122,31,.16);
+}
+.topic-card .ico{margin-bottom:4px;}
+.topic-name{
+  font-family:var(--fh);font-size:15px;font-weight:600;
+  color:var(--ink);line-height:1.3;
+}
+.topic-txt{font-size:13.5px;color:var(--muted);line-height:1.78;flex:1;}
+
+/* ══════════════════════════════════════════════════════════
+   OFFICE / MAP SECTION
+══════════════════════════════════════════════════════════ */
+.office-section{
+  padding:var(--sec) 0;
+  background:var(--gray-bg);
+}
+.office-in{
+  display:grid;
+  grid-template-columns:5fr 7fr;
+  gap:64px;
+  align-items:start;
+}
+.office-content{}
+.office-content .sh{margin-bottom:16px;}
+.office-content .desc{margin-bottom:36px;max-width:380px;}
+
+.office-detail{
+  display:flex;gap:14px;align-items:flex-start;
+  margin-bottom:18px;
+}
+.office-detail:last-child{margin-bottom:0;}
+.office-detail-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:8px;
+  background:var(--orange-tint);border:1px solid var(--orange-bd);
+  flex-shrink:0;margin-top:1px;
+}
+.office-detail-icon svg{width:14px;height:14px;color:var(--orange);}
+.office-detail-text{
+  font-size:14px;color:var(--muted);line-height:1.7;
+}
+.office-detail-text strong{
+  display:block;font-family:var(--fh);font-size:11.5px;font-weight:700;
+  color:var(--ink);letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:3px;
+}
+
+.office-map-wrap{
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:var(--s2);
+  position:relative;
+}
+.office-map-wrap iframe{
+  display:block;
+  width:100%;
+  height:360px;
+  border:none;
+}
+.office-map-label{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--muted);
+}
+.office-map-label svg{width:14px;height:14px;color:var(--orange);flex-shrink:0;}
+.office-map-label strong{color:var(--ink);font-weight:500;}
+
+/* ══════════════════════════════════════════════════════════
+   CLOSING CTA BAND
+══════════════════════════════════════════════════════════ */
+.closing-cta{
+  position:relative;overflow:hidden;
+  padding:80px 0;
+  background:var(--ink-2);
+}
+.closing-cta-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(140deg,#090909 0%,#131313 60%,#0f0f0f 100%);
+}
+.closing-cta-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.016) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+}
+.closing-cta-glow{
+  position:absolute;top:-30%;right:5%;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,122,31,.055) 0%,transparent 55%);
+  pointer-events:none;
+}
+.closing-cta-in{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:48px;
+}
+.closing-cta-text .eyebrow{margin-bottom:12px;}
+.closing-cta-title{
+  font-family:var(--fh);font-size:clamp(22px,2.4vw,32px);
+  font-weight:700;color:#fff;line-height:1.15;
+  letter-spacing:-.018em;margin-bottom:14px;
+}
+.closing-cta-sub{
+  font-size:15px;color:rgba(255,255,255,.38);
+  line-height:1.82;max-width:520px;
+}
+.closing-cta-actions{
+  display:flex;gap:14px;flex-shrink:0;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.closing-rule{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(244,122,31,.12) 20%,
+    rgba(244,122,31,.12) 80%,
+    transparent 100%
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════ */
+.ftr{background:var(--ftr-bg);}
+.ftr-accent{height:2px;background:linear-gradient(90deg,transparent 0%,var(--orange) 12%,var(--orange) 88%,transparent 100%);}
+
+.ftr-main{
+  display:grid;grid-template-columns:2.1fr 1fr 1fr 1.4fr;
+  gap:56px;padding:80px 0 60px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.ftr-logo img{height:36px;margin-bottom:20px;display:block;}
+.ftr-desc{font-size:13.5px;color:var(--ftr-txt);line-height:1.84;max-width:275px;margin-bottom:28px;}
+
+.ftr-exts{display:flex;flex-direction:column;gap:14px;margin:0 0 26px;}
+.ftr-extlink{
+  display:inline-flex;align-items:center;gap:8px;
+  width:fit-content;
+  font-size:13.5px;font-weight:600;
+  color:rgba(255,255,255,.84);
+  transition:color .15s ease,transform .15s ease;
+}
+.ftr-extlink::after{
+  content:"↗";
+  font-size:11px;line-height:1;
+  opacity:.78;
+  transition:transform .15s ease,opacity .15s ease;
+}
+.ftr-extlink:hover{color:var(--orange);}
+.ftr-extlink:hover::after{transform:translate(1px,-1px);opacity:1;}
+
+.ftr-social{display:flex;gap:10px;}
+.ftr-sb{
+  width:36px;height:36px;border-radius:7px;
+  border:1px solid rgba(255,255,255,.09);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.30);transition:all .18s;
+}
+.ftr-sb:hover{border-color:var(--orange);color:var(--orange);}
+
+.ftr-col-h{
+  font-family:var(--fh);font-size:10.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.88);margin-bottom:22px;
+}
+.ftr-links{display:flex;flex-direction:column;gap:12px;}
+.ftr-links a{font-size:13.5px;color:var(--ftr-txt);transition:color .15s;line-height:1.5;}
+.ftr-links a:hover{color:var(--orange);}
+
+.ftr-cr{
+  display:flex;align-items:flex-start;gap:11px;
+  font-size:13.5px;color:var(--ftr-txt);
+  margin-bottom:14px;line-height:1.65;
+}
+.ftr-cr svg{flex-shrink:0;margin-top:2px;color:var(--orange);}
+.ftr-cr a{color:var(--ftr-txt);transition:color .15s;}
+.ftr-cr a:hover{color:var(--orange);}
+.ftr-cr span{color:var(--ftr-txt);}
+
+.ftr-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;gap:16px;flex-wrap:wrap;
+}
+.ftr-copy{font-size:12px;color:rgba(255,255,255,.22);}
+.ftr-legal{display:flex;gap:24px;}
+.ftr-legal a{font-size:12px;color:rgba(255,255,255,.22);transition:color .15s;}
+.ftr-legal a:hover{color:var(--ftr-txt);}
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════ */
+@media(max-width:1024px){
+  :root{--pad-x:28px;--sec:88px;}
+  .contact-main-grid{grid-template-columns:1fr;}
+  .contact-intro-in{grid-template-columns:1fr;gap:40px;}
+  .contact-intro-r{border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:32px;}
+  .topics-grid{grid-template-columns:repeat(2,1fr);}
+  .office-in{grid-template-columns:1fr;gap:44px;}
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+  .closing-cta-in{flex-direction:column;align-items:flex-start;gap:32px;}
+}
+@media(max-width:768px){
+  :root{--pad-x:20px;--sec:72px;--hdr:62px;}
+  .nav{display:none;}
+  .ham{display:flex;}
+  .form-row{grid-template-columns:1fr;}
+  .topics-grid{grid-template-columns:1fr;}
+  .contact-form-panel{padding:32px 24px;}
+  .ftr-main{grid-template-columns:1fr;gap:36px;}
+  .closing-cta-actions{flex-direction:column;width:100%;}
+  .closing-cta-actions .btn{width:100%;justify-content:center;}
+}
+@media(max-width:480px){
+  :root{--pad-x:16px;}
+  .page-hdr{min-height:auto;padding:60px 0 56px;}
+}
+
+
+
+@media(max-width:1100px){
+  .ftr-main{grid-template-columns:1fr 1fr;gap:40px;}
+  .ftr-main > :first-child{grid-column:1/-1;}
+  .ftr-desc{max-width:100%;}
+}
+@media(max-width:860px){
+  .ftr-main{grid-template-columns:1fr;gap:30px;padding:52px 0 40px;}
+  .ftr-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+}
+
+@media(max-width:860px){
+  .utility-right{display:none;}
+  .utility-bar-in{justify-content:center;}
+}
+@media(max-width:480px){
+  .utility-left{
+    width:100%;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .utility-link,
+  .utility-text{font-size:11.5px;}
+}
+
+</style>
+</head>
+<body>
+
+<section class="utility-bar" aria-label="Company contact details">
+  <div class="wrap utility-bar-in">
+    <div class="utility-left">
+      <a href="mailto:info@qbitbrains.com" class="utility-link" aria-label="Email QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>info@qbitbrains.com</span>
+      </a>
+      <span class="utility-divider" aria-hidden="true"></span>
+      <a href="tel:+15404607336" class="utility-link" aria-label="Call QbitBrains">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span>+1 (540) 460-7336</span>
+      </a>
+    </div>
+    <div class="utility-right">
+      <div class="utility-text" aria-label="Company location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Lexington, Virginia, USA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a href="index.html" class="logo" aria-label="QbitBrains LLC">
+      <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" />
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html" class="on" aria-current="page">Contact</a>
+    </nav>
+    <div class="hdr-r">
+      <a href="contact.html" class="btn btn-p">Get in Touch</a>
+      <button class="ham" id="ham" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mob" id="mob" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn btn-p">Get in Touch</a>
+  </nav>
+</header>
+
+
+<!-- ══ PAGE HEADER ════════════════════════════════════════════ -->
+<section class="page-hdr" aria-label="Contact page header">
+  <div class="page-hdr-bg"></div>
+  <div class="page-hdr-grid"></div>
+  <div class="page-hdr-glow"></div>
+  <div class="page-hdr-glow2"></div>
+  <div class="page-hdr-rule"></div>
+
+  <div class="wrap">
+    <div class="page-hdr-in">
+      <span class="eyebrow lt">Contact</span>
+      <h1 class="page-hdr-title">Let's Start a <em>Conversation</em></h1>
+      <p class="page-hdr-sub">If your organization is exploring applied AI, healthcare technology, enterprise software, analytics systems, or digital transformation initiatives, QbitBrains is ready to discuss your priorities.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ CONTACT INTRO ══════════════════════════════════════════ -->
+<section class="contact-intro" aria-label="Contact introduction">
+  <div class="wrap">
+    <div class="contact-intro-in">
+
+      <div class="contact-intro-l">
+        <span class="eyebrow">Talk to QbitBrains</span>
+        <h2 class="sh">Talk to<br />QbitBrains</h2>
+        <p class="desc">We work with organizations that need thoughtful engineering, practical implementation, and systems designed for real operating environments. Use the form below or contact us directly to start a conversation.</p>
+      </div>
+
+      <div class="contact-intro-r">
+        <div class="intro-stat">
+          <div class="intro-stat-num">AI</div>
+          <div class="intro-stat-txt">
+            <div class="intro-stat-label">Applied Intelligence</div>
+            Machine learning pipelines, predictive models, and intelligent automation built for operational deployment.
+          </div>
+        </div>
+        <div class="intro-stat">
+          <div class="intro-stat-num">HIT</div>
+          <div class="intro-stat-txt">
+            <div class="intro-stat-label">Healthcare Technology</div>
+            Clinical systems, EHR integrations, and healthcare platform development across complex environments.
+          </div>
+        </div>
+        <div class="intro-stat">
+          <div class="intro-stat-num">ENT</div>
+          <div class="intro-stat-txt">
+            <div class="intro-stat-label">Enterprise Software</div>
+            Custom business applications, workflow automation, and scalable platform development for the enterprise.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sec-rule"></div>
+
+
+<!-- ══ MAIN CONTACT SECTION ═══════════════════════════════════ -->
+<section class="contact-main" aria-label="Contact form and details">
+  <div class="wrap">
+    <div class="contact-main-grid">
+
+      <!-- Left: Contact Form -->
+      <div class="contact-form-panel">
+        <div class="form-section-head">
+          <div class="form-section-title">Send a Project Inquiry</div>
+          <div class="form-section-sub">Tell us about your initiative. We'll review your message and follow up directly.</div>
+        </div>
+
+        <form
+          action="https://formsubmit.co/humairnoor@gmail.com"
+          method="POST"
+          novalidate
+        >
+          <!-- FormSubmit hidden fields -->
+          <input type="hidden" name="_subject" value="QbitBrains Contact Inquiry">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="thank-you.html">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="full-name">Full Name <span>*</span></label>
+              <input class="form-input" type="text" id="full-name" name="full_name" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address <span>*</span></label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="your@organization.com" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="company">Company / Organization</label>
+              <input class="form-input" type="text" id="company" name="company" placeholder="Your organization" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone</label>
+              <input class="form-input" type="tel" id="phone" name="phone" placeholder="+1 (000) 000-0000" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="subject">Subject <span>*</span></label>
+            <select class="form-select" id="subject" name="subject" required>
+              <option value="" disabled selected>Select an inquiry topic</option>
+              <option value="Applied AI Initiative">Applied AI Initiative</option>
+              <option value="Healthcare Technology Project">Healthcare Technology Project</option>
+              <option value="Enterprise Software Development">Enterprise Software Development</option>
+              <option value="Data &amp; Analytics Systems">Data &amp; Analytics Systems</option>
+              <option value="Digital Transformation">Digital Transformation</option>
+              <option value="Specialized Platform Development">Specialized Platform Development</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Message <span>*</span></label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Describe your project, initiative, or question. The more context you provide, the more useful our initial response will be." required></textarea>
+          </div>
+
+          <div class="form-submit-row">
+            <button type="submit" class="btn btn-p btn-lg">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Inquiry
+            </button>
+            <p class="form-note">Your information is handled with care and used only to respond to your inquiry.</p>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Right: Contact Details -->
+      <div class="contact-details-panel">
+
+        <div class="contact-detail-card">
+          <div class="detail-card-title">Contact Information</div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="detail-text">
+              <div class="detail-label">Email</div>
+              <div class="detail-value"><a href="mailto:humairnoor@gmail.com">humairnoor@gmail.com</a></div>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            </div>
+            <div class="detail-text">
+              <div class="detail-label">Phone</div>
+              <div class="detail-value"><a href="tel:+15404607336">+1 (540)-460-7336</a></div>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="detail-text">
+              <div class="detail-label">Address</div>
+              <div class="detail-value">431 W Nelson Street<br />Lexington, VA 24450, USA</div>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="detail-text">
+              <div class="detail-label">Office Hours</div>
+              <div class="detail-value">Mon – Fri &nbsp;|&nbsp; 9 AM – 5 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="response-note">
+          <strong>Response time:</strong> We typically respond to serious project and business inquiries as promptly as possible. For complex engagements, we may request a brief follow-up to understand your requirements in more detail.
+        </div>
+
+      </div>
+      <!-- /details -->
+
+    </div>
+  </div>
+</section>
+
+<div class="sec-rule"></div>
+
+
+<!-- ══ INQUIRY TOPICS ═════════════════════════════════════════ -->
+<section class="inquiry-topics" aria-label="Inquiry topics">
+  <div class="wrap">
+
+    <div class="sh-blk cx">
+      <span class="eyebrow">What We Support</span>
+      <h2 class="sh">What You Can Contact Us About</h2>
+      <p class="desc cx">QbitBrains supports organizations across a range of technology disciplines. Below are the primary areas where we engage with new clients and partners.</p>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M12 11l-5 6M12 11l5 6"/></svg>
+        </div>
+        <div class="topic-name">Applied AI Initiatives</div>
+        <p class="topic-txt">Machine learning models, predictive analytics, intelligent automation, and AI-powered workflows for operational environments.</p>
+      </div>
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="topic-name">Healthcare Technology Projects</div>
+        <p class="topic-txt">Clinical system development, EHR integrations, HL7/FHIR implementations, and digital health platform engineering.</p>
+      </div>
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="topic-name">Enterprise Software Development</div>
+        <p class="topic-txt">Custom web and backend applications, SaaS architecture, API-first systems, and business process automation at scale.</p>
+      </div>
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="topic-name">Data &amp; Analytics Systems</div>
+        <p class="topic-txt">Data pipelines, business intelligence infrastructure, reporting dashboards, and decision-support analytics platforms.</p>
+      </div>
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="topic-name">Digital Transformation</div>
+        <p class="topic-txt">Strategic modernization of legacy systems, cloud migration, and end-to-end technology transformation programs.</p>
+      </div>
+
+      <div class="topic-card">
+        <div class="ico ico-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+        </div>
+        <div class="topic-name">Specialized Platforms &amp; Solutions</div>
+        <p class="topic-txt">Purpose-built platforms with custom architecture, vertical-specific tooling, and long-term product development partnerships.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sec-rule"></div>
+
+
+<!-- ══ OFFICE / LOCATION ══════════════════════════════════════ -->
+<section class="office-section" aria-label="Office location">
+  <div class="wrap">
+    <div class="office-in">
+
+      <div class="office-content">
+        <span class="eyebrow">Our Office</span>
+        <h2 class="sh">Our Office</h2>
+        <p class="desc">QbitBrains LLC is based in Lexington, Virginia. We serve clients across the United States and engage with technology initiatives of varying scale and complexity.</p>
+
+        <div class="office-detail">
+          <div class="office-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="office-detail-text">
+            <strong>Street Address</strong>
+            431 W Nelson Street, Lexington, VA 24450, USA
+          </div>
+        </div>
+
+        <div class="office-detail">
+          <div class="office-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="office-detail-text">
+            <strong>Business Hours</strong>
+            Monday through Friday, 9 AM – 5 PM Eastern Time
+          </div>
+        </div>
+
+        <div class="office-detail">
+          <div class="office-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          </div>
+          <div class="office-detail-text">
+            <strong>Direct Line</strong>
+            <a href="tel:+15404607336" style="color:inherit;">+1 (540)-460-7336</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="office-map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.035448506848!2d-79.4527786249673!3d37.78920901132982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x884ccb551e8b1317%3A0x678ecdcbdfddd097!2sQbitBrains!5e0!3m2!1sen!2sus!4v1740648486641!5m2!1sen!2sus"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="QbitBrains Office Location"
+        ></iframe>
+        <div class="office-map-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span><strong>QbitBrains LLC</strong> &nbsp;—&nbsp; 431 W Nelson Street, Lexington, VA 24450</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ CLOSING CTA ════════════════════════════════════════════ -->
+<section class="closing-cta" aria-label="Closing call to action">
+  <div class="closing-cta-bg"></div>
+  <div class="closing-cta-grid"></div>
+  <div class="closing-cta-glow"></div>
+  <div class="closing-rule"></div>
+  <div class="wrap">
+    <div class="closing-cta-in">
+      <div class="closing-cta-text">
+        <span class="eyebrow lt">Built for Real Operating Environments</span>
+        <div class="closing-cta-title">Built for Real Operating Environments</div>
+        <p class="closing-cta-sub">QbitBrains works with organizations that need technology systems, platforms, and operational solutions designed with structure, reliability, and long-term value in mind.</p>
+      </div>
+      <div class="closing-cta-actions">
+        <a href="services.html" class="btn btn-p btn-lg">Explore Services</a>
+        <a href="about.html" class="btn btn-g btn-lg">About QbitBrains</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="ftr" aria-label="Site Footer">
+  <div class="ftr-accent"></div>
+  <div class="wrap">
+    <div class="ftr-main">
+
+      <!-- Brand column -->
+      <div>
+        <img src="https://qbitbrains.com/images/Qbit%20Brains.png" alt="QbitBrains LLC" class="ftr-logo" style="height:36px;margin-bottom:20px;display:block;" />
+        <p class="ftr-desc">QbitBrains LLC is a US-based technology company focused on applied AI, healthcare technology, enterprise software, and specialized digital platforms.</p>
+        <div class="ftr-exts">
+          <a href="https://counselrisk.com" target="_blank" rel="noopener noreferrer" class="ftr-extlink">CounselRisk</a>
+          <a href="https://bhisolutions.net/" target="_blank" rel="noopener noreferrer" class="ftr-extlink">BHI Solutions</a>
+        </div>
+        <div class="ftr-social">
+          <a href="#" class="ftr-sb" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Company</div>
+        <ul class="ftr-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Services</div>
+        <ul class="ftr-links">
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Healthcare Technology</a></li>
+          <li><a href="services.html">Custom Software</a></li>
+          <li><a href="services.html">Data Analytics</a></li>
+          <li><a href="services.html">Digital Transformation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="ftr-col-h">Contact Us</div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>431 W Nelson Street,<br />Lexington, VA 24450, USA</span>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <a href="tel:+15404607336">+1 540-460-7336</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@qbitbrains.com">info@qbitbrains.com</a>
+        </div>
+        <div class="ftr-cr">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Fri &nbsp;|&nbsp; 9 AM – 5 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ftr-bar">
+      <p class="ftr-copy">&copy; 2025 QbitBrains LLC. All rights reserved.</p>
+      <div class="ftr-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══ JS ════════════════════════════════════════════════════ -->
+<script>
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  if (ham && mob) {
+    ham.addEventListener('click', () => {
+      const open = mob.classList.toggle('on');
+      ham.classList.toggle('on', open);
+      ham.setAttribute('aria-expanded', String(open));
+    });
+    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mob.classList.remove('on');
+      ham.classList.remove('on');
+      ham.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  const hdr = document.getElementById('hdr');
+  if (hdr) {
+    window.addEventListener('scroll', () => {
+      hdr.style.boxShadow = window.scrollY > 12 ? '0 2px 24px rgba(0,0,0,.09)' : 'none';
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>
