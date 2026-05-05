@@ -133,7 +133,7 @@
         <div x-show="step === 2" class="space-y-8">
             <h3 class="text-xl font-black tracking-tight text-slate-900">Section: Demographics</h3>
             
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Gender ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">What is your gender identity?</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <template x-for="g in ['Man','Woman','Nonbinary/gender nonconforming','Transgender man','Transgender woman','Other']">
@@ -147,7 +147,7 @@
             </div>
 
             <!-- BIOLOGICAL SEX -->
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Sex ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">What is your biological sex?</p>
                 <div class="flex gap-4">
                     <template x-for="s in ['Male','Female','Other']">
@@ -160,7 +160,7 @@
             </div>
 
             <!-- MARITAL STATUS -->
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Relationship ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">What is your marital status?</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <template x-for="r in ['Never married','Married','In life partnership','Divorced or separated','Widowed']">
@@ -172,7 +172,7 @@
                 </div>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && formData.Demo_Race.length === 0 ? 'border-red-500' : ''">
             <form id="Demo_Race">
                 <p class="font-bold mb-4">What is your race? (Check all that apply)</p>
                 <div class="space-y-2">
@@ -191,7 +191,7 @@
 
         <!-- PAGE 7: LOCATION & EDUCATION -->
         <div x-show="step === 3" class="space-y-8">
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Hispanic ? 'border-red-500' : ''">
                 <form id="Demo_Hispanic">
                     <p class="font-bold mb-4">Are you of Hispanic, Latino, or Spanish origin?</p>
                     <div class="flex gap-8">
@@ -201,7 +201,7 @@
                 </form>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && (formData.Demo_Country === 'United States of America' && !formData.Demo_USState) ? 'border-red-500' : ''">
                 <label class="block font-bold mb-4">In which country do you reside?</label>
                 <select x-model="formData.Demo_Country" class="mb-4">
                     <option value="United States of America">United States of America</option>
@@ -276,7 +276,7 @@
                 </div>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Education ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Highest level of education?</p>
                 <div class="space-y-2">
                     <template x-for="edu in eduOptions">
@@ -291,7 +291,7 @@
 
         <!-- PAGE 8: EMPLOYMENT & INCOME -->
         <div x-show="step === 4" class="space-y-8">
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Employment ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Current employment status?</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <template x-for="emp in ['Employed full time','Employed part time','Self employed','Unemployed','Student','Retired','Homemaker','Unable to work']">
@@ -303,10 +303,11 @@
                 </div>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.Demo_Income ? 'border-red-500' : ''">
                 <p class="font-bold mb-2">Annual household income (USD)?</p>
                 <select x-model="formData.Demo_Income">
                     <option value="">Select range...</option>
+                    <option value="dependent">Dependent / Not independently earning</option>
                     <option value="<25k">Under $25,000</option>
                     <option value="25-50k">$25,000 - $49,999</option>
                     <option value="50-100k">$50,000 - $99,999</option>
@@ -318,7 +319,7 @@
 
         <!-- PAGE 9: PRIOR HEALTH & MENTAL HEALTH -->
         <div x-show="step === 5" class="space-y-8">
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && formData.PreHPPD_PriorCond.length === 0 ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Conditions PRIOR to HPPD? (Check all that apply)</p>
                 <div class="grid grid-cols-1 gap-2">
                     <template x-for="c in priorCondList">
@@ -333,7 +334,7 @@
                 </div>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && (!formData.PreHPPD_MHdiagnosis || (formData.PreHPPD_MHdiagnosis === 'Yes' && !formData.PreHPPD_MHdiagnosis_Details.trim())) ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Ever diagnosed with mental health condition prior to HPPD?</p>
                 <div class="flex gap-6">
                     <label><input type="radio" x-model="formData.PreHPPD_MHdiagnosis" value="Yes" class="mr-2"> Yes</label>
@@ -345,7 +346,7 @@
                 </div>
             </div>
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && (!formData.PreHPPD_SigHealth_Toggle || (formData.PreHPPD_SigHealth_Toggle === 'Yes' && !formData.PreHPPD_SigHealth_Details.trim())) ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Any other significant health conditions?</p>
                 <div class="flex gap-6 mb-4">
                     <label><input type="radio" x-model="formData.PreHPPD_SigHealth_Toggle" value="Yes" class="mr-2"> Yes</label>
@@ -510,7 +511,7 @@
 
         <div x-show="step === 13" class="space-y-6">
 
-            <div class="section-card">
+            <div class="section-card" :class="errorMsg && !formData.HPPD_History ? 'border-red-500' : ''">
                 <p class="font-bold mb-4">Which of the following best describes your HPPD history?</p>
                 <div class="space-y-3">
                     <template x-for="hist in ['I currently have HPPD.','I have previously had HPPD that is now resolved.','HPPD getting better.','HPPD getting worse.','Other (please describe)']">
@@ -534,9 +535,7 @@
 
 
 
-            <div class="section-card">
-
-
+            <div class="section-card" :class="errorMsg && (!formData.HPPD_Healthcare || (formData.HPPD_Healthcare === 'Yes' && formData.HPPD_Providers.length === 0)) ? 'border-red-500' : ''">
 
                 <p class="font-bold mb-4">Have you talked with a healthcare provider regarding HPPD?</p>
 
@@ -587,7 +586,7 @@
 <!-- PAGE 18: HPPD LEARNED, PERCEPTION & IMPAIRMENT -->
 <div x-show="step === 14" class="space-y-6">
     <!-- HPPD_Learned -->
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Learned.length === 0 ? 'border-red-500' : ''">
         <p class="font-bold mb-4">How did you learn you had HPPD? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="l in ['From a psychiatrist','From a doctor other than a psychiatrist','Family Member','Friend','Therapist','Advisor','Self-diagnosed (e.g. read about it)','Other (please specify)']">
@@ -603,7 +602,7 @@
     </div>
 
     <!-- HPPD_Perception -->
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Perception ? 'border-red-500' : ''">
         <p class="font-bold mb-3">Please indicate whether the following is true for you:</p>
         <p class="text-base mb-4 text-slate-900">Following cessation of a hallucinogen — I have re-experienced one or more perceptual symptoms that occurred while intoxicated (e.g., geometric hallucinations, false perceptions of movement, flashes of color, trails, etc.)</p>
         <div class="flex gap-6">
@@ -614,7 +613,7 @@
     </div>
 
     <!-- HPPD_Impairment -->
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Impairment.length === 0 ? 'border-red-500' : ''">
         <p class="font-bold mb-4">Do these perceptual symptoms cause significant impairment in any of the following domains? (Check all that apply)</p>
         <div class="space-y-2">
             <template x-for="imp in ['Relationships with family, friends, and others','Ability to work or attend school','Responsibilities at home (e.g. housework)','Other significant area of daily functioning (please describe)','None of the above']">
@@ -632,7 +631,7 @@
 
 <!-- PAGE 19: HPPD DIAGNOSIS & PRIOR DIAGNOSIS -->
 <div x-show="step === 15" class="space-y-6">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Diagnosis.length === 0 ? 'border-red-500' : ''">
         <p class="font-bold mb-2">Please indicate if you have ever experienced or been diagnosed with any of the following: (Check all that apply)</p>
         <p class="text-base text-slate-900 mb-4">(if none, select none of the above)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -722,7 +721,7 @@
 
 <!-- PAGE 22: ONSET & DURATION -->
 <div x-show="step === 18" class="space-y-6">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Beginning ? 'border-red-500' : ''">
         <p class="font-bold text-sm mb-4">How long after using a psychedelic drug did you begin experiencing visual symptoms?</p>
         <div class="grid grid-cols-1 gap-2">
             <template x-for="time in ['Never','Within 1 day (immediately)','Within 1 day to 1 week','Within 1 week to 1 month','1-6 months','7-12 months','More than a year','Other (please specify)']">
@@ -735,7 +734,7 @@
         <div x-show="formData.HPPD_Beginning === 'Other (please specify)'" class="mt-3"><input type="text" x-model="formData.HPPD_Beginning_Other" placeholder="Specify timing..." class="bg-blue-50"></div>
     </div>
 
-    <div class="section-card" :class="errorMsg && (formData.HPPD_Trigger === 'Other:' && !formData.HPPD_Trigger_Other) ? 'border-red-500' : ''">
+    <div class="section-card" :class="errorMsg && (!formData.HPPD_Trigger || (formData.HPPD_Trigger === 'Other:' && !formData.HPPD_Trigger_Other)) ? 'border-red-500' : ''">
         <p class="font-bold text-base mb-4">What do you think triggered the onset of your visual symptoms?</p>
         <div class="space-y-3">
             <label class="flex items-center p-3 border rounded-xl cursor-pointer"><input type="radio" x-model="formData.HPPD_Trigger" value="Just drug use" class="mr-3"> <span class="text-base">Just drug use</span></label>
@@ -765,7 +764,7 @@
     </div>
 
     <div class="section-card">
-        <p class="font-black text-slate-900 text-sm mb-4">HPPD Drugs selection (Check all that apply)</p>
+        <p class="font-black text-slate-900 text-sm mb-4">What Drug(s) do you believe caused HPPD? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="drug in drugListDetailed" :key="drug">
                 <div class="flex flex-col">
@@ -798,7 +797,7 @@
                         <template x-for="lvl in ['Low dose', 'Medium or Moderate dose', 'Large dose', 'Extremely large dose', 'Not sure']">
                             <label class="flex flex-col items-center p-2 bg-white border border-slate-100 rounded-lg cursor-pointer hover:border-blue-400">
                                 <input type="radio" :name="'dose_'+drug" :value="lvl" x-model="formData.HPPD_Doses[drug]" class="mb-2">
-                                <span class="text-xs text-center font-bold uppercase leading-tight" x-text="lvl"></span>
+                                <span class="text-xs text-center leading-tight" x-text="lvl"></span>
                             </label>
                         </template>
                     </div>
@@ -837,7 +836,7 @@
 <div x-show="step === 21" class="space-y-8">
     
     <!-- HPPD_Medications -->
-    <div class="section-card" :class="errorMsg && (formData.HPPD_Medications === 'Yes' && !formData.HPPD_Medications_Text) ? 'border-red-500' : ''">
+    <div class="section-card" :class="errorMsg && (!formData.HPPD_Medications || (formData.HPPD_Medications === 'Yes' && !formData.HPPD_Medications_Text)) ? 'border-red-500' : ''">
         <p class="font-bold text-sm mb-4 leading-relaxed text-slate-800">
             Were you taking any medication or supplement at the time you developed HPPD — or when you took the psychedelic that immediately preceded it (e.g. antidepressants, vitamins, etc.)?
         </p>
@@ -1015,7 +1014,7 @@
                     <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
                         <label class="flex flex-col items-center p-1 border border-slate-100 rounded hover:bg-blue-50">
                             <input type="radio" :name="'benz_'+med" :value="eff" x-model="formData.HPPD_Benzo_Effect[med]" class="w-4 h-4">
-                            <span class="text-xs font-black uppercase mt-1 text-center leading-none" x-text="eff"></span>
+                            <span class="text-xs mt-1 text-center leading-none" x-text="eff"></span>
                         </label>
                     </template>
                 </div>
@@ -1052,7 +1051,7 @@
                     <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
                         <label class="flex flex-col items-center p-1 border border-slate-100 rounded">
                             <input type="radio" :name="'ad_'+med" :value="eff" x-model="formData.HPPD_AntiDep_Effect[med]" class="w-4 h-4">
-                            <span class="text-xs font-black uppercase mt-1 text-center" x-text="eff"></span>
+                            <span class="text-xs mt-1 text-center" x-text="eff"></span>
                         </label>
                     </template>
                 </div>
@@ -1072,6 +1071,24 @@
             </template>
         </div>
         <input x-show="formData.HPPD_MoodStab_Use.includes('Other mood stabilizer or anticonvulsant')" type="text" x-model="formData.HPPD_MoodStab_Other" placeholder="Specify medication..." class="mt-3 bg-blue-50 border-blue-200">
+    </div>
+
+    <!-- HPPD_MoodStab_Effect (Dynamic) -->
+    <div x-show="formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-green-600">
+        <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
+        <template x-for="med in formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-8 last:mb-0">
+                <p class="text-base font-black uppercase text-green-900 mb-3" x-text="med.includes('Other') ? 'Other: ' + formData.HPPD_MoodStab_Other : med"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center p-1 border border-slate-100 rounded hover:bg-green-50">
+                            <input type="radio" :name="'ms_'+med" :value="eff" x-model="formData.HPPD_MoodStab_Effect[med]" class="w-4 h-4">
+                            <span class="text-xs mt-1 text-center leading-none" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
     </div>
 </div>
 <!-- PAGE 31: ANTIPSYCHOTICS (SELECTION & EFFECTS) -->
@@ -1099,7 +1116,7 @@
                     <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
                         <label class="flex flex-col items-center">
                             <input type="radio" :name="'ap_'+med" :value="eff" x-model="formData.HPPD_AntiPsy_Effect[med]" class="w-4 h-4">
-                            <span class="text-xs text-center font-black uppercase mt-1" x-text="eff"></span>
+                            <span class="text-xs text-center mt-1" x-text="eff"></span>
                         </label>
                     </template>
                 </div>
@@ -1131,7 +1148,7 @@
                     <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
                         <label class="flex flex-col items-center">
                             <input type="radio" :name="'om_'+med" :value="eff" x-model="formData.HPPD_OtherMed_Effect[med]">
-                            <span class="text-xs text-center font-bold uppercase mt-1" x-text="eff"></span>
+                            <span class="text-xs text-center mt-1" x-text="eff"></span>
                         </label>
                     </template>
                 </div>
@@ -1163,7 +1180,7 @@
                     <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
                         <label class="flex flex-col items-center">
                             <input type="radio" :name="'su_'+med" :value="eff" x-model="formData.HPPD_Supp_Effect[med]" class="text-green-600">
-                            <span class="text-xs text-center font-black mt-1" x-text="eff"></span>
+                            <span class="text-xs text-center mt-1" x-text="eff"></span>
                         </label>
                     </template>
                 </div>
@@ -1174,7 +1191,7 @@
 
 <!-- PAGE 34: NON-DRUG TREATMENTS -->
 <div x-show="step === 30" class="space-y-8">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_NonDrug_Use.length === 0 ? 'border-red-500' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following non-drug treatments? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="n in nonDrugList">
@@ -1186,8 +1203,26 @@
         </div>
     </div>
 
+    <!-- HPPD_NonDrug_Effect (Dynamic) -->
+    <div x-show="formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-teal-500">
+        <p class="font-bold text-sm mb-6">How did the following treatment(s) affect your HPPD symptoms?</p>
+        <template x-for="treat in formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above')">
+            <div class="mb-8 last:mb-0">
+                <p class="text-base font-bold text-teal-900 mb-3" x-text="treat"></p>
+                <div class="grid grid-cols-7 gap-1">
+                    <template x-for="eff in ['Much worse', 'Somewhat worse', 'Slightly worse', 'No effect', 'Slightly better', 'Somewhat better', 'Much better']">
+                        <label class="flex flex-col items-center p-1 border border-slate-100 rounded hover:bg-teal-50">
+                            <input type="radio" :name="'nd_'+treat" :value="eff" x-model="formData.HPPD_NonDrug_Effect[treat]" class="w-4 h-4">
+                            <span class="text-xs text-center mt-1 leading-none" x-text="eff"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+
     <!-- HPPD_Alternatives -->
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (!formData.HPPD_Alternatives || (formData.HPPD_Alternatives === 'Yes' && !formData.HPPD_Alternatives_Details.trim())) ? 'border-red-500' : ''">
         <p class="font-bold text-sm mb-4 leading-relaxed">Have you tried any other alternative or complementary therapies for HPPD? If yes, please describe:</p>
         <div class="flex gap-6 mb-4">
             <label><input type="radio" x-model="formData.HPPD_Alternatives" value="Yes" class="mr-2"> Yes</label>
@@ -1400,7 +1435,7 @@
                 <template x-for="ans in ['Not at all', 'Once or twice', 'Almost every day', 'About once a day', 'More than once a day']">
                     <label class="flex flex-col items-center p-2 border border-slate-100 rounded hover:bg-indigo-50 cursor-pointer">
                         <input type="radio" :name="'bdes_'+idx" :value="ans" x-model="formData.BDES[idx]" class="w-4 h-4 mb-2">
-                        <span class="text-base font-black uppercase text-center text-slate-900 leading-none" x-text="ans"></span>
+                        <span class="text-base text-center text-slate-900 leading-none" x-text="ans"></span>
                     </label>
                 </template>
             </div>
@@ -1408,7 +1443,7 @@
     </template>
 
     <!-- FINAL COMMENTS SECTION -->
-    <div class="section-card" :class="errorMsg && (formData.Final_Comments_Toggle === 'Yes' && !formData.Final_Comments_Text) ? 'border-red-500' : ''">
+    <div class="section-card" :class="errorMsg && (!formData.Final_Comments_Toggle || (formData.Final_Comments_Toggle === 'Yes' && !formData.Final_Comments_Text)) ? 'border-red-500' : ''">
         <p class="font-bold text-sm mb-4">Do you have any final comments or feedback you wish to provide before submitting your response?</p>
         <div class="flex gap-8 mb-6">
             <label class="flex items-center"><input type="radio" x-model="formData.Final_Comments_Toggle" value="Yes" class="mr-2"> Yes</label>
@@ -1464,6 +1499,13 @@
             </div>
         </div-->
 
+        <!-- PATIENT SUMMARY HEADER -->
+        <div class="flex justify-between items-center border border-slate-400 bg-slate-50 px-3 py-2 mb-4 text-[11px] font-bold">
+            <span>HPPD Research Protocol: IRB00384491</span>
+            <span>Age: <span x-text="formData.Demo_Age"></span> &nbsp;|&nbsp; Birth Year: <span x-text="formData.Demo_Year"></span></span>
+            <span x-text="`Generated: ${completionTimestamp}`"></span>
+        </div>
+
         <!-- MODULE 1: CONSENT & DEMOGRAPHICS -->
         <div class="mb-6">
             <h3 class="bg-black text-white p-1 font-bold uppercase mb-2">Module 1: Participant Baseline (Pages 1-8)</h3>
@@ -1471,8 +1513,10 @@
                 <template x-for="(val, key) in {
                     'Consent_Sign (Eligibility)': formData.Consent_Sign,
                     'Age (Current Age)': formData.Demo_Age,
+                    'Birth Year': formData.Demo_Year,
                     'Gender': formData.Demo_Gender + (formData.Demo_Gender_Other ? ': '+formData.Demo_Gender_Other : ''),
                     'Sex (Biological)': formData.Demo_Sex,
+                    'Hispanic / Latino Origin': formData.Demo_Hispanic,
                     'Relationship': formData.Demo_Relationship,
                     'Race': formData.Demo_Race.join(', ') + (formData.Demo_Race_Other ? ': '+formData.Demo_Race_Other : ''),
                     'Country': formData.Demo_Country + (formData.Demo_Country_Other ? ': '+formData.Demo_Country_Other : ''),
@@ -1493,9 +1537,15 @@
         <div class="mb-6 break-inside-avoid">
             <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 2: Pre-HPPD Medical & Family (Page 9-10)</h3>
             <div class="border border-slate-400 p-2 mb-2">
-                <p><strong>PreHPPD_PriorCond:</strong> <span x-text="formData.PreHPPD_PriorCond.join(', ')"></span></p>
-                <p><strong>PreHPPD_MHdiagnosis:</strong> <span x-text="formData.PreHPPD_MHdiagnosis"></span></p>
-                <p><strong>PreHPPD_SigHealth:</strong> <span x-text="formData.PreHPPD_SigHealth_Details || 'No'"></span></p>
+                <p><strong>Pre-HPPD Condition:</strong> <span x-text="formData.PreHPPD_PriorCond.join(', ')"></span></p>
+                <template x-if="Object.values(formData.PreHPPD_PriorCond_Details).some(v => v)">
+                    <p><strong>Condition Details:</strong> <span x-text="Object.entries(formData.PreHPPD_PriorCond_Details).filter(([k,v]) => v).map(([k,v]) => k+': '+v).join(' | ')"></span></p>
+                </template>
+                <p><strong>Pre-HPPD Mental Health Diagnosis:</strong> <span x-text="formData.PreHPPD_MHdiagnosis"></span></p>
+                <template x-if="formData.PreHPPD_MHdiagnosis_Details">
+                    <p><strong>MH Diagnosis Details:</strong> <span x-text="formData.PreHPPD_MHdiagnosis_Details"></span></p>
+                </template>
+                <p><strong>Significant Health Condition:</strong> <span x-text="formData.PreHPPD_SigHealth_Toggle + (formData.PreHPPD_SigHealth_Details ? ': ' + formData.PreHPPD_SigHealth_Details : '')"></span></p>
             </div>
             <!-- Family Matrix -->
             <table class="w-full border-collapse border border-slate-400">
@@ -1575,24 +1625,80 @@
             <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 5: HPPD Specific Diagnostics (Page 16-25)</h3>
             <table class="w-full border-collapse border border-slate-400">
                 <template x-for="(val, key) in {
-                    'HPPD_History': formData.HPPD_History + (formData.HPPD_History_Other ? ': '+formData.HPPD_History_Other : ''),
-                    'HPPD_Age (Onset)': formData.HPPD_Age,
-                    'HPPD_Healthcare': formData.HPPD_Healthcare,
-                    'HPPD_Providers': formData.HPPD_Providers.join(', '),
-                    'HPPD_VisualSymptoms': formData.HPPD_VisualSymptoms.join(', '),
-                    'HPPD_Symptoms (Accompanying)': formData.HPPD_Symptoms.join(', '),
-                    'HPPD_Beginning': formData.HPPD_Beginning,
-                    'HPPD_Trigger': formData.HPPD_Trigger + (formData.HPPD_Trigger_Other ? ': '+formData.HPPD_Trigger_Other : ''),
-                    'HPPD_Causative_Drugs': formData.HPPD_Drugs.join(', '),
-                    'HPPD_Subtype': formData.HPPD_Subtype,
-                    'HPPD_Progression': formData.HPPD_Progression,
-                    'HPPD_Disruption_Details': formData.HPPD_Disruption_Details || 'N/A'
+                    'HPPD History': formData.HPPD_History + (formData.HPPD_History_Other ? ': '+formData.HPPD_History_Other : ''),
+                    'Age at HPPD Onset': formData.HPPD_Age,
+                    'Sought Healthcare': formData.HPPD_Healthcare,
+                    'Healthcare Providers': formData.HPPD_Providers.join(', ') + (formData.HPPD_Providers_Other ? ' | Other: '+formData.HPPD_Providers_Other : ''),
+                    'How Patient Learned of HPPD': formData.HPPD_Learned.join(', ') + (formData.HPPD_Learned_Other ? ' | Other: '+formData.HPPD_Learned_Other : ''),
+                    'Patient Perception of HPPD': formData.HPPD_Perception,
+                    'Areas of Impairment': formData.HPPD_Impairment.join(', ') + (formData.HPPD_Impairment_Other ? ' | Other: '+formData.HPPD_Impairment_Other : ''),
+                    'Diagnosis Criteria Met': formData.HPPD_Diagnosis.join(', ') + (formData.HPPD_Diagnosis_Other ? ' | Other: '+formData.HPPD_Diagnosis_Other : ''),
+                    'Diagnoses Prior to HPPD': formData.HPPD_Diagnosis_Prior.join(', '),
+                    'Visual Symptoms': formData.HPPD_VisualSymptoms.join(', ') + (formData.HPPD_VisualSymptoms_Other ? ' | Other: '+formData.HPPD_VisualSymptoms_Other : ''),
+                    'Visual Symptom Clarification': formData.HPPD_Clarification || 'N/A',
+                    'Accompanying Symptoms': formData.HPPD_Symptoms.join(', ') + (formData.HPPD_Symptoms_Other ? ' | Other: '+formData.HPPD_Symptoms_Other : ''),
+                    'Onset Timing After Drug Use': formData.HPPD_Beginning + (formData.HPPD_Beginning_Other ? ': '+formData.HPPD_Beginning_Other : ''),
+                    'Trigger': formData.HPPD_Trigger + (formData.HPPD_Trigger_Plus ? ' + '+formData.HPPD_Trigger_Plus : '') + (formData.HPPD_Trigger_Other ? ': '+formData.HPPD_Trigger_Other : ''),
+                    'Episode Type': formData.HPPD_Episodes + (formData.HPPD_Episodes_Other ? ': '+formData.HPPD_Episodes_Other : ''),
+                    'Causative Drugs': formData.HPPD_Drugs.join(', ') + (formData.HPPD_Drugs_Other ? ' | Other: '+formData.HPPD_Drugs_Other : ''),
+                    'Additional Drug Info': formData.HPPD_AdditionalInfo || 'N/A',
+                    'Unusual Circumstances': formData.HPPD_Unusual + (formData.HPPD_Unusual_Text ? ': '+formData.HPPD_Unusual_Text : ''),
+                    'Medications at Onset': formData.HPPD_Medications + (formData.HPPD_Medications_Text ? ': '+formData.HPPD_Medications_Text : ''),
+                    'HPPD Subtype': formData.HPPD_Subtype,
+                    'HPPD Progression': formData.HPPD_Progression
                 }">
                     <tr>
                         <td class="border border-slate-300 p-1 font-bold w-1/3 bg-slate-50" x-text="key"></td>
                         <td class="border border-slate-300 p-1" x-text="val"></td>
                     </tr>
                 </template>
+            </table>
+            <!-- Dose Matrix -->
+            <template x-if="formData.HPPD_Drugs.length > 0">
+                <table class="w-full border-collapse border border-slate-400 mt-2">
+                    <thead class="bg-slate-100"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">Causative Drug Doses</th></tr></thead>
+                    <template x-for="drug in formData.HPPD_Drugs">
+                        <tr>
+                            <td class="border border-slate-300 p-1 font-bold w-1/3" x-text="drug === 'Other' && formData.HPPD_Drugs_Other ? 'Other: '+formData.HPPD_Drugs_Other : drug"></td>
+                            <td class="border border-slate-300 p-1" x-text="formData.HPPD_Doses[drug] || 'Not specified'"></td>
+                        </tr>
+                    </template>
+                </table>
+            </template>
+        </div>
+
+        <!-- MODULE 5B: PAST WEEK IMPACT (Pages 26-27) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 5B: Past Week Impact (Pages 26-27)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold w-1/3 bg-slate-50">Not working/studying for non-HPPD reasons</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Work || 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Work/School (0-10)</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Work/school'] !== null ? formData.HPPD_Disruption['Work/school'] : 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Social Life (0-10)</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Social life'] !== null ? formData.HPPD_Disruption['Social life'] : 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Family Life (0-10)</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Family life/home responsibilities'] !== null ? formData.HPPD_Disruption['Family life/home responsibilities'] : 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption Description</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption_Details || 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Days Lost (totally unproductive)</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Days_Lost !== '' ? formData.HPPD_Days_Lost : 'N/A'"></td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Days Underproductive</td>
+                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Unproductive !== '' ? formData.HPPD_Unproductive : 'N/A'"></td>
+                </tr>
             </table>
         </div>
 
@@ -1602,10 +1708,12 @@
             <p class="font-bold text-slate-500 mb-1">Medication Classes Tried & Reported Effects:</p>
             <div class="space-y-2">
                 <template x-for="category in [
-                    {name: 'Benzodiazepines', use: 'HPPD_Benzo_Use', effect: 'HPPD_Benzo_Effect'},
-                    {name: 'Antidepressants', use: 'HPPD_AntiDep_Use', effect: 'HPPD_AntiDep_Effect'},
-                    {name: 'Mood Stabilizers', use: 'HPPD_MoodStab_Use', effect: 'HPPD_MoodStab_Effect'},
-                    {name: 'Supplements', use: 'HPPD_Supp_Use', effect: 'HPPD_Supp_Effect'}
+                    {name: 'Benzodiazepines', use: 'HPPD_Benzo_Use', effect: 'HPPD_Benzo_Effect', other: 'HPPD_Benzo_Other'},
+                    {name: 'Antidepressants', use: 'HPPD_AntiDep_Use', effect: 'HPPD_AntiDep_Effect', other: 'HPPD_AntiDep_Other'},
+                    {name: 'Mood Stabilizers', use: 'HPPD_MoodStab_Use', effect: 'HPPD_MoodStab_Effect', other: 'HPPD_MoodStab_Other'},
+                    {name: 'Antipsychotics', use: 'HPPD_AntiPsy_Use', effect: 'HPPD_AntiPsy_Effect', other: 'HPPD_AntiPsy_Other'},
+                    {name: 'Other Medications', use: 'HPPD_OtherMed_Use', effect: 'HPPD_OtherMed_Effect', other: 'HPPD_OtherMed_Other'},
+                    {name: 'Supplements', use: 'HPPD_Supp_Use', effect: 'HPPD_Supp_Effect', other: 'HPPD_Supp_Other'}
                 ]">
                     <div x-show="formData[category.use].length > 0 && !formData[category.use].includes('None of the above')">
                         <table class="w-full border-collapse border border-slate-400">
@@ -1620,7 +1728,32 @@
                     </div>
                 </template>
             </div>
-            <div class="mt-4 p-2 bg-slate-50 border border-slate-300">
+            <!-- Non-Drug Treatments -->
+            <template x-if="formData.HPPD_NonDrug_Use.length > 0">
+                <table class="w-full border-collapse border border-slate-400 mt-2">
+                    <thead class="bg-slate-100"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">Non-Drug Treatments</th></tr></thead>
+                    <template x-for="item in formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above')">
+                        <tr>
+                            <td class="border border-slate-300 p-1 w-1/2" x-text="item"></td>
+                            <td class="border border-slate-300 p-1 italic" x-text="formData.HPPD_NonDrug_Effect[item] || 'Not Rated'"></td>
+                        </tr>
+                    </template>
+                    <template x-if="formData.HPPD_NonDrug_Use.includes('None of the above')">
+                        <tr><td class="border border-slate-300 p-1" colspan="2">None of the above</td></tr>
+                    </template>
+                </table>
+            </template>
+            <div class="mt-2 p-2 bg-slate-50 border border-slate-300 space-y-1">
+                <p><strong>Alternative / Complementary Therapies:</strong> <span x-text="formData.HPPD_Alternatives + (formData.HPPD_Alternatives_Details ? ': ' + formData.HPPD_Alternatives_Details : '')"></span></p>
+                <p><strong>Post-HPPD Psychedelic Use:</strong> <span x-text="formData.HPPD_PsyUse"></span></p>
+                <template x-if="formData.HPPD_PsyUse === 'Yes'">
+                    <div>
+                        <p><strong>Psychedelic Effect:</strong> <span x-text="formData.HPPD_PsyEffect + (formData.HPPD_PsyEffect_Other ? ': '+formData.HPPD_PsyEffect_Other : '')"></span></p>
+                        <p><strong>Psychedelic Effect Details:</strong> <span x-text="formData.HPPD_PsyEffect_TEXT"></span></p>
+                    </div>
+                </template>
+                <p><strong>HPPD Treatment Comments:</strong> <span x-text="formData.HPPD_Comments || 'N/A'"></span></p>
+                <p><strong>Factors that Worsen HPPD:</strong> <span x-text="formData.HPPD_Worsened.join(', ') + (formData.HPPD_Worsened_Other ? ' | Other: '+formData.HPPD_Worsened_Other : '')"></span></p>
                 <p><strong>Most Effective Treatment:</strong> <span x-text="formData.HPPD_MostEffective"></span></p>
                 <p><strong>Most Harmful Treatment:</strong> <span x-text="formData.HPPD_Harmful"></span></p>
             </div>
@@ -1647,6 +1780,47 @@
             </div>
         </div>
 
+        <!-- UEQ & UEQ Final -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 7B: Unusual Experiences (UEQ)</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <table class="border-collapse border border-slate-400">
+                    <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Items 1–18</th></tr></thead>
+                    <template x-for="(q, idx) in ueqQuestions">
+                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ[idx] !== undefined ? formData.UEQ[idx] : '-'"></td></tr>
+                    </template>
+                </table>
+                <table class="border-collapse border border-slate-400">
+                    <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Final Items</th></tr></thead>
+                    <template x-for="(idx) in [0, 1]">
+                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="'Item '+(idx+19)"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ_Final[idx] !== undefined ? formData.UEQ_Final[idx] : '-'"></td></tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+
+        <!-- IPI-Mini -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 7C: IPI-Mini (Personality)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
+                <template x-for="(q, idx) in ipiQuestions">
+                    <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.IPIMini[idx] !== undefined ? formData.IPIMini[idx] : '-'"></td></tr>
+                </template>
+            </table>
+        </div>
+
+        <!-- BDES -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 7D: Brief Dissociative Experiences Scale (BDES)</h3>
+            <table class="w-full border-collapse border border-slate-400">
+                <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
+                <template x-for="(q, idx) in bdesQuestions">
+                    <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.BDES[idx] !== undefined ? formData.BDES[idx] : '-'"></td></tr>
+                </template>
+            </table>
+        </div>
+
         <!-- FINAL COMMENTS -->
         <div class="mt-10 pt-4 border-t-2 border-black break-inside-avoid">
             <p class="font-bold uppercase underline mb-2">Final Comments (Comments_1):</p>
@@ -1671,8 +1845,8 @@
             <span x-text="errorMsg"></span>
         </div>
         <footer style="padding: 5px !important;" class="bg-white border-t p-6 flex justify-between items-center max-w-3xl mx-auto rounded-t-2xl shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
-            <button @click="prev" :disabled="step === 1" class="px-8 py-3 rounded-xl border font-bold text-slate-400 disabled:opacity-20 transition hover:bg-slate-50">Back</button>
-            <button @click="next" class="px-14 py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all">Next</button>
+            <button @click="prev" :disabled="step === 1" class="px-8 py-3 rounded-xl border font-bold text-slate-600 disabled:opacity-20 transition hover:bg-slate-50">Back</button>
+            <button x-show="step !== 'LOG'" @click="next" class="px-14 py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all">Next</button>
         </footer>
     </div>
 </div>
@@ -1687,7 +1861,7 @@ function surveyApp() {
             // Demographics
             Consent_Sign: null, Demo_Age: '', Demo_Gender: '', Demo_Gender_Other: '', 
             Demo_Sex: '', Demo_Relationship: '', Demo_Race: [], Demo_Race_Other: '',
-            Demo_Hispanic: '', Demo_Country: 'United States of America', Demo_Country_Other: '', 
+            Demo_Year: '', Demo_Hispanic: '', Demo_Country: 'United States of America', Demo_Country_Other: '', 
             Demo_USState: '', Demo_Education: '', Demo_Employment: '', Demo_Income: '',
             
             // Prior Health
@@ -1750,7 +1924,7 @@ function surveyApp() {
             HPPD_AntiDep_Use: [], HPPD_AntiDep_Other: '',
             // Page 30
             HPPD_AntiDep_Effect: {}, 
-            HPPD_MoodStab_Use: [], HPPD_MoodStab_Other: '',
+            HPPD_MoodStab_Use: [], HPPD_MoodStab_Other: '', HPPD_MoodStab_Effect: {},
 
              HPPD_AntiPsy_Use: [], HPPD_AntiPsy_Other: '', HPPD_AntiPsy_Effect: {},
             HPPD_OtherMed_Use: [], HPPD_OtherMed_Other: '', HPPD_OtherMed_Effect: {},
@@ -2019,6 +2193,15 @@ next() {
         if (this.formData.PreHPPD_SigHealth_Toggle === 'Yes' && !this.formData.PreHPPD_SigHealth_Details.trim()) { this.errorMsg = "PLEASE PROVIDE DETAILS OF YOUR OTHER SIGNIFICANT HEALTH CONDITIONS."; return; }
     }
 
+    // PAGE 11 VALIDATION: Substance history — all substances must have a selection
+    if (this.step === 7) {
+        const missing = this.subList.filter(s => s !== 'Other' && !this.formData.Substances[s]);
+        if (missing.length > 0) { this.errorMsg = "PLEASE SELECT A FREQUENCY FOR ALL SUBSTANCES IN THE TABLE."; return; }
+        if (this.formData.Substances['Other'] && this.formData.Substances['Other'] !== 'Never' && !this.formData.Substances_Other_Text.trim()) {
+            this.errorMsg = "PLEASE SPECIFY THE OTHER SUBSTANCE."; return;
+        }
+    }
+
     // PAGE 13 VALIDATION: PQ16 page 1 — all 8 questions required
     if (this.step === 9) {
         for (let i = 0; i < 8; i++) {
@@ -2098,6 +2281,12 @@ next() {
         if (!this.formData.HPPD_Trigger) { this.errorMsg = "REQUIRED: PLEASE SELECT WHAT TRIGGERED YOUR VISUAL SYMPTOMS."; return; }
         if (this.formData.HPPD_Trigger === 'Drug use plus something else:' && !this.formData.HPPD_Trigger_Plus.trim()) { this.errorMsg = "PLEASE SPECIFY THE OTHER FACTOR."; return; }
         if (this.formData.HPPD_Trigger === 'Other:' && !this.formData.HPPD_Trigger_Other.trim()) { this.errorMsg = "PLEASE SPECIFY THE OTHER TRIGGER."; return; }
+        const isDrugTrigger = this.formData.HPPD_Trigger === 'Just drug use' || this.formData.HPPD_Trigger === 'Drug use plus something else:';
+        if (!isDrugTrigger) {
+            this.step = 21;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            return;
+        }
     }
 
    // PAGE 20 VALIDATION: Ensure "Other" text is filled if checked
@@ -2199,6 +2388,11 @@ next() {
         // Check MoodStab Selection
         if (this.formData.HPPD_MoodStab_Use.length === 0) { this.errorMsg = "PLEASE SELECT A MOOD STABILIZER OR 'NONE'."; return; }
         if (this.formData.HPPD_MoodStab_Use.includes('Other mood stabilizer or anticonvulsant') && !this.formData.HPPD_MoodStab_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER MEDICATION."; return; }
+        for (let med of this.formData.HPPD_MoodStab_Use) {
+            if (med !== 'None of the above' && !this.formData.HPPD_MoodStab_Effect[med]) {
+                this.errorMsg = "PLEASE RATE THE EFFECT OF YOUR MOOD STABILIZERS."; return;
+            }
+        }
     }
      // PAGE 31: Antipsychotics Validation
     if (this.step === 27) {
@@ -2222,6 +2416,11 @@ next() {
     // PAGE 34: Non-drug treatments & alternative therapies
     if (this.step === 30) {
         if (this.formData.HPPD_NonDrug_Use.length === 0) { this.errorMsg = "REQUIRED: PLEASE SELECT AT LEAST ONE NON-DRUG TREATMENT (OR 'NONE OF THE ABOVE')."; return; }
+        for (let treat of this.formData.HPPD_NonDrug_Use) {
+            if (treat !== 'None of the above' && !this.formData.HPPD_NonDrug_Effect[treat]) {
+                this.errorMsg = "PLEASE RATE THE EFFECT OF ALL SELECTED NON-DRUG TREATMENTS."; return;
+            }
+        }
         if (!this.formData.HPPD_Alternatives) { this.errorMsg = "REQUIRED: PLEASE INDICATE IF YOU HAVE TRIED ALTERNATIVE OR COMPLEMENTARY THERAPIES."; return; }
         if (this.formData.HPPD_Alternatives === 'Yes' && !this.formData.HPPD_Alternatives_Details.trim()) { this.errorMsg = "PLEASE DESCRIBE THE ALTERNATIVE THERAPY."; return; }
     }
@@ -2354,6 +2553,17 @@ printReport() {
 },
         prev() {
             this.errorMsg = null;
+            if (this.step === 'LOG') {
+                this.step = 40;
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                return;
+            }
+            const isDrugTrigger = this.formData.HPPD_Trigger === 'Just drug use' || this.formData.HPPD_Trigger === 'Drug use plus something else:';
+            if ((this.step === 21 || this.step === 20) && !isDrugTrigger) {
+                this.step = 18;
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                return;
+            }
             if (this.step === 13) {
                 const hasTrue = this.formData.PQ16_Endorse.includes('True');
                 this.step = hasTrue ? 12 : 10;
