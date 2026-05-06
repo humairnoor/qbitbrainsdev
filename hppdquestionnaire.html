@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HPPD Questionnaire -  Version 1.0</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="tailwindcss3-4-17.js"></script>
+    <script defer src="alpinejs3-15-12-cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
         .matrix-row:nth-child(even) { background-color: #f8fafc; }
@@ -19,7 +19,19 @@
             transition: all 0.2s;
         }
         select:focus, input:focus { border-color: #2563eb; /*ring: 3px; ring-color: #bfdbfe; */ }
-        .section-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }    
+        .section-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+
+        /* Mobile: wide medication-effect matrices scroll horizontally instead of crushing cells.
+           (The 0-10 disruption scale on page 22 uses a stacked grid instead — see grid-cols-6 sm:grid-cols-11 in markup.) */
+        @media (max-width: 640px) {
+            .section-card div:has(> .grid.grid-cols-7),
+            .section-card div:has(> .grid.grid-cols-5.gap-1) {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .grid.grid-cols-7        { min-width: 480px; }
+            .grid.grid-cols-5.gap-1  { min-width: 360px; }
+        }
     </style>
 <script>
   function printTranscript() {
@@ -28,34 +40,52 @@
 </script>
 
 <style>
+  /* Hidden on screen; shown only when printing */
+  .print-footer { display: none; }
+
+  @page {
+    margin: 1.5cm 1.2cm 2cm 1.2cm;
+    size: letter;
+  }
+
   @media print {
-    /* Hide everything except the transcript div 
-    body * {
-      visibility: hidden;
-    }
-    */
     #ControlBannerDiv {
       visibility: hidden;
     }
-    .bg-white.p-6.md\:p-10.border.border-slate-300.print\:border-0.print\:p-0.font-sans.text-\[10px\].leading-tight.text-slate-900,
     #transcript-container {
       visibility: visible;
       position: absolute;
       left: 0;
       top: 0;
       width: 100%;
-    }
-    
-    /* Ensure the div takes full page */
-    .bg-white.p-6.md\:p-10.border.border-slate-300.print\:border-0.print\:p-0.font-sans.text-\[10px\].leading-tight.text-slate-900 {
       margin: 0;
       padding: 0;
       border: none;
+    }
+    .print-footer {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 9pt;
+      color: #555;
+      border-top: 1px solid #cbd5e1;
+      padding: 4px 12px;
+      background: white;
     }
   }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased pb-48">
+
+<noscript>
+    <div style="max-width: 720px; margin: 4rem auto; padding: 2rem; border: 2px solid #dc2626; background: #fef2f2; color: #7f1d1d; border-radius: 1rem; font-family: system-ui, sans-serif;">
+        <h2 style="font-weight: 900; font-size: 1.25rem; margin: 0 0 0.75rem;">JavaScript is required</h2>
+        <p style="margin: 0;">This questionnaire cannot run without JavaScript. Please enable JavaScript in your browser settings and reload the page.</p>
+    </div>
+</noscript>
 
 <div x-data="surveyApp()" x-cloak class="min-h-screen">
     
@@ -64,13 +94,17 @@
         <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
             <div>
                 <h1 class="text-sm font-black text-slate-900 tracking-widest"><a href="https://www.drstevenlocke.com" >Steven Locke, MD </a></h1>
-                <p class="text-xs text-slate-800">Prepared in coordination with Johns Hopkins Medicine Center for Psychedelic & Consciousness Research</p>
+                <p class="text-xs text-slate-800">Adapted with permission from the Johns Hopkins Center for Psychedelic &amp; Consciousness Research</p>
             </div>
-            <div class="flex items-center gap-4">
-                <!--span   class="text-xs font-bold text-blue-600" x-text="`Page ${step} / 20`"></span-->
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-blue-600 tabular-nums whitespace-nowrap" x-text="stepLabel()"></span>
                 <div class="w-24 bg-slate-200 h-2 rounded-full overflow-hidden">
-                    <div class="bg-blue-600 h-full transition-all duration-700" :style="`width: ${(step/44)*100}%`"></div>
+                    <div class="bg-blue-600 h-full transition-all duration-700" :style="`width: ${progressPercent()}%`"></div>
                 </div>
+                <button x-show="step !== 1"
+                        @click="if (confirm('Start over? This will erase all your saved answers from this device and reload the page.')) resetSession()"
+                        type="button"
+                        class="text-[11px] font-semibold text-slate-500 hover:text-red-600 underline whitespace-nowrap">Start over</button>
             </div>
         </div>
     </header>
@@ -100,10 +134,17 @@
             <div class="space-y-4">
                 <p class="font-bold border-b pb-1">Eligibility Criteria</p>
                 <ul class="list-decimal pl-5 space-y-1">
-                    <!--li>You are at least 18 years old.</li-->
                     <li>You read, write, and speak English fluently.</li>
-                    <li>Have a self-reported history of HPPD, or a history of any other lasting perceptual changes.</li>
+                    <li>You have, or previously had, HPPD or any other lasting perceptual changes that occurred after the use of a psychedelic.</li>
                 </ul>
+
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg space-y-3">
+                    <p class="font-bold text-slate-900">How your information is handled</p>
+                    <p class="text-sm leading-relaxed">This form runs entirely in your browser. Nothing is sent anywhere until <strong>you</strong> save the PDF and email it to Dr. Locke's office at <a href="mailto:office@drstevenlocke.com" class="text-blue-700 underline font-semibold">office@drstevenlocke.com</a>. Your answers are saved locally in your browser only, so you can safely close the tab and return later on the same device to continue where you left off.</p>
+                    <p class="text-sm leading-relaxed">Once you email the PDF to Dr. Locke's office, the information becomes part of your medical record and is protected under standard healthcare privacy rules &mdash; <strong>HIPAA</strong> in the United States, or the equivalent in other countries (e.g., <strong>PIPEDA</strong> in Canada, the <strong>UK GDPR / Data Protection Act</strong> in the United Kingdom). Dr. Locke's office is then responsible for safeguarding it.</p>
+                    <p class="text-sm leading-relaxed"><strong>When emailing this PDF, place it in a password-protected ZIP archive.</strong> You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> for this purpose. Share the password with Dr. Locke's office through a separate channel (phone or text) &mdash; not in the same email. Avoid sending from public Wi-Fi, and double-check the recipient address before sending.</p>
+                </div>
+
                 <p class="font-bold mb-4">To begin the questionnaire, please confirm eligibility:</p>
                 <form id="Consent_Sign">
                     <div class="space-y-3">
@@ -117,7 +158,7 @@
                         </label>
                     </div>
                 </form>
-                <div x-show="formData.Consent_Sign === 'yes'" class="section-card" :class="errorMsg && (!formData.Demo_Age || formData.Demo_Age < 18) ? 'border-red-500 ring-2 ring-red-100' : ''">
+                <div x-show="formData.Consent_Sign === 'yes'" class="section-card" :class="errorMsg && !formData.Demo_Age ? 'border-red-500 ring-2 ring-red-100' : ''">
                     <label class="block font-bold text-slate-900 mb-2">How old are you?</label>
                     <input type="number" x-model.number="formData.Demo_Age" placeholder="Enter age" class="md:w-1/3">
                      <label class="block font-bold text-slate-900 mb-2">Year you were born?</label>
@@ -325,7 +366,7 @@
                     <template x-for="c in priorCondList">
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer">
-                                <input type="checkbox" :value="c.label" x-model="formData.PreHPPD_PriorCond" class="text-blue-600 rounded">
+                                <input type="checkbox" :value="c.label" x-model="formData.PreHPPD_PriorCond" @change="toggleNone('PreHPPD_PriorCond', c.label)" class="text-blue-600 rounded">
                                 <span class="ml-3 text-base" x-text="c.label"></span>
                             </label>
                             <input x-show="formData.PreHPPD_PriorCond.includes(c.label) && c.hasText" type="text" x-model="formData.PreHPPD_PriorCond_Details[c.label]" placeholder="Please specify details" class="bg-blue-50 ml-6 w-[92%]">
@@ -926,17 +967,17 @@
                         <span class="text-xs font-black uppercase text-slate-900 tracking-tighter" x-text="area"></span>
                         <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded" x-show="formData.HPPD_Disruption[area] !== null" x-text="`Score: ${formData.HPPD_Disruption[area]}`"></span>
                     </div>
-                    <div class="flex justify-between gap-1">
+                    <div class="grid grid-cols-6 sm:grid-cols-11 gap-1">
                         <template x-for="n in [0,1,2,3,4,5,6,7,8,9,10]">
-                            <label class="flex flex-col items-center flex-1 group">
+                            <label class="flex flex-col items-center group p-2 sm:p-1 border border-transparent hover:border-blue-200 rounded cursor-pointer">
                                 <input type="radio" :name="area" :value="n" x-model="formData.HPPD_Disruption[area]" class="w-4 h-4 text-blue-600 mb-2">
                                 <span class="text-xs font-bold text-slate-900 group-hover:text-blue-600" x-text="n"></span>
                             </label>
                         </template>
                     </div>
-                    <div class="flex justify-between mt-2 px-1 text-sm uppercase text-slate-900">
+                    <div class="flex justify-between mt-2 px-1 text-xs sm:text-sm uppercase text-slate-900">
                         <span>Not at all</span>
-                        <span>Moderately</span>
+                        <span class="hidden sm:inline">Moderately</span>
                         <span>Extremely</span>
                     </div>
                 </div>
@@ -1484,8 +1525,15 @@
         </button>
     </div>
 
+    <!-- Submission notice (screen only — excluded from print) -->
+    <div class="print:hidden bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg mb-8 space-y-2">
+        <p class="font-bold text-slate-900">Before emailing this PDF</p>
+        <p class="text-sm leading-relaxed">Place the saved PDF in a password-protected ZIP archive, then email it to Dr. Locke's office at <a href="mailto:office@drstevenlocke.com" class="text-blue-700 underline font-semibold">office@drstevenlocke.com</a>. You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> to create the password-protected archive. Share the password with Dr. Locke's office through a separate channel (phone or text) &mdash; not in the same email.</p>
+        <p class="text-xs text-slate-700 italic"><strong>Tip:</strong> in your browser's print dialog, expand <em>More settings</em> and enable <em>Headers and footers</em> so each printed page shows a page number.</p>
+    </div>
+
     <!-- START OF TRANSCRIPT -->
-    <div id="transcript-container"  class="bg-white p-6 md:p-10 border border-slate-300 print:border-0 print:p-0 font-sans text-[10px] leading-tight text-slate-900">
+    <div id="transcript-container"  class="bg-white p-6 md:p-10 border border-slate-300 print:border-0 print:p-0 font-sans text-[11px] leading-snug text-slate-900">
         
         <!-- Clinical Header -->
         <!--div class="border-b-4 border-black pb-4 mb-6 flex justify-between items-end">
@@ -1500,15 +1548,15 @@
         </div-->
 
         <!-- PATIENT SUMMARY HEADER -->
-        <div class="flex justify-between items-center border border-slate-400 bg-slate-50 px-3 py-2 mb-4 text-[11px] font-bold">
-            <span>HPPD Research Protocol: IRB00384491</span>
+        <div class="flex justify-between items-center border border-slate-400 bg-slate-50 px-3 py-2 mb-4 text-[12px] font-bold">
+            <span>HPPD Patient Intake</span>
             <span>Age: <span x-text="formData.Demo_Age"></span> &nbsp;|&nbsp; Birth Year: <span x-text="formData.Demo_Year"></span></span>
             <span x-text="`Generated: ${completionTimestamp}`"></span>
         </div>
 
         <!-- MODULE 1: CONSENT & DEMOGRAPHICS -->
         <div class="mb-6">
-            <h3 class="bg-black text-white p-1 font-bold uppercase mb-2">Module 1: Participant Baseline (Pages 1-8)</h3>
+            <h3 class="bg-black text-white p-1 font-bold uppercase mb-2">Module 1: Patient Baseline (Pages 1-8)</h3>
             <table class="w-full border-collapse border border-slate-400">
                 <template x-for="(val, key) in {
                     'Consent_Sign (Eligibility)': formData.Consent_Sign,
@@ -1549,7 +1597,7 @@
             </div>
             <!-- Family Matrix -->
             <table class="w-full border-collapse border border-slate-400">
-                <thead class="bg-slate-100 font-bold text-[8px]">
+                <thead class="bg-slate-100 font-bold text-[10px]">
                     <tr><th class="border border-slate-400 p-1">Condition</th><th class="border border-slate-400 p-1 text-center">1st Deg Relative</th><th class="border border-slate-400 p-1 text-center">2nd Deg Relative</th></tr>
                 </thead>
                 <tbody>
@@ -1767,14 +1815,14 @@
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">GAD-7 (Anxiety)</th></tr></thead>
                     <template x-for="(q, idx) in gadQuestions">
-                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.GAD[idx]"></td></tr>
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.GAD[idx]"></td></tr>
                     </template>
                 </table>
                 <!-- PHQ-9 -->
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">PHQ-9 (Depression)</th></tr></thead>
                     <template x-for="(q, idx) in phqQuestions">
-                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.PHQ[idx]"></td></tr>
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.PHQ[idx]"></td></tr>
                     </template>
                 </table>
             </div>
@@ -1787,13 +1835,13 @@
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Items 1–18</th></tr></thead>
                     <template x-for="(q, idx) in ueqQuestions">
-                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ[idx] !== undefined ? formData.UEQ[idx] : '-'"></td></tr>
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ[idx] !== undefined ? formData.UEQ[idx] : '-'"></td></tr>
                     </template>
                 </table>
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Final Items</th></tr></thead>
                     <template x-for="(idx) in [0, 1]">
-                        <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="'Item '+(idx+19)"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ_Final[idx] !== undefined ? formData.UEQ_Final[idx] : '-'"></td></tr>
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="'Item '+(idx+19)"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ_Final[idx] !== undefined ? formData.UEQ_Final[idx] : '-'"></td></tr>
                     </template>
                 </table>
             </div>
@@ -1805,7 +1853,7 @@
             <table class="w-full border-collapse border border-slate-400">
                 <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
                 <template x-for="(q, idx) in ipiQuestions">
-                    <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.IPIMini[idx] !== undefined ? formData.IPIMini[idx] : '-'"></td></tr>
+                    <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.IPIMini[idx] !== undefined ? formData.IPIMini[idx] : '-'"></td></tr>
                 </template>
             </table>
         </div>
@@ -1816,7 +1864,7 @@
             <table class="w-full border-collapse border border-slate-400">
                 <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
                 <template x-for="(q, idx) in bdesQuestions">
-                    <tr><td class="border border-slate-300 p-1 text-[7px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.BDES[idx] !== undefined ? formData.BDES[idx] : '-'"></td></tr>
+                    <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.BDES[idx] !== undefined ? formData.BDES[idx] : '-'"></td></tr>
                 </template>
             </table>
         </div>
@@ -1832,9 +1880,14 @@
             <div class="p-2 bg-slate-50 border border-slate-300" x-text="formData.Survey_CompletionTime || 'N/A'"></div>
         </div>
 
-        <div class="mt-20 text-center text-[7px] text-slate-400 font-mono italic">
+        <div class="mt-20 text-center text-[9px] text-slate-400 font-mono italic">
             Certified Record - End of HPPD Clinical Transcript
         </div>
+    </div>
+
+    <!-- Repeating footer on every printed page (screen-hidden) -->
+    <div class="print-footer">
+        HPPD Patient Intake &mdash; Age: <span x-text="formData.Demo_Age"></span> &mdash; Birth Year: <span x-text="formData.Demo_Year"></span> &mdash; <span x-text="`Generated: ${completionTimestamp}`"></span>
     </div>
 </div>
     </main>
@@ -1882,9 +1935,8 @@ function surveyApp() {
             HPPD_VisualSymptoms: [], HPPD_Learned: [], HPPD_Learned_Other: '',
             HPPD_Perception: '', HPPD_Impairment: [], HPPD_Impairment_Other: '',
             HPPD_Diagnosis: [], HPPD_Diagnosis_Other: '', HPPD_Diagnosis_Prior: [],
-               // HPPD Specifics
-                   HPPD_VisualSymptoms: [], // Stores selected checkboxes
-            HPPD_VisualSymptoms_Other: '', // Stores the "Other" text,
+            // HPPD Specifics
+            HPPD_VisualSymptoms_Other: '',
             HPPD_Clarification: '', HPPD_Symptoms: [], HPPD_Symptoms_Other: '',
             HPPD_Beginning: '', HPPD_Beginning_Other: '', HPPD_Trigger: '',
             HPPD_Trigger_Plus: '', HPPD_Trigger_Other: '',
@@ -2033,13 +2085,7 @@ moodStabList: ['lithium', 'valproic acid (Depakote, Depakene)', 'lamotrigine (La
         familyList: ['HPPD','Visual snow','Schizophrenia','Major depressive disorder','Bipolar 1 or 2 (Manic Depressive Illness)','Anxiety disorder','Panic disorder','Obsessive-Compulsive Disorder (OCD)','Psychiatric hospitalization','Seizure disorder','Neurodegenerative disorder (e.g. Alzheimer\'s, MS)','Stroke or Cerebrovascular Disease','Suicide or Suicidal Behavior'],
         subHeaders: ['Never', '1-2', '3-5', '6-10', '11-24', '25-50', '51-100', '100+'],
         subList: ['LSD ("acid")', 'Psilocybin (mushrooms)', 'MDMA (ecstasy)', 'Ayahuasca', 'Cannabis (weed)', 'Ketamine', 'Other'],
-        priorCondList: [{label:'Tinnitus',hasText:false},{label:'Eye floaters',hasText:false},{label:'Head trauma',hasText:false},{label:'Migraine headache',hasText:false},{label:'Other headache disorder',hasText:true},{label:'Other neurological condition',hasText:true}],
-         gadQuestions: [
-            "Feeling nervous, anxious or on edge", "Not being able to stop or control worrying", 
-            "Worrying too much about different things", "Trouble relaxing", 
-            "Being so restless that it is hard to sit still", "Becoming easily annoyed or irritable", 
-            "Feeling afraid as if something awful may happen"
-        ],
+        priorCondList: [{label:'Tinnitus',hasText:false},{label:'Eye floaters',hasText:false},{label:'Head trauma',hasText:false},{label:'Migraine headache',hasText:false},{label:'Other headache disorder',hasText:true},{label:'Other neurological condition',hasText:true},{label:'None of the above',hasText:false}],
         // List Definitions Verbatim from PDF
 antiPsyList: ['risperidone (Risperdal)', 'aripiprazole (Abilify)', 'olanzapine (Zyprexa)', 'quetiapine (Seroquel)', 'lurasidone (Latuda)', 'haloperidol (Haldol)', 'clozapine (Clozaril)', 'cariprazine (Vraylar)', 'asenapine (Saphris)', 'other antipsychotic or neuroleptic', 'None of the above'],
 
@@ -2149,8 +2195,8 @@ next() {
     // PAGE 5: Eligibility
     if (this.step === 1) {
         if (!this.formData.Consent_Sign) { this.errorMsg = "REQUIRED: PLEASE CONFIRM ELIGIBILITY."; return; }
-        if (this.formData.Consent_Sign === 'no') { this.errorMsg = "As your age is less than 18, you are not eligible to participate in this study.";  return; }
-        if (!this.formData.Demo_Age || this.formData.Demo_Age < 18) { this.errorMsg = "ERROR: AGE MUST BE 18 OR OLDER."; return; }
+        if (this.formData.Consent_Sign === 'no') { this.errorMsg = "You indicated you do not meet the eligibility criteria (English fluency, and HPPD or other lasting perceptual changes after psychedelic use). You cannot continue."; return; }
+        if (!this.formData.Demo_Age) { this.errorMsg = "ERROR: PLEASE ENTER YOUR AGE."; return; }
         if (!this.formData.Demo_Year) { this.errorMsg = "ERROR: PLEASE ENTER YOUR BIRTH YEAR."; return; }
         const currentYear = new Date().getFullYear();
         const expectedAge1 = currentYear - this.formData.Demo_Year;
@@ -2269,7 +2315,6 @@ next() {
 
     // PAGE 21 VALIDATION: Accompanying symptoms
     if (this.step === 17) {
-        if (!this.formData.HPPD_Clarification.trim()) { this.errorMsg = "REQUIRED: PLEASE DESCRIBE OR CLARIFY ANY OTHER ASPECTS OF YOUR HPPD BEFORE CONTINUING."; return; }
         if (this.formData.HPPD_Symptoms.length === 0) { this.errorMsg = "REQUIRED: PLEASE SELECT AT LEAST ONE SYMPTOM (OR 'I HAVE NONE OF THE ABOVE')."; return; }
         if (this.formData.HPPD_Symptoms.includes('Other sensory problem (numbness, tingling, sensitivity to touch)') && !this.formData.HPPD_Symptoms_Other.trim()) { this.errorMsg = "PLEASE SPECIFY THE OTHER SENSORY PROBLEM."; return; }
     }
@@ -2283,6 +2328,13 @@ next() {
         if (this.formData.HPPD_Trigger === 'Other:' && !this.formData.HPPD_Trigger_Other.trim()) { this.errorMsg = "PLEASE SPECIFY THE OTHER TRIGGER."; return; }
         const isDrugTrigger = this.formData.HPPD_Trigger === 'Just drug use' || this.formData.HPPD_Trigger === 'Drug use plus something else:';
         if (!isDrugTrigger) {
+            // Clear orphan drug/dose data so the transcript stays consistent
+            this.formData.HPPD_Drugs = [];
+            this.formData.HPPD_Drugs_Other = '';
+            this.formData.HPPD_Doses = {};
+            this.formData.HPPD_AdditionalInfo = '';
+            this.formData.HPPD_Unusual = '';
+            this.formData.HPPD_Unusual_Text = '';
             this.step = 21;
             window.scrollTo({top: 0, behavior: 'smooth'});
             return;
@@ -2551,6 +2603,71 @@ downloadData() {
 printReport() {
     window.print();
 },
+
+progressPercent() {
+    if (this.step === 'LOG') return 100;
+    if (this.step === 'FAM_DETAILS') return Math.round((6.5 / 40) * 100);
+    const n = Number(this.step);
+    if (!Number.isFinite(n)) return 0;
+    return Math.min(100, Math.round((n / 40) * 100));
+},
+
+stepLabel() {
+    if (this.step === 'LOG') return 'Review';
+    if (this.step === 'FAM_DETAILS') return 'Family history';
+    const n = Number(this.step);
+    if (!Number.isFinite(n)) return '';
+    return `Page ${n} / 40`;
+},
+
+init() {
+    try {
+        const saved = localStorage.getItem('hppd_questionnaire_v1');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.formData) {
+                Object.keys(parsed.formData).forEach(k => {
+                    if (k in this.formData) this.formData[k] = parsed.formData[k];
+                });
+            }
+            if (parsed && parsed.step !== undefined && parsed.step !== 'LOG') {
+                this.step = parsed.step;
+            }
+        }
+    } catch (e) { /* ignore corrupt storage */ }
+    this.$watch('formData', () => this.persist(), { deep: true });
+    this.$watch('step', () => this.persist());
+    this.$watch('errorMsg', (val) => { if (val) this.scrollToFirstError(); });
+},
+
+scrollToFirstError() {
+    this.$nextTick(() => {
+        const candidates = document.querySelectorAll('.border-red-500');
+        for (const el of candidates) {
+            if (el.offsetParent !== null) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+        }
+        // Fallback when no field has the red-border marker (e.g. matrix-row validations)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+},
+
+persist() {
+    try {
+        localStorage.setItem('hppd_questionnaire_v1', JSON.stringify({
+            formData: this.formData,
+            step: this.step
+        }));
+    } catch (e) { /* storage full or unavailable */ }
+},
+
+resetSession() {
+    try { localStorage.removeItem('hppd_questionnaire_v1'); } catch (e) {}
+    location.reload();
+},
+
         prev() {
             this.errorMsg = null;
             if (this.step === 'LOG') {
