@@ -689,17 +689,19 @@
     </div>
 
     <!-- HPPD_Diagnosis_Prior -->
-    <div x-show="formData.HPPD_Diagnosis.length > 0 && !formData.HPPD_Diagnosis.includes('None of the above')" class="section-card animate-fade-in">
+    <div x-show="formData.HPPD_Diagnosis.length > 0 && !formData.HPPD_Diagnosis.includes('None of the above')"
+         class="section-card animate-fade-in"
+         :class="errorMsg && formData.HPPD_Diagnosis.length > 0 && !formData.HPPD_Diagnosis.includes('None of the above') && formData.HPPD_Diagnosis_Prior.length === 0 ? 'border-red-500' : ''">
         <p class="font-bold mb-4">Please select which of the following were diagnosed BEFORE you developed HPPD: (Check all that apply)</p>
         <div class="space-y-2">
             <template x-for="selected in formData.HPPD_Diagnosis.filter(i => i !== 'None of the above' && i !== 'Other condition (describe)')">
                 <label class="flex items-center p-2 bg-slate-50 border rounded-lg">
-                    <input type="checkbox" :value="selected" x-model="formData.HPPD_Diagnosis_Prior" class="mr-3">
+                    <input type="checkbox" :value="selected" x-model="formData.HPPD_Diagnosis_Prior" @change="toggleNone('HPPD_Diagnosis_Prior', selected, 'None were diagnosed before my HPPD onset')" class="mr-3">
                     <span class="text-base" x-text="selected"></span>
                 </label>
             </template>
             <label class="flex items-center p-2 bg-slate-50 border rounded-lg">
-                <input type="checkbox" value="None were diagnosed before my HPPD onset" x-model="formData.HPPD_Diagnosis_Prior" @change="if ($event.target.checked) formData.HPPD_Diagnosis_Prior = ['None were diagnosed before my HPPD onset']" class="mr-3">
+                <input type="checkbox" value="None were diagnosed before my HPPD onset" x-model="formData.HPPD_Diagnosis_Prior" @change="toggleNone('HPPD_Diagnosis_Prior', 'None were diagnosed before my HPPD onset', 'None were diagnosed before my HPPD onset')" class="mr-3">
                 <span class="text-base">None were diagnosed before my HPPD onset</span>
             </label>
         </div>
@@ -791,7 +793,7 @@
 
 <!-- PAGE 23: EPISODES & DRUG SELECTION -->
 <div x-show="step === 19" class="space-y-6">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && !formData.HPPD_Episodes ? 'border-red-500' : ''">
         <p class="font-bold text-base mb-4 text-slate-900">Do you believe that a single specific episode or multiple episodes of drug use contributed to your HPPD?</p>
         <div class="flex gap-4">
             <template x-for="opt in ['Single', 'Multiple', 'Other']">
@@ -804,7 +806,7 @@
         <input x-show="formData.HPPD_Episodes === 'Other'" type="text" x-model="formData.HPPD_Episodes_Other" placeholder="Specify..." class="mt-4 bg-blue-50">
     </div>
 
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (formData.HPPD_Drugs.length === 0 || (formData.HPPD_Drugs.includes('Other') && !formData.HPPD_Drugs_Other.trim())) ? 'border-red-500' : ''">
         <p class="font-black text-slate-900 text-sm mb-4">What Drug(s) do you believe caused HPPD? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="drug in drugListDetailed" :key="drug">
@@ -1450,11 +1452,11 @@
     <template x-for="(q, idx) in (step === 38 ? ipiQuestions.slice(0,15) : ipiQuestions.slice(15,20))" :key="'ipi'+idx">
         <div class="section-card" :class="errorMsg && formData.IPIMini[step === 38 ? idx : idx+15] === undefined ? 'border-red-500' : ''">
             <p class="text-sm font-bold text-slate-800 mb-6" x-text="q"></p>
-            <div class="grid grid-cols-5 gap-1 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 sm:gap-1 sm:text-center">
                 <template x-for="ans in ['Very inaccurate', 'Moderately inaccurate', 'Neither', 'Moderately accurate', 'Very Accurate']">
-                    <label class="flex flex-col items-center p-2 border border-slate-100 rounded-xl hover:bg-blue-50 cursor-pointer">
-                        <input type="radio" :name="'ipi_q'+(step === 38 ? idx : idx+15)" :value="ans" x-model="formData.IPIMini[step === 38 ? idx : idx+15]" class="w-4 h-4 mb-2">
-                        <span class="text-base text-slate-900 leading-none" x-text="ans"></span>
+                    <label class="flex sm:flex-col items-center p-2 border border-slate-200 rounded-xl hover:bg-blue-50 cursor-pointer">
+                        <input type="radio" :name="'ipi_q'+(step === 38 ? idx : idx+15)" :value="ans" x-model="formData.IPIMini[step === 38 ? idx : idx+15]" class="w-4 h-4 mr-3 sm:mr-0 sm:mb-2 flex-shrink-0">
+                        <span class="text-base text-slate-900 leading-snug text-left sm:text-center" x-text="ans"></span>
                     </label>
                 </template>
             </div>
@@ -1472,11 +1474,11 @@
     <template x-for="(q, idx) in bdesQuestions" :key="'bdes'+idx">
         <div class="section-card" :class="errorMsg && formData.BDES[idx] === undefined ? 'border-red-500' : ''">
             <p class="text-base font-bold text-slate-900 mb-4 leading-relaxed" x-text="q"></p>
-            <div class="grid grid-cols-5 gap-1">
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 sm:gap-1">
                 <template x-for="ans in ['Not at all', 'Once or twice', 'Almost every day', 'About once a day', 'More than once a day']">
-                    <label class="flex flex-col items-center p-2 border border-slate-100 rounded hover:bg-indigo-50 cursor-pointer">
-                        <input type="radio" :name="'bdes_'+idx" :value="ans" x-model="formData.BDES[idx]" class="w-4 h-4 mb-2">
-                        <span class="text-base text-center text-slate-900 leading-none" x-text="ans"></span>
+                    <label class="flex sm:flex-col items-center p-2 border border-slate-200 rounded hover:bg-indigo-50 cursor-pointer">
+                        <input type="radio" :name="'bdes_'+idx" :value="ans" x-model="formData.BDES[idx]" class="w-4 h-4 mr-3 sm:mr-0 sm:mb-2 flex-shrink-0">
+                        <span class="text-base text-slate-900 leading-snug text-left sm:text-center" x-text="ans"></span>
                     </label>
                 </template>
             </div>
@@ -1725,15 +1727,15 @@
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Work/School (0-10)</td>
-                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Work/school'] !== null ? formData.HPPD_Disruption['Work/school'] : 'N/A'"></td>
+                    <td class="border border-slate-300 p-1" x-text="formatScore(formData.HPPD_Disruption['Work/school'], 'disruption')"></td>
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Social Life (0-10)</td>
-                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Social life'] !== null ? formData.HPPD_Disruption['Social life'] : 'N/A'"></td>
+                    <td class="border border-slate-300 p-1" x-text="formatScore(formData.HPPD_Disruption['Social life'], 'disruption')"></td>
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption — Family Life (0-10)</td>
-                    <td class="border border-slate-300 p-1" x-text="formData.HPPD_Disruption['Family life/home responsibilities'] !== null ? formData.HPPD_Disruption['Family life/home responsibilities'] : 'N/A'"></td>
+                    <td class="border border-slate-300 p-1" x-text="formatScore(formData.HPPD_Disruption['Family life/home responsibilities'], 'disruption')"></td>
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1 font-bold bg-slate-50">Disruption Description</td>
@@ -1835,13 +1837,13 @@
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Items 1–18</th></tr></thead>
                     <template x-for="(q, idx) in ueqQuestions">
-                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ[idx] !== undefined ? formData.UEQ[idx] : '-'"></td></tr>
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formatScore(formData.UEQ[idx], 'distress')"></td></tr>
                     </template>
                 </table>
                 <table class="border-collapse border border-slate-400">
                     <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left" colspan="2">UEQ Final Items</th></tr></thead>
-                    <template x-for="(idx) in [0, 1]">
-                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="'Item '+(idx+19)"></td><td class="border border-slate-300 p-1 font-bold" x-text="formData.UEQ_Final[idx] !== undefined ? formData.UEQ_Final[idx] : '-'"></td></tr>
+                    <template x-for="(q, idx) in ueqFinalQuestions">
+                        <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+19)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold" x-text="formatScore(formData.UEQ_Final[idx], 'distress')"></td></tr>
                     </template>
                 </table>
             </div>
@@ -2311,6 +2313,11 @@ next() {
     if (this.step === 15) {
         if (this.formData.HPPD_Diagnosis.length === 0) { this.errorMsg = "REQUIRED: PLEASE SELECT AT LEAST ONE OPTION (OR 'NONE OF THE ABOVE')."; return; }
         if (this.formData.HPPD_Diagnosis.includes('Other condition (describe)') && !this.formData.HPPD_Diagnosis_Other.trim()) { this.errorMsg = "PLEASE DESCRIBE THE OTHER CONDITION."; return; }
+        const showsPriorBlock = this.formData.HPPD_Diagnosis.length > 0 && !this.formData.HPPD_Diagnosis.includes('None of the above');
+        if (showsPriorBlock && this.formData.HPPD_Diagnosis_Prior.length === 0) {
+            this.errorMsg = "REQUIRED: PLEASE INDICATE WHICH (IF ANY) WERE DIAGNOSED BEFORE YOUR HPPD ONSET (OR SELECT 'NONE WERE DIAGNOSED BEFORE MY HPPD ONSET').";
+            return;
+        }
     }
 
     // PAGE 21 VALIDATION: Accompanying symptoms
@@ -2618,6 +2625,31 @@ stepLabel() {
     const n = Number(this.step);
     if (!Number.isFinite(n)) return '';
     return `Page ${n} / 40`;
+},
+
+/* Convert a raw 0–10 score (or "No") into a clinician-friendly string for the printed transcript. */
+formatScore(val, scale) {
+    if (val === null || val === undefined || val === '') return '-';
+    if (val === 'No' || val === 'no') return 'No (didn\'t happen)';
+    const n = Number(val);
+    if (!Number.isFinite(n)) return String(val);
+    if (scale === 'distress') {
+        // UEQ scale: 0 = none, 10 = severe
+        if (n === 0)  return `${n}/10 (none)`;
+        if (n <= 3)   return `${n}/10 (mild)`;
+        if (n <= 6)   return `${n}/10 (moderate)`;
+        if (n <= 9)   return `${n}/10 (severe)`;
+        return `${n}/10 (extreme)`;
+    }
+    if (scale === 'disruption') {
+        // Page 22 disruption scale (verbatim from form copy)
+        if (n === 0)  return `${n}/10 (not at all)`;
+        if (n <= 3)   return `${n}/10 (mildly)`;
+        if (n <= 6)   return `${n}/10 (moderately)`;
+        if (n <= 9)   return `${n}/10 (markedly)`;
+        return `${n}/10 (extremely)`;
+    }
+    return String(val);
 },
 
 init() {
