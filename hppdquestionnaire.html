@@ -93,8 +93,8 @@
     <header class="bg-white border-b sticky top-0 z-50 py-4 shadow-sm">
         <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
             <div>
-                <h1 class="text-sm font-black text-slate-900 tracking-widest"><a href="https://www.drstevenlocke.com" >Steven Locke, MD </a></h1>
-                <p class="text-xs text-slate-800">Adapted with permission from the Johns Hopkins Center for Psychedelic &amp; Consciousness Research</p>
+                <h1 class="text-sm font-black text-slate-900 tracking-widest">HPPD Patient Intake</h1>
+                <p class="text-xs text-slate-800">Developed by Steven Locke, MD with the Johns Hopkins Center for Psychedelic &amp; Consciousness Research; adapted with permission.</p>
             </div>
             <div class="flex items-center gap-3">
                 <span class="text-xs font-bold text-blue-600 tabular-nums whitespace-nowrap" x-text="stepLabel()"></span>
@@ -131,6 +131,12 @@
         <!-- PAGE 3-4: KEY INFORMATION & DISCLOSURES -->
         <div x-show="step === 1" class="section-card space-y-6 text-sm">
             <h2 class="font-black text-xl text-orange-600 uppercase tracking-tighter">HPPD Questionnaire</h2>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg space-y-2">
+                <p class="font-bold text-slate-900">Why this questionnaire matters</p>
+                <p class="text-sm leading-relaxed">HPPD is a complex condition that is still poorly understood, and there is no quick test. The questionnaire is long because your doctor needs a detailed picture of your history, symptoms, and what has or has not helped &mdash; the diagnostic and treatment thinking depends on the texture of <em>your</em> individual experience. Thank you for taking the time to fill it out thoroughly; it directly shapes the care you receive.</p>
+            </div>
+
             <div class="space-y-4">
                 <p class="font-bold border-b pb-1">Eligibility Criteria</p>
                 <ul class="list-decimal pl-5 space-y-1">
@@ -140,9 +146,9 @@
 
                 <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg space-y-3">
                     <p class="font-bold text-slate-900">How your information is handled</p>
-                    <p class="text-sm leading-relaxed">This form runs entirely in your browser. Nothing is sent anywhere until <strong>you</strong> save the PDF and email it to Dr. Locke's office at <a href="mailto:office@drstevenlocke.com" class="text-blue-700 underline font-semibold">office@drstevenlocke.com</a>. Your answers are saved locally in your browser only, so you can safely close the tab and return later on the same device to continue where you left off.</p>
-                    <p class="text-sm leading-relaxed">Once you email the PDF to Dr. Locke's office, the information becomes part of your medical record and is protected under standard healthcare privacy rules &mdash; <strong>HIPAA</strong> in the United States, or the equivalent in other countries (e.g., <strong>PIPEDA</strong> in Canada, the <strong>UK GDPR / Data Protection Act</strong> in the United Kingdom). Dr. Locke's office is then responsible for safeguarding it.</p>
-                    <p class="text-sm leading-relaxed"><strong>When emailing this PDF, place it in a password-protected ZIP archive.</strong> You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> for this purpose. Share the password with Dr. Locke's office through a separate channel (phone or text) &mdash; not in the same email. Avoid sending from public Wi-Fi, and double-check the recipient address before sending.</p>
+                    <p class="text-sm leading-relaxed">This form runs entirely in your browser. Nothing is sent anywhere until <strong>you</strong> save the PDF and email it to the address your doctor's office has provided to you. Your answers are saved locally in your browser only, so you can safely close the tab and return later on the same device to continue where you left off.</p>
+                    <p class="text-sm leading-relaxed">Once you email the PDF to your doctor's office, the information becomes part of your medical record and is protected under standard healthcare privacy rules &mdash; <strong>HIPAA</strong> in the United States, or the equivalent in other countries (e.g., <strong>PIPEDA</strong> in Canada, the <strong>UK GDPR / Data Protection Act</strong> in the United Kingdom). Your doctor's office is then responsible for safeguarding it.</p>
+                    <p class="text-sm leading-relaxed"><strong>When emailing this PDF, place it in a password-protected ZIP archive.</strong> You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> for this purpose. Share the password with your doctor's office through a separate channel (phone or text) &mdash; not in the same email. Avoid sending from public Wi-Fi, and double-check the recipient address before sending.</p>
                 </div>
 
                 <p class="font-bold mb-4">To begin the questionnaire, please confirm eligibility:</p>
@@ -160,9 +166,9 @@
                 </form>
                 <div x-show="formData.Consent_Sign === 'yes'" class="section-card" :class="errorMsg && !formData.Demo_Age ? 'border-red-500 ring-2 ring-red-100' : ''">
                     <label class="block font-bold text-slate-900 mb-2">How old are you?</label>
-                    <input type="number" x-model.number="formData.Demo_Age" placeholder="Enter age" class="md:w-1/3">
+                    <input type="number" min="0" step="1" inputmode="numeric" @keydown="blockNonInteger" x-model.number="formData.Demo_Age" placeholder="Enter age" class="md:w-1/3">
                      <label class="block font-bold text-slate-900 mb-2">Year you were born?</label>
-                    <input type="number" x-model.number="formData.Demo_Year" placeholder="Enter year you were born" class="md:w-1/3">
+                    <input type="number" min="1900" step="1" inputmode="numeric" @keydown="blockNonInteger" x-model.number="formData.Demo_Year" placeholder="Enter year you were born" class="md:w-1/3">
                 </div>
                 
             </div>
@@ -569,9 +575,10 @@
                 </div>
             </div>
 
+            <div class="section-card" :class="errorMsg && (!formData.HPPD_Age || (formData.Demo_Age && formData.HPPD_Age > formData.Demo_Age)) ? 'border-red-500' : ''">
                 <label class="block font-bold mb-2">How old were you when you first developed symptoms of HPPD?</label>
-
-                <input type="number" x-model="formData.HPPD_Age" class="w-1/3">
+                <input type="number" min="0" step="1" inputmode="numeric" @keydown="blockNonInteger" x-model.number="formData.HPPD_Age" class="w-1/3">
+            </div>
 
 
 
@@ -987,8 +994,10 @@
         </div>
 
         <div x-show="Object.values(formData.HPPD_Disruption).some(v => v !== null && v > 0)" x-transition class="mt-8 pt-6 border-t border-slate-100">
-            <label class="block font-bold text-base text-slate-900 mb-2">Please briefly describe how HPPD has disrupted these areas of your life.</label>
-            <textarea x-model="formData.HPPD_Disruption_Details" class="bg-blue-50 h-28" placeholder="Describe the nature and impact of this disruption..."></textarea>
+            <div :class="errorMsg && !Object.values(formData.HPPD_Disruption).includes(null) && Object.values(formData.HPPD_Disruption).some(v => v !== null && v > 0) && !formData.HPPD_Disruption_Details.trim() ? 'border-2 border-red-500 ring-2 ring-red-50 rounded-xl p-3' : ''">
+                <label class="block font-bold text-base text-slate-900 mb-2">Please briefly describe how HPPD has disrupted these areas of your life.</label>
+                <textarea x-model="formData.HPPD_Disruption_Details" class="bg-blue-50 h-28" placeholder="Describe the nature and impact of this disruption..."></textarea>
+            </div>
         </div>
     </div>
 
@@ -1008,20 +1017,33 @@
 <!-- PAGE 27: UNPRODUCTIVE DAYS & TREATMENT INTRO -->
 <div x-show="step === 23" class="space-y-8">
     <!-- HPPD_Unproductive -->
-    <div class="section-card" :class="errorMsg && formData.HPPD_Unproductive === '' ? 'border-red-500 ring-2 ring-red-50' : ''">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Unproductive === '' && Number(formData.HPPD_Days_Lost || 0) < 7 ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-base mb-4 text-slate-900 leading-relaxed">Days underproductive:</p>
-        <p class="text-base text-slate-900 mb-6 leading-relaxed">
-            You indicated that you were totally unproductive for <span class="font-black text-blue-600" x-text="formData.HPPD_Days_Lost || '0'"></span> days over the last week.
-            Of the <strong>remaining days</strong> that week, how many days did you feel so impaired by your symptoms that even though you went to school or work your <strong>productivity was reduced</strong>?
-        </p>
-        <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
-            <template x-for="d in [0,1,2,3,4,5,6,7]">
-                <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition" :class="formData.HPPD_Unproductive === d ? 'border-blue-600 bg-blue-50' : ''">
-                    <input type="radio" x-model="formData.HPPD_Unproductive" :value="d" class="w-4 h-4 text-blue-600 mb-2">
-                    <span class="text-base" x-text="d"></span>
-                </label>
-            </template>
-        </div>
+
+        <!-- Normal case: at least one remaining day to evaluate -->
+        <template x-if="Number(formData.HPPD_Days_Lost || 0) < 7">
+            <div>
+                <p class="text-base text-slate-900 mb-6 leading-relaxed">
+                    You indicated that you were totally unproductive for <span class="font-black text-blue-600" x-text="formData.HPPD_Days_Lost || '0'"></span> day(s) over the last week.
+                    Of the <strong>remaining days</strong> that week, how many days did you feel so impaired by your symptoms that even though you went to school or work your <strong>productivity was reduced</strong>?
+                </p>
+                <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+                    <template x-for="d in unproductiveOptions()" :key="d">
+                        <label class="flex flex-col items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition" :class="formData.HPPD_Unproductive === d ? 'border-blue-600 bg-blue-50' : ''">
+                            <input type="radio" x-model="formData.HPPD_Unproductive" :value="d" class="w-4 h-4 text-blue-600 mb-2">
+                            <span class="text-base" x-text="d"></span>
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <!-- Edge case: days_lost = 7 → no remaining days, unproductive auto-set to 0 -->
+        <template x-if="Number(formData.HPPD_Days_Lost || 0) === 7">
+            <p class="text-base text-slate-900 leading-relaxed bg-blue-50 border border-blue-200 rounded-lg p-4">
+                You indicated <strong>7 days</strong> totally unproductive last week &mdash; there are no remaining days to evaluate. Click <strong>Next</strong> to continue.
+            </p>
+        </template>
     </div>
 
     <!-- HPPD_Treatment Instruction -->
@@ -1034,7 +1056,7 @@
 
 <!-- PAGE 28: BENZODIAZEPINES SELECTION & EFFECTS -->
 <div x-show="step === 24" class="space-y-8">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (formData.HPPD_Benzo_Use.length === 0 || (formData.HPPD_Benzo_Use.includes('Other benzodiazepine or z-drug') && !formData.HPPD_Benzo_Other.trim())) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following medications (benzodiazepines or z-drugs) since your HPPD diagnosis? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="b in benzoList">
@@ -1048,7 +1070,9 @@
     </div>
 
     <!-- HPPD_Benzo_Effect Matrix (Dynamic) -->
-    <div x-show="formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-blue-500">
+    <div x-show="formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-blue-500"
+         :class="errorMsg && formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_Benzo_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
         <template x-for="med in formData.HPPD_Benzo_Use.filter(i => i !== 'None of the above')">
             <div class="mb-8 last:mb-0">
@@ -1068,7 +1092,7 @@
 
 <!-- PAGE 29: ANTIDEPRESSANTS SELECTION -->
 <div x-show="step === 25" class="space-y-6">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (formData.HPPD_AntiDep_Use.length === 0 || (formData.HPPD_AntiDep_Use.includes('Other antidepressant') && !formData.HPPD_AntiDep_Other.trim())) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following medications (antidepressants or anti-anxiety drugs) since your HPPD diagnosis? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="a in antiDepList">
@@ -1078,14 +1102,16 @@
                 </label>
             </template>
         </div>
-        <input x-show="formData.HPPD_AntiDep_Use.includes('other antidepressant')" type="text" x-model="formData.HPPD_AntiDep_Other" placeholder="Specify other antidepressant..." class="mt-3 bg-blue-50 border-blue-200">
+        <input x-show="formData.HPPD_AntiDep_Use.includes('Other antidepressant')" type="text" x-model="formData.HPPD_AntiDep_Other" placeholder="Specify other antidepressant..." class="mt-3 bg-blue-50 border-blue-200">
     </div>
 </div>
 
 <!-- PAGE 30: ANTIDEPRESSANT EFFECTS & MOOD STABILIZERS -->
 <div x-show="step === 26" class="space-y-8">
     <!-- HPPD_AntiDep_Effect (Dynamic) -->
-    <div x-show="formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-purple-500">
+    <div x-show="formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-purple-500"
+         :class="errorMsg && formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_AntiDep_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
         <template x-for="med in formData.HPPD_AntiDep_Use.filter(i => i !== 'None of the above')">
             <div class="mb-8 last:mb-0">
@@ -1103,7 +1129,7 @@
     </div>
 
     <!-- HPPD_MoodStab_Use -->
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (formData.HPPD_MoodStab_Use.length === 0 || (formData.HPPD_MoodStab_Use.includes('Other mood stabilizer or anticonvulsant') && !formData.HPPD_MoodStab_Other.trim())) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following medications (mood stabilizers or anticonvulsants) since your HPPD diagnosis? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="m in moodStabList">
@@ -1117,7 +1143,9 @@
     </div>
 
     <!-- HPPD_MoodStab_Effect (Dynamic) -->
-    <div x-show="formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-green-600">
+    <div x-show="formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-green-600"
+         :class="errorMsg && formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_MoodStab_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-6">How did the following medication(s) affect your HPPD symptoms?</p>
         <template x-for="med in formData.HPPD_MoodStab_Use.filter(i => i !== 'None of the above')">
             <div class="mb-8 last:mb-0">
@@ -1136,7 +1164,7 @@
 </div>
 <!-- PAGE 31: ANTIPSYCHOTICS (SELECTION & EFFECTS) -->
 <div x-show="step === 27" class="space-y-8">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && (formData.HPPD_AntiPsy_Use.length === 0 || (formData.HPPD_AntiPsy_Use.includes('Other antipsychotic or neuroleptic') && !formData.HPPD_AntiPsy_Other.trim())) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following medications (antipsychotics or neuroleptics) since your HPPD diagnosis? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="a in antiPsyList">
@@ -1146,11 +1174,13 @@
                 </label>
             </template>
         </div>
-        <input x-show="formData.HPPD_AntiPsy_Use.includes('other antipsychotic or neuroleptic')" type="text" x-model="formData.HPPD_AntiPsy_Other" placeholder="Specify other antipsychotic..." class="mt-3 bg-blue-50 border-blue-200">
+        <input x-show="formData.HPPD_AntiPsy_Use.includes('Other antipsychotic or neuroleptic')" type="text" x-model="formData.HPPD_AntiPsy_Other" placeholder="Specify other antipsychotic..." class="mt-3 bg-blue-50 border-blue-200">
     </div>
 
     <!-- Dynamic Effect Matrix -->
-    <div x-show="formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-red-500">
+    <div x-show="formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-red-500"
+         :class="errorMsg && formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_AntiPsy_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">How were symptoms while taking these?</p>
         <template x-for="med in formData.HPPD_AntiPsy_Use.filter(i => i !== 'None of the above')">
             <div class="mb-6 last:mb-0">
@@ -1170,7 +1200,7 @@
 
 <!-- PAGE 32: OTHER PRESCRIPTION MEDICATIONS -->
 <div x-show="step === 28" class="space-y-8">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_OtherMed_Use.length === 0 ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4">Have you tried any of the following other prescription medications? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="o in otherMedList">
@@ -1182,7 +1212,9 @@
         </div>
     </div>
     
-    <div x-show="formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-orange-500">
+    <div x-show="formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-orange-500"
+         :class="errorMsg && formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_OtherMed_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-base mb-4 text-slate-900 tracking-tight">Rate the effect of selected other medications:</p>
         <template x-for="med in formData.HPPD_OtherMed_Use.filter(i => i !== 'None of the above')">
             <div class="mb-6 last:mb-0 border-b pb-4 last:border-0">
@@ -1202,7 +1234,7 @@
 
 <!-- PAGE 33: SUPPLEMENTS & HERBS -->
 <div x-show="step === 29" class="space-y-8">
-    <div class="section-card">
+    <div class="section-card" :class="errorMsg && formData.HPPD_Supp_Use.length === 0 ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-4 text-green-900">Have you tried any of these supplements or herbs? (Check all that apply)</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <template x-for="s in suppList">
@@ -1214,7 +1246,9 @@
         </div>
     </div>
     
-    <div x-show="formData.HPPD_Supp_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-green-600">
+    <div x-show="formData.HPPD_Supp_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-green-600"
+         :class="errorMsg && formData.HPPD_Supp_Use.filter(i => i !== 'None of the above').some(med => !formData.HPPD_Supp_Effect[med]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-base mb-4 text-green-800">How did these supplements affect you?</p>
         <template x-for="med in formData.HPPD_Supp_Use.filter(i => i !== 'None of the above')">
             <div class="mb-6 last:mb-0 border-b border-green-50 pb-4">
@@ -1247,7 +1281,9 @@
     </div>
 
     <!-- HPPD_NonDrug_Effect (Dynamic) -->
-    <div x-show="formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above').length > 0" class="section-card border-l-8 border-l-teal-500">
+    <div x-show="formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above').length > 0"
+         class="section-card border-l-8 border-l-teal-500"
+         :class="errorMsg && formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above').some(t => !formData.HPPD_NonDrug_Effect[t]) ? 'border-red-500 ring-2 ring-red-50' : ''">
         <p class="font-bold text-sm mb-6">How did the following treatment(s) affect your HPPD symptoms?</p>
         <template x-for="treat in formData.HPPD_NonDrug_Use.filter(i => i !== 'None of the above')">
             <div class="mb-8 last:mb-0">
@@ -1530,7 +1566,7 @@
     <!-- Submission notice (screen only — excluded from print) -->
     <div class="print:hidden bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg mb-8 space-y-2">
         <p class="font-bold text-slate-900">Before emailing this PDF</p>
-        <p class="text-sm leading-relaxed">Place the saved PDF in a password-protected ZIP archive, then email it to Dr. Locke's office at <a href="mailto:office@drstevenlocke.com" class="text-blue-700 underline font-semibold">office@drstevenlocke.com</a>. You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> to create the password-protected archive. Share the password with Dr. Locke's office through a separate channel (phone or text) &mdash; not in the same email.</p>
+        <p class="text-sm leading-relaxed">Place the saved PDF in a password-protected ZIP archive, then email it to the address your doctor's office has provided to you. You can use the free open-source utility <a href="https://www.7-zip.org/" target="_blank" rel="nofollow noreferrer noopener" class="text-blue-700 underline font-semibold">7-Zip</a> to create the password-protected archive. Share the password with your doctor's office through a separate channel (phone or text) &mdash; not in the same email.</p>
         <p class="text-xs text-slate-700 italic"><strong>Tip:</strong> in your browser's print dialog, expand <em>More settings</em> and enable <em>Headers and footers</em> so each printed page shows a page number.</p>
     </div>
 
@@ -1554,6 +1590,117 @@
             <span>HPPD Patient Intake</span>
             <span>Age: <span x-text="formData.Demo_Age"></span> &nbsp;|&nbsp; Birth Year: <span x-text="formData.Demo_Year"></span></span>
             <span x-text="`Generated: ${completionTimestamp}`"></span>
+        </div>
+
+        <!-- CLINICIAN SUMMARY (computed scores; references at end of transcript) -->
+        <div class="mb-6 break-inside-avoid">
+            <h3 class="bg-orange-600 text-white p-1 font-bold uppercase mb-2 text-[11px] tracking-wider">Clinician Summary</h3>
+
+            <!-- Suicide-ideation flag (PHQ-9 Item 9) -->
+            <template x-if="phq9Score().q9Endorsed">
+                <div class="border-2 border-red-600 bg-red-50 p-2 mb-2 text-red-900">
+                    <p class="font-bold text-[11px]">CLINICAL ATTENTION: Patient endorsed thoughts of self-harm or being better off dead (PHQ-9 Item 9).</p>
+                    <p class="text-[9px]">Verbatim response in Module 7. Reference: Simon GE et al., Psychiatr Serv 2013<sup>3</sup>.</p>
+                </div>
+            </template>
+
+            <table class="w-full border-collapse border border-slate-400 text-[10px]">
+                <!-- GAD-7 -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold w-1/4 bg-slate-50">GAD-7 — Anxiety<sup>1</sup></td>
+                    <td class="border border-slate-300 p-1">
+                        <template x-if="gad7Score().total !== null">
+                            <span>
+                                <span class="font-black" x-text="gad7Score().total + ' / 21'"></span>
+                                &nbsp;
+                                <span class="px-2 py-0.5 rounded text-white text-[9px] font-bold uppercase tracking-wider" :class="severityBadgeClass(gad7Score().color)" x-text="gad7Score().severity"></span>
+                                <template x-if="gad7Score().clinicalCutoff"><span class="ml-2 text-red-700 font-bold">(at/above clinical threshold ≥10)</span></template>
+                            </span>
+                        </template>
+                        <template x-if="gad7Score().total === null"><span class="italic text-slate-500">incomplete</span></template>
+                    </td>
+                </tr>
+                <!-- PHQ-9 -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">PHQ-9 — Depression<sup>2</sup></td>
+                    <td class="border border-slate-300 p-1">
+                        <template x-if="phq9Score().total !== null">
+                            <span>
+                                <span class="font-black" x-text="phq9Score().total + ' / 27'"></span>
+                                &nbsp;
+                                <span class="px-2 py-0.5 rounded text-white text-[9px] font-bold uppercase tracking-wider" :class="severityBadgeClass(phq9Score().color)" x-text="phq9Score().severity"></span>
+                                <template x-if="phq9Score().clinicalCutoff"><span class="ml-2 text-red-700 font-bold">(at/above clinical threshold ≥10)</span></template>
+                            </span>
+                        </template>
+                        <template x-if="phq9Score().total === null"><span class="italic text-slate-500">incomplete</span></template>
+                    </td>
+                </tr>
+                <!-- PQ-16 -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">PQ-16 — Psychosis-risk<sup>4,5</sup></td>
+                    <td class="border border-slate-300 p-1">
+                        <span>Endorsement: <span class="font-black" x-text="pq16Score().endorsementCount + ' / 16'"></span></span>
+                        &nbsp;|&nbsp;
+                        <span>Distress: <span class="font-black" x-text="pq16Score().distressSum + ' / 48'"></span></span>
+                        <template x-if="pq16Score().endorsementPositive">
+                            <span class="ml-2 text-red-700 font-bold">(endorsement screen-positive ≥6)</span>
+                        </template>
+                        <template x-if="pq16Score().distressPositive">
+                            <span class="ml-2 text-red-700 font-bold">(distress screen-positive ≥6)</span>
+                        </template>
+                    </td>
+                </tr>
+                <!-- Mini-IPIP Big Five -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Mini-IPIP — Big Five<sup>7</sup></td>
+                    <td class="border border-slate-300 p-1">
+                        <span>E: <span class="font-black" x-text="ipiMiniScores().Extraversion ?? '-'"></span></span>
+                        &nbsp;|&nbsp;
+                        <span>A: <span class="font-black" x-text="ipiMiniScores().Agreeableness ?? '-'"></span></span>
+                        &nbsp;|&nbsp;
+                        <span>C: <span class="font-black" x-text="ipiMiniScores().Conscientiousness ?? '-'"></span></span>
+                        &nbsp;|&nbsp;
+                        <span>N: <span class="font-black" x-text="ipiMiniScores().Neuroticism ?? '-'"></span></span>
+                        &nbsp;|&nbsp;
+                        <span>O: <span class="font-black" x-text="ipiMiniScores().Openness ?? '-'"></span></span>
+                        <span class="text-slate-500 text-[9px]"> (each 4–20; radar chart in Module 7C)</span>
+                    </td>
+                </tr>
+                <!-- BDES -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">BDES — Dissociation<sup>6</sup></td>
+                    <td class="border border-slate-300 p-1 italic text-slate-600">Scoring pending source-order confirmation; raw responses in Module 7D.</td>
+                </tr>
+                <!-- HPPD composites -->
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">DSM-5 visual symptoms<sup>8</sup></td>
+                    <td class="border border-slate-300 p-1">
+                        <span><span class="font-black" x-text="hppdComposites().dsmSymptomCount + ' / ' + hppdComposites().dsmSymptomTotal"></span> DSM-criterion symptoms endorsed</span>
+                        &nbsp;|&nbsp;
+                        <span><span class="font-black" x-text="hppdComposites().totalSymptomCount"></span> total visual symptoms (full list in Module 5)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Past-week disruption</td>
+                    <td class="border border-slate-300 p-1">
+                        <span x-text="(hppdComposites().disruptionTotal ?? '-') + ' / 30'"></span> across 3 domains
+                        &nbsp;|&nbsp;
+                        <span x-text="(hppdComposites().weeklyImpairment ?? '-') + ' / 14'"></span> impairment-days (lost + underproductive)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1 font-bold bg-slate-50">Treatment response (counts)</td>
+                    <td class="border border-slate-300 p-1">
+                        <span class="text-green-700 font-bold" x-text="hppdComposites().helped + ' helped'"></span>
+                        &nbsp;|&nbsp;
+                        <span class="text-red-700 font-bold" x-text="hppdComposites().worsened + ' worsened'"></span>
+                        &nbsp;|&nbsp;
+                        <span class="text-slate-600" x-text="hppdComposites().noEffect + ' no effect'"></span>
+                        <span class="text-slate-500 text-[9px]"> (heatmap in Module 6)</span>
+                    </td>
+                </tr>
+            </table>
+            <p class="text-[8px] italic text-slate-500 mt-1">Numbered superscripts refer to the reference list at the end of this transcript.</p>
         </div>
 
         <!-- MODULE 1: CONSENT & DEMOGRAPHICS -->
@@ -1755,6 +1902,32 @@
         <!-- MODULE 6: TREATMENT OUTCOMES (Page 28-35) -->
         <div class="mb-6 break-inside-avoid">
             <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 6: Treatment Efficacy Log (Page 28-35)</h3>
+
+            <!-- Treatment-response heatmap (summary view) -->
+            <div class="mb-3 border border-slate-300 p-2 bg-slate-50">
+                <p class="font-bold text-[10px] mb-1 text-slate-900">Response heatmap — every rated treatment, colour-coded</p>
+                <p class="text-[9px] text-slate-600 mb-2 italic">Legend: red = worsened, grey = no effect, green = helped. Darker shade = stronger effect.</p>
+                <table class="w-full border-collapse text-[9px]">
+                    <template x-for="category in [
+                        {name: 'Benzodiazepines',   use: 'HPPD_Benzo_Use',    effect: 'HPPD_Benzo_Effect'},
+                        {name: 'Antidepressants',   use: 'HPPD_AntiDep_Use',  effect: 'HPPD_AntiDep_Effect'},
+                        {name: 'Mood stabilizers',  use: 'HPPD_MoodStab_Use', effect: 'HPPD_MoodStab_Effect'},
+                        {name: 'Antipsychotics',    use: 'HPPD_AntiPsy_Use',  effect: 'HPPD_AntiPsy_Effect'},
+                        {name: 'Other prescription',use: 'HPPD_OtherMed_Use', effect: 'HPPD_OtherMed_Effect'},
+                        {name: 'Supplements',       use: 'HPPD_Supp_Use',     effect: 'HPPD_Supp_Effect'},
+                        {name: 'Non-drug',          use: 'HPPD_NonDrug_Use',  effect: 'HPPD_NonDrug_Effect'}
+                    ]">
+                        <template x-for="item in formData[category.use].filter(i => i !== 'None of the above')" :key="category.name + item">
+                            <tr>
+                                <td class="border border-slate-300 p-1 w-1/4 text-slate-600 text-[8px] uppercase tracking-wider" x-text="category.name"></td>
+                                <td class="border border-slate-300 p-1 w-1/2" x-text="item"></td>
+                                <td class="border border-slate-300 p-1 text-center font-bold" :class="effectCellClass(formData[category.effect][item])" x-text="formData[category.effect][item] || 'not rated'"></td>
+                            </tr>
+                        </template>
+                    </template>
+                </table>
+            </div>
+
             <p class="font-bold text-slate-500 mb-1">Medication Classes Tried & Reported Effects:</p>
             <div class="space-y-2">
                 <template x-for="category in [
@@ -1851,13 +2024,67 @@
 
         <!-- IPI-Mini -->
         <div class="mb-6 break-inside-avoid">
-            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 7C: IPI-Mini (Personality)</h3>
-            <table class="w-full border-collapse border border-slate-400">
-                <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
-                <template x-for="(q, idx) in ipiQuestions">
-                    <tr><td class="border border-slate-300 p-1 text-[9px]" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.IPIMini[idx] !== undefined ? formData.IPIMini[idx] : '-'"></td></tr>
-                </template>
-            </table>
+            <h3 class="bg-slate-800 text-white p-1 font-bold uppercase mb-2">Module 7C: IPI-Mini (Personality) — Big Five<sup>7</sup></h3>
+
+            <div class="grid grid-cols-2 gap-4 mb-2">
+                <!-- Radar chart -->
+                <div class="border border-slate-300 p-2 flex items-center justify-center bg-white">
+                    <svg viewBox="0 0 200 200" class="w-full h-auto" style="max-width: 220px;">
+                        <!-- 4 concentric pentagon grid lines at 25/50/75/100% -->
+                        <template x-for="ring in [0.25, 0.5, 0.75, 1]" :key="ring">
+                            <polygon
+                                :points="[0,1,2,3,4].map(i => {
+                                    const r = 70 * ring;
+                                    const a = -Math.PI/2 + i * 2*Math.PI/5;
+                                    return (100 + r*Math.cos(a)).toFixed(1)+','+(100 + r*Math.sin(a)).toFixed(1);
+                                }).join(' ')"
+                                fill="none" stroke="#cbd5e1" stroke-width="0.5"></polygon>
+                        </template>
+                        <!-- Axis lines -->
+                        <template x-for="i in [0,1,2,3,4]" :key="i">
+                            <line :x1="100" :y1="100"
+                                  :x2="(100 + 70*Math.cos(-Math.PI/2 + i*2*Math.PI/5)).toFixed(1)"
+                                  :y2="(100 + 70*Math.sin(-Math.PI/2 + i*2*Math.PI/5)).toFixed(1)"
+                                  stroke="#cbd5e1" stroke-width="0.5"></line>
+                        </template>
+                        <!-- Score polygon -->
+                        <template x-if="ipiRadarPolygon()">
+                            <polygon :points="ipiRadarPolygon()" fill="#2563eb" fill-opacity="0.25" stroke="#1d4ed8" stroke-width="1.5"></polygon>
+                        </template>
+                        <!-- Axis labels (E, A, C, N, O around the outside) -->
+                        <template x-for="(label, i) in ['E','A','C','N','O']" :key="label">
+                            <text :x="(100 + 85*Math.cos(-Math.PI/2 + i*2*Math.PI/5)).toFixed(1)"
+                                  :y="(100 + 85*Math.sin(-Math.PI/2 + i*2*Math.PI/5) + 3).toFixed(1)"
+                                  text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a" x-text="label"></text>
+                        </template>
+                    </svg>
+                </div>
+                <!-- Score table -->
+                <table class="border-collapse border border-slate-400 text-[10px]">
+                    <thead class="bg-slate-100 font-bold">
+                        <tr><th class="p-1 border border-slate-400 text-left">Trait</th><th class="p-1 border border-slate-400 text-center">Score</th><th class="p-1 border border-slate-400 text-center">Range</th></tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="trait in ['Extraversion','Agreeableness','Conscientiousness','Neuroticism','Openness']" :key="trait">
+                            <tr>
+                                <td class="border border-slate-300 p-1 font-bold" x-text="trait"></td>
+                                <td class="border border-slate-300 p-1 text-center font-black" x-text="ipiMiniScores()[trait] ?? '-'"></td>
+                                <td class="border border-slate-300 p-1 text-center text-slate-500">4 – 20</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <details class="text-[9px]">
+                <summary class="cursor-pointer text-slate-600 italic">Show individual item responses (20 items)</summary>
+                <table class="w-full border-collapse border border-slate-400 mt-1">
+                    <thead class="bg-slate-100 font-bold"><tr><th class="p-1 border border-slate-400 text-left">Item</th><th class="p-1 border border-slate-400 text-center">Response</th></tr></thead>
+                    <template x-for="(q, idx) in ipiQuestions">
+                        <tr><td class="border border-slate-300 p-1" x-text="(idx+1)+'. '+q"></td><td class="border border-slate-300 p-1 font-bold text-center" x-text="formData.IPIMini[idx] !== undefined ? formData.IPIMini[idx] : '-'"></td></tr>
+                    </template>
+                </table>
+            </details>
         </div>
 
         <!-- BDES -->
@@ -1882,7 +2109,23 @@
             <div class="p-2 bg-slate-50 border border-slate-300" x-text="formData.Survey_CompletionTime || 'N/A'"></div>
         </div>
 
-        <div class="mt-20 text-center text-[9px] text-slate-400 font-mono italic">
+        <!-- Scoring methodology & references -->
+        <div class="mt-10 pt-3 border-t border-slate-300 break-inside-avoid">
+            <p class="font-bold uppercase mb-2 text-[10px] tracking-wider">Scoring methodology &amp; references</p>
+            <ol class="text-[9px] leading-snug space-y-1 list-decimal pl-4 text-slate-700">
+                <li><strong>GAD-7</strong> — Spitzer RL, Kroenke K, Williams JBW, Löwe B. <em>A brief measure for assessing generalized anxiety disorder: the GAD-7.</em> Arch Intern Med. 2006;166(10):1092–1097. doi:10.1001/archinte.166.10.1092</li>
+                <li><strong>PHQ-9</strong> — Kroenke K, Spitzer RL, Williams JBW. <em>The PHQ-9: validity of a brief depression severity measure.</em> J Gen Intern Med. 2001;16(9):606–613. doi:10.1046/j.1525-1497.2001.016009606.x</li>
+                <li><strong>PHQ-9 Item 9</strong> (basis for the suicide-ideation flag) — Simon GE, Rutter CM, Peterson D, et al. <em>Does response on the PHQ-9 depression questionnaire predict subsequent suicide attempt or suicide death?</em> Psychiatr Serv. 2013;64(12):1195–1202. doi:10.1176/appi.ps.201200587</li>
+                <li><strong>PQ-16</strong> (endorsement cutoff ≥6) — Ising HK, Veling W, Loewy RL, et al. <em>The validity of the 16-item version of the Prodromal Questionnaire (PQ-16) to screen for ultra-high risk of developing psychosis in the general help-seeking population.</em> Schizophr Bull. 2012;38(6):1288–1296. doi:10.1093/schbul/sbs068</li>
+                <li><strong>PQ-16 distress-based cutoff</strong> — Savill M, D'Ambrosio J, Cannon TD, Loewy RL. <em>Psychosis risk screening in different populations using the Prodromal Questionnaire: A systematic review.</em> Early Interv Psychiatry. 2018;12(1):3–14. doi:10.1111/eip.12446</li>
+                <li><strong>BDES (Brief Dissociative Experiences Scale — Modified)</strong> — Dalenberg CJ, Carlson EB. <em>Severity of Dissociative Symptoms — Adult (Brief Dissociative Experiences Scale, Modified).</em> In: DSM-5 Online Assessment Measures. American Psychiatric Association, 2013. See also: Carlson EB, Putnam FW. <em>An update on the Dissociative Experiences Scale.</em> Dissociation. 1993;6(1):16–27.</li>
+                <li><strong>Mini-IPIP</strong> (Big Five item-to-trait mapping &amp; reverse-scored items) — Donnellan MB, Oswald FL, Baird BM, Lucas RE. <em>The Mini-IPIP scales: tiny-yet-effective measures of the Big Five factors of personality.</em> Psychol Assess. 2006;18(2):192–203. doi:10.1037/1040-3590.18.2.192</li>
+                <li><strong>HPPD diagnostic criteria</strong> &amp; clinical framing (basis for the starred-symptom DSM count and Type 1/Type 2 distinction) — American Psychiatric Association. <em>Diagnostic and Statistical Manual of Mental Disorders, 5th ed., Text Revision (DSM-5-TR).</em> APA, 2022. Section II — Hallucinogen Persisting Perception Disorder (F16.983). Halpern JH, Lerner AG, Passie T. <em>A review of hallucinogen persisting perception disorder (HPPD) and an exploratory study of subjects claiming symptoms of HPPD.</em> Curr Top Behav Neurosci. 2018;36:333–360. doi:10.1007/7854_2016_457</li>
+            </ol>
+            <p class="text-[8px] italic text-slate-500 mt-2">Scoring notes: PQ-16 "Don't remember" responses are conservatively counted as not endorsed and excluded from the distress sum. PQ-16 distress mapping: None=0, Mild=1, Moderate=2, Severe=3. BDES total score is intentionally not computed — the answer-anchor order ("Almost every day" before "About once a day") in the current form differs from published BDES-M conventions and is pending source confirmation. HPPD composite metrics (visual-symptom count, disruption total, weekly impairment days, treatment-response count) are descriptive summaries of form data, not separately validated instruments.</p>
+        </div>
+
+        <div class="mt-6 text-center text-[9px] text-slate-400 font-mono italic">
             Certified Record - End of HPPD Clinical Transcript
         </div>
     </div>
@@ -2068,7 +2311,7 @@ visualSymptomsList: [
             'ketamine', 
             'PCP (phencyclidine, angel dust)', 
             'DXM (dextromethorphan)', 
-            'Salvia Divinorum', 
+            'Salvia divinorum',
             '2C-B', 
             '2C-E', 
             '2C-I', 
@@ -2076,9 +2319,9 @@ visualSymptomsList: [
         ],
         
 // List Definitions verbatim from PDF
-benzoList: ['clonazepam (Klonopin)', 'lorazepam (Ativan, Lorazepam Intensol)', 'chlordiazepoxide (Librium)', 'alprazolam (Xanax, Alprazolam Intensol)', 'diazepam (Valium)', 'Zolpidem (Ambien, Edluar, Intermezzo)', 'Zopiclone (Lunesta)', 'Zaleplon (Sonata)', 'Other benzodiazepine or z-drug', 'None of the above'],
+benzoList: ['clonazepam (Klonopin)', 'lorazepam (Ativan, Lorazepam Intensol)', 'chlordiazepoxide (Librium)', 'alprazolam (Xanax, Alprazolam Intensol)', 'diazepam (Valium)', 'zolpidem (Ambien, Edluar, Intermezzo)', 'zopiclone (Lunesta)', 'zaleplon (Sonata)', 'Other benzodiazepine or z-drug', 'None of the above'],
 
-antiDepList: ['sertraline (Zoloft)', 'fluoxetine (Prozac, Sarafem)', 'escitalopram (Lexapro)', 'citalopram (Celexa)', 'paroxetine (Paxil, Pexeva)', 'venlafaxine (Effexor)', 'duloxetine (Cymbalta, Irenka)', 'trazodone (Desyrel)', 'bupropion (Wellbutrin)', 'vilazodone (Viibryd)', 'fluvoxamine (Luvox)', 'vortioexetine (Trinellix, Brintellix)', 'amitryptiline', 'nortriptyline', 'desipramine', 'tranylcypromine (Parnate)', 'phenelzine (Nardil)', 'other antidepressant', 'None of the above'],
+antiDepList: ['sertraline (Zoloft)', 'fluoxetine (Prozac, Sarafem)', 'escitalopram (Lexapro)', 'citalopram (Celexa)', 'paroxetine (Paxil, Pexeva)', 'venlafaxine (Effexor)', 'duloxetine (Cymbalta, Irenka)', 'trazodone (Desyrel)', 'bupropion (Wellbutrin)', 'vilazodone (Viibryd)', 'fluvoxamine (Luvox)', 'vortioxetine (Trintellix, Brintellix)', 'amitriptyline', 'nortriptyline', 'desipramine', 'tranylcypromine (Parnate)', 'phenelzine (Nardil)', 'Other antidepressant', 'None of the above'],
 
 moodStabList: ['lithium', 'valproic acid (Depakote, Depakene)', 'lamotrigine (Lamictal)', 'gabapentin (Neurontin, Gralise, Horizant)', 'pregabalin (Lyrica)', 'topiramate (Topamax)', 'oxcarbazepine (Trileptal)', 'carbamazepine (Tegretol)', 'levetiracetam (Keppra, Spritam, Roweepra)', 'Other mood stabilizer or anticonvulsant', 'None of the above'],
 
@@ -2086,16 +2329,16 @@ moodStabList: ['lithium', 'valproic acid (Depakote, Depakene)', 'lamotrigine (La
         eduOptions: ['No formal schooling','Some elementary school','Completed elementary school','Some high school (no diploma)','High school diploma or equivalent (GED)','Some college, no degree','Associate degree','Bachelor\'s degree','Masters','PhD'],
         familyList: ['HPPD','Visual snow','Schizophrenia','Major depressive disorder','Bipolar 1 or 2 (Manic Depressive Illness)','Anxiety disorder','Panic disorder','Obsessive-Compulsive Disorder (OCD)','Psychiatric hospitalization','Seizure disorder','Neurodegenerative disorder (e.g. Alzheimer\'s, MS)','Stroke or Cerebrovascular Disease','Suicide or Suicidal Behavior'],
         subHeaders: ['Never', '1-2', '3-5', '6-10', '11-24', '25-50', '51-100', '100+'],
-        subList: ['LSD ("acid")', 'Psilocybin (mushrooms)', 'MDMA (ecstasy)', 'Ayahuasca', 'Cannabis (weed)', 'Ketamine', 'Other'],
+        subList: ['LSD ("acid")', 'Psilocybin (mushrooms)', 'MDMA (ecstasy)', 'Mescaline (peyote)', 'Ayahuasca', 'Cannabis (weed)', 'Ketamine', 'Other'],
         priorCondList: [{label:'Tinnitus',hasText:false},{label:'Eye floaters',hasText:false},{label:'Head trauma',hasText:false},{label:'Migraine headache',hasText:false},{label:'Other headache disorder',hasText:true},{label:'Other neurological condition',hasText:true},{label:'None of the above',hasText:false}],
         // List Definitions Verbatim from PDF
-antiPsyList: ['risperidone (Risperdal)', 'aripiprazole (Abilify)', 'olanzapine (Zyprexa)', 'quetiapine (Seroquel)', 'lurasidone (Latuda)', 'haloperidol (Haldol)', 'clozapine (Clozaril)', 'cariprazine (Vraylar)', 'asenapine (Saphris)', 'other antipsychotic or neuroleptic', 'None of the above'],
+antiPsyList: ['risperidone (Risperdal)', 'aripiprazole (Abilify)', 'olanzapine (Zyprexa)', 'quetiapine (Seroquel)', 'lurasidone (Latuda)', 'haloperidol (Haldol)', 'clozapine (Clozaril)', 'cariprazine (Vraylar)', 'asenapine (Saphris)', 'Other antipsychotic or neuroleptic', 'None of the above'],
 
 otherMedList: ['clonidine (Catapres)', 'amphetamine or dextroamphetamine (Adderall)', 'methylphenidate or dexmethylphenidate (Ritalin, Focalin)', 'propranolol (Inderal)', 'atenolol (Tenormin)', 'naltrexone (Vivitrol, Revia)', 'reboxetine (Edronax)', 'buspirone (Buspar)', 'ketamine (prescribed by a doctor)', 'esketamine (Spravato)', 'Other', 'None of the above'],
 
-suppList: ['Ashwagandha', 'Lion\'s mane mushroom', 'St. John\'s wort (Hypericum perforatum)', 'Kava kava', 'Kratom', 'Valerian', 'Gingko biloba', 'Magnesium (any form or magnesium salt)', 'Rhodiola Rosea', 'Muscimol', 'Other supplement or herb', 'None of the above'],
+suppList: ['Ashwagandha', 'Lion\'s mane mushroom', 'St. John\'s wort (Hypericum perforatum)', 'Kava kava', 'Kratom', 'Valerian', 'Ginkgo biloba', 'Magnesium (any form or magnesium salt)', 'Rhodiola rosea', 'Muscimol', 'Other supplement or herb', 'None of the above'],
 
-nonDrugList: ['Cognitive Behavioral Therapy (CBT)', 'Eye movement desensitization and reprocessing (EMDR) therapy', 'Other psychotherapy', 'Hypnosis', 'Biofeedback and Neurofeedback', 'Yoga', 'meditation', 'accupuncture', 'Transcranial magnetic stimulation (TMS)', 'Electroconvulsive therapy (ECT)', 'Other (Please specify)', 'None of the above'],
+nonDrugList: ['Cognitive behavioral therapy (CBT)', 'Eye movement desensitization and reprocessing (EMDR) therapy', 'Other psychotherapy', 'Hypnosis', 'Biofeedback and neurofeedback', 'Yoga', 'Meditation', 'Acupuncture', 'Transcranial magnetic stimulation (TMS)', 'Electroconvulsive therapy (ECT)', 'Other (please specify)', 'None of the above'],
 
 
       // STATIC DATA LISTS
@@ -2416,7 +2659,18 @@ next() {
 
     // PAGE 27 VALIDATION
     if (this.step === 23) {
-        if (this.formData.HPPD_Unproductive === '') { this.errorMsg = "PLEASE INDICATE THE NUMBER OF DAYS PRODUCTIVITY WAS REDUCED."; return; }
+        const daysLost = Number(this.formData.HPPD_Days_Lost || 0);
+        if (daysLost === 7) {
+            // No remaining days to evaluate — auto-coerce, no error
+            this.formData.HPPD_Unproductive = 0;
+        } else {
+            if (this.formData.HPPD_Unproductive === '') { this.errorMsg = "PLEASE INDICATE THE NUMBER OF DAYS PRODUCTIVITY WAS REDUCED."; return; }
+            const cap = 7 - daysLost;
+            if (Number(this.formData.HPPD_Unproductive) > cap) {
+                this.errorMsg = "PLEASE PICK A NUMBER NO GREATER THAN " + cap + " (REMAINING DAYS THIS WEEK).";
+                return;
+            }
+        }
     }
  // PAGE 28 VALIDATION
     if (this.step === 24) {
@@ -2433,7 +2687,7 @@ next() {
     // PAGE 29 VALIDATION
     if (this.step === 25) {
         if (this.formData.HPPD_AntiDep_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
-        if (this.formData.HPPD_AntiDep_Use.includes('other antidepressant') && !this.formData.HPPD_AntiDep_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER ANTIDEPRESSANT."; return; }
+        if (this.formData.HPPD_AntiDep_Use.includes('Other antidepressant') && !this.formData.HPPD_AntiDep_Other) { this.errorMsg = "PLEASE SPECIFY THE OTHER ANTIDEPRESSANT."; return; }
     }
 
     // PAGE 30 VALIDATION
@@ -2456,7 +2710,7 @@ next() {
      // PAGE 31: Antipsychotics Validation
     if (this.step === 27) {
         if (this.formData.HPPD_AntiPsy_Use.length === 0) { this.errorMsg = "PLEASE SELECT AN OPTION."; return; }
-        if (this.formData.HPPD_AntiPsy_Use.includes('other antipsychotic or neuroleptic') && !this.formData.HPPD_AntiPsy_Other) { this.errorMsg = "SPECIFY THE OTHER ANTIPSYCHOTIC."; return; }
+        if (this.formData.HPPD_AntiPsy_Use.includes('Other antipsychotic or neuroleptic') && !this.formData.HPPD_AntiPsy_Other) { this.errorMsg = "SPECIFY THE OTHER ANTIPSYCHOTIC."; return; }
         for (let m of this.formData.HPPD_AntiPsy_Use) { if (m !== 'None of the above' && !this.formData.HPPD_AntiPsy_Effect[m]) { this.errorMsg = "RATE THE EFFECT FOR ALL SELECTED."; return; } }
     }
 
@@ -2627,6 +2881,204 @@ stepLabel() {
     return `Page ${n} / 40`;
 },
 
+/* Block non-integer keystrokes on <input type="number"> fields used for age / year. */
+blockNonInteger(e) {
+    if (['e', 'E', '+', '-', '.', ','].includes(e.key)) e.preventDefault();
+},
+
+/* Step 23 — return the valid radio choices for "Days underproductive" based on Days Lost. */
+unproductiveOptions() {
+    const daysLost = Number(this.formData.HPPD_Days_Lost || 0);
+    const maxRemaining = Math.max(0, 7 - daysLost);
+    return Array.from({ length: maxRemaining + 1 }, (_, i) => i);
+},
+
+/* Auto-coerce HPPD_Unproductive whenever HPPD_Days_Lost changes:
+   - if days_lost = 7, force unproductive to 0 (no remaining days)
+   - if a previously-selected unproductive exceeds the new cap, clear it so the patient re-picks. */
+enforceUnproductiveCap() {
+    const daysLost = Number(this.formData.HPPD_Days_Lost || 0);
+    if (daysLost === 7) {
+        this.formData.HPPD_Unproductive = 0;
+        return;
+    }
+    const cap = 7 - daysLost;
+    const current = this.formData.HPPD_Unproductive;
+    if (current !== '' && Number(current) > cap) {
+        this.formData.HPPD_Unproductive = '';
+    }
+},
+
+// ==========================================================================
+// CLINICAL SCORING — references cited in the printed transcript:
+//   1. GAD-7         — Spitzer 2006, doi:10.1001/archinte.166.10.1092
+//   2. PHQ-9         — Kroenke 2001, doi:10.1046/j.1525-1497.2001.016009606.x
+//   3. PHQ-9 Item 9  — Simon 2013, doi:10.1176/appi.ps.201200587
+//   4. PQ-16         — Ising 2012, doi:10.1093/schbul/sbs068
+//   5. PQ-16 distress — Savill 2018, doi:10.1111/eip.12446
+//   6. BDES          — Dalenberg & Carlson, DSM-5 Online Assessment Measures (APA)
+//   7. Mini-IPIP     — Donnellan 2006, doi:10.1037/1040-3590.18.2.192
+//   8. HPPD criteria — DSM-5-TR §F16.983; Halpern 2018, doi:10.1007/7854_2016_457
+// ==========================================================================
+
+gad7Bands: [
+    { max: 4,  label: 'Minimal',  color: 'emerald' },
+    { max: 9,  label: 'Mild',     color: 'yellow'  },
+    { max: 14, label: 'Moderate', color: 'orange'  },
+    { max: 21, label: 'Severe',   color: 'red'     },
+],
+phq9Bands: [
+    { max: 4,  label: 'None/Minimal',     color: 'emerald' },
+    { max: 9,  label: 'Mild',             color: 'yellow'  },
+    { max: 14, label: 'Moderate',         color: 'orange'  },
+    { max: 19, label: 'Moderately severe', color: 'red'    },
+    { max: 27, label: 'Severe',           color: 'rose'    },
+],
+
+gad7Score() {
+    const map = { 'Not at all': 0, 'Several days': 1, 'More than half the days': 2, 'Nearly everyday': 3 };
+    let total = 0, answered = 0;
+    for (let i = 0; i < 7; i++) {
+        const v = this.formData.GAD[i];
+        if (v !== undefined && map[v] !== undefined) { total += map[v]; answered++; }
+    }
+    if (answered < 7) return { total: null, answered, severity: null, color: null, clinicalCutoff: false };
+    const band = this.gad7Bands.find(b => total <= b.max);
+    return { total, answered: 7, severity: band.label, color: band.color, clinicalCutoff: total >= 10 };
+},
+
+phq9Score() {
+    const map = { 'Not at all': 0, 'Several Days': 1, 'More than half the days': 2, 'Nearly every day': 3 };
+    let total = 0, answered = 0;
+    for (let i = 0; i < 9; i++) {
+        const v = this.formData.PHQ[i];
+        if (v !== undefined && map[v] !== undefined) { total += map[v]; answered++; }
+    }
+    const q9 = this.formData.PHQ[8];
+    const q9Endorsed = q9 !== undefined && q9 !== 'Not at all';
+    if (answered < 9) return { total: null, q9Endorsed, answered, severity: null, color: null, clinicalCutoff: false };
+    const band = this.phq9Bands.find(b => total <= b.max);
+    return { total, answered: 9, severity: band.label, color: band.color, clinicalCutoff: total >= 10, q9Endorsed };
+},
+
+pq16Score() {
+    const distressMap = { 'None': 0, 'Mild': 1, 'Moderate': 2, 'Severe': 3 };
+    let endorsementCount = 0, distressSum = 0;
+    for (let i = 0; i < 16; i++) {
+        if (this.formData.PQ16_Endorse[i] === 'True') {
+            endorsementCount++;
+            const r = this.formData.PQ16_Rate[i];
+            if (r !== null && distressMap[r] !== undefined) distressSum += distressMap[r];
+        }
+    }
+    return {
+        endorsementCount, endorsementMax: 16, endorsementPositive: endorsementCount >= 6,
+        distressSum,      distressMax: 48,    distressPositive: distressSum >= 6,
+    };
+},
+
+ipiMiniScores() {
+    const map = { 'Very inaccurate': 1, 'Moderately inaccurate': 2, 'Neither': 3, 'Moderately accurate': 4, 'Very Accurate': 5 };
+    // Donnellan 2006 — 0-indexed item positions with reverse flag
+    const mapping = {
+        Extraversion:      [[0, false], [5,  true ], [10, false], [15, true]],
+        Agreeableness:     [[1, false], [6,  true ], [11, false], [16, true]],
+        Conscientiousness: [[2, false], [7,  true ], [12, false], [17, true]],
+        Neuroticism:       [[3, false], [8,  true ], [13, false], [18, true]],
+        Openness:          [[4, false], [9,  true ], [14, true ], [19, true]],
+    };
+    const result = {};
+    for (const [trait, items] of Object.entries(mapping)) {
+        let sum = 0, complete = true;
+        for (const [idx, reverse] of items) {
+            const v = this.formData.IPIMini[idx];
+            if (v === undefined || map[v] === undefined) { complete = false; break; }
+            sum += reverse ? (6 - map[v]) : map[v];
+        }
+        result[trait] = complete ? sum : null;
+    }
+    return result;
+},
+
+hppdComposites() {
+    const starredSymptoms = this.visualSymptomsList.filter(s => s.endsWith('*'));
+    const starredEndorsed = this.formData.HPPD_VisualSymptoms.filter(s => s.endsWith('*'));
+    const totalEndorsed   = this.formData.HPPD_VisualSymptoms.filter(s => s !== 'Other (please specify)').length;
+
+    const disruptionRatings = Object.values(this.formData.HPPD_Disruption);
+    const allDisruption = disruptionRatings.every(v => v !== null);
+    const disruptionTotal = allDisruption ? disruptionRatings.reduce((a, b) => a + Number(b), 0) : null;
+
+    const daysLost = this.formData.HPPD_Days_Lost === '' ? null : Number(this.formData.HPPD_Days_Lost);
+    const daysUnp  = this.formData.HPPD_Unproductive === '' ? null : Number(this.formData.HPPD_Unproductive);
+    const weeklyImpairment = (daysLost !== null && daysUnp !== null) ? daysLost + daysUnp : null;
+
+    const betterSet = new Set(['Slightly better', 'Somewhat better', 'Much better']);
+    const worseSet  = new Set(['Slightly worse',  'Somewhat worse',  'Much worse']);
+    const effectMaps = [
+        this.formData.HPPD_Benzo_Effect,    this.formData.HPPD_AntiDep_Effect,
+        this.formData.HPPD_MoodStab_Effect, this.formData.HPPD_AntiPsy_Effect,
+        this.formData.HPPD_OtherMed_Effect, this.formData.HPPD_Supp_Effect,
+        this.formData.HPPD_NonDrug_Effect,
+    ];
+    let helped = 0, worsened = 0, noEffect = 0;
+    for (const m of effectMaps) {
+        for (const eff of Object.values(m || {})) {
+            if (betterSet.has(eff)) helped++;
+            else if (worseSet.has(eff)) worsened++;
+            else if (eff === 'No effect') noEffect++;
+        }
+    }
+    return {
+        dsmSymptomCount: starredEndorsed.length, dsmSymptomTotal: starredSymptoms.length,
+        totalSymptomCount: totalEndorsed,
+        disruptionTotal, disruptionMax: 30,
+        weeklyImpairment, weeklyMax: 14,
+        helped, worsened, noEffect,
+    };
+},
+
+severityBadgeClass(color) {
+    return {
+        emerald: 'bg-emerald-600',
+        yellow:  'bg-yellow-600',
+        orange:  'bg-orange-600',
+        red:     'bg-red-600',
+        rose:    'bg-rose-700',
+    }[color] || 'bg-slate-500';
+},
+
+/* Inline-SVG path string for the Big Five radar polygon. Used in the IPI-Mini section. */
+ipiRadarPolygon() {
+    const scores = this.ipiMiniScores();
+    const traits = ['Extraversion', 'Agreeableness', 'Conscientiousness', 'Neuroticism', 'Openness'];
+    const cx = 100, cy = 100, rMax = 70;
+    const pts = traits.map((t, i) => {
+        const score = scores[t];
+        if (score === null) return null;
+        const norm = (score - 4) / 16;  // map 4-20 → 0-1
+        const r = norm * rMax;
+        const angle = (-Math.PI / 2) + (i * 2 * Math.PI / 5);
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    return pts.every(p => p !== null) ? pts.join(' ') : null;
+},
+
+/* Color cell for the treatment-response heatmap. */
+effectCellClass(effect) {
+    return {
+        'Much worse':      'bg-red-700 text-white',
+        'Somewhat worse':  'bg-red-500 text-white',
+        'Slightly worse':  'bg-red-300',
+        'No effect':       'bg-slate-200',
+        'Slightly better': 'bg-green-300',
+        'Somewhat better': 'bg-green-500 text-white',
+        'Much better':     'bg-green-700 text-white',
+    }[effect] || 'bg-slate-100';
+},
+
 /* Convert a raw 0–10 score (or "No") into a clinician-friendly string for the printed transcript. */
 formatScore(val, scale) {
     if (val === null || val === undefined || val === '') return '-';
@@ -2670,6 +3122,9 @@ init() {
     this.$watch('formData', () => this.persist(), { deep: true });
     this.$watch('step', () => this.persist());
     this.$watch('errorMsg', (val) => { if (val) this.scrollToFirstError(); });
+    // Step 23 cap-enforcement: keep unproductive consistent with days_lost
+    this.enforceUnproductiveCap();
+    this.$watch('formData.HPPD_Days_Lost', () => this.enforceUnproductiveCap());
 },
 
 scrollToFirstError() {
